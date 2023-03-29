@@ -1,0 +1,246 @@
+What is the capital of France?
+A) Berlin
+B) Paris
+C) Madrid
+D) Rome
+1
+Who was the first U.S. president?
+A) George Washington
+B) Thomas Jefferson
+C) Abraham Lincoln
+D) John F. Kennedy
+0
+Which planet in our solar system is known as the "Red Planet"?
+A) Venus
+B) Jupiter
+C) Mars
+D) Saturn
+2
+In what year did the first moon landing occur?
+A) 1957
+B) 1961
+C) 1969
+D) 1972
+2
+Which of the following is not one of the Great Lakes?
+A) Lake Michigan
+B) Lake Huron
+C) Lake Superior
+D) Lake Yellowstone
+3
+What is the tallest mammal on Earth?
+A) Elephant
+B) Giraffe
+C) Rhino
+D) Hippopotamus
+1
+Who wrote the novel "To Kill a Mockingbird"?
+A) William Faulkner
+B) Ernest Hemingway
+C) Harper Lee
+D) Mark Twain
+2
+What is the largest country in the world by land area?
+A) Canada
+B) China
+C) Russia
+D) United States
+2
+Which of the following is not a primary color?
+A) Red
+B) Blue
+C) Yellow
+D) Green
+3
+Who painted the famous work of art "The Mona Lisa"?
+A) Vincent van Gogh
+B) Pablo Picasso
+C) Leonardo da Vinci
+D) Claude Monet
+2
+Which of the following is not a programming language?
+A) Java
+B) Python
+C) HTML
+D) Photoshop
+3
+What is the currency of Japan?
+A) Yen
+B) Peso
+C) Euro
+D) Dollar
+0
+Who is the current CEO of Tesla?
+A) Mark Zuckerberg
+B) Jeff Bezos
+C) Tim Cook
+D) Elon Musk
+3
+In what city is the headquarters of the United Nations located?
+A) Paris
+B) Tokyo
+C) Geneva
+D) New York
+3
+Which of the following is not a continent?
+A) Asia
+B) Africa
+C) Antarctica
+D) Atlantic
+3
+Which famous physicist formulated the theory of relativity?
+A) Albert Einstein
+B) Isaac Newton
+C) Galileo Galilei
+D) Stephen Hawking
+0
+In the anime "Naruto," what is the name of Naruto's rival and teammate?
+A) Sakura Haruno
+B) Sasuke Uchiha
+C) Hinata Hyuga
+D) Kakashi Hatake
+1
+Which anime features a young boy named Gon Freecss who aspires to become a hunter like his father?
+A) Naruto
+B) One Piece
+C) Hunter x Hunter
+D) My Hero Academia
+2
+In the anime "Death Note," what is the name of the genius high school student who finds a supernatural notebook that allows him to kill anyone whose name he writes in it?
+A) Light Yagami
+B) L Lawliet
+C) Mello
+D) Near
+0
+Which anime series features the story of Monkey D. Luffy and his quest to become the Pirate King?
+A) Naruto
+B) Dragon Ball
+C) One Piece
+D) Bleach
+2
+In the anime "Attack on Titan," what are the giant humanoid creatures that threaten humanity called?
+A) Titans
+B) Behemoths
+C) Colossi
+D) Giants
+0
+What does the acronym "IP" stand for in the context of networking?
+A) Internet Provider
+B) Internet Protocol
+C) Internet Port
+D) Internet Password
+1
+Which of the following is a version of the Internet Protocol that is widely used today?
+A) IPX
+B) IPv3
+C) IPv4
+D) IPv6
+3
+What is the purpose of the Domain Name System (DNS) in Internet Protocol?
+A) To translate domain names into IP addresses
+B) To encrypt data transmissions
+C) To filter unwanted traffic
+D) To protect against malware
+0
+What is the name of the protocol that is responsible for transporting email messages over the Internet?
+A) SMTP
+B) POP3
+C) IMAP
+D) HTTP
+0
+Which of the following is not a type of IP address?
+A) Private IP
+B) Public IP
+C) Static IP
+D) Dynamic IP
+2
+Which programming language was created by James Gosling at Sun Microsystems in the mid-1990s?
+A) C++
+B) Java
+C) Python
+D) Ruby
+1
+What does the acronym "RAM" stand for in computer hardware?
+A) Random Access Memory
+B) Read-Only Memory
+C) Read-Write Memory
+D) Refresh Access Memory
+0
+Which of the following is not a fundamental data structure in computer science?
+A) Arrays
+B) Trees
+C) Hash Tables
+D) Stacks
+3
+Which operating system is developed and maintained by the Linux community as an open-source software project?
+A) Windows
+B) macOS
+C) Ubuntu
+D) Android
+2
+What is the term used to describe the practice of testing software by deliberately introducing errors or faults?
+A) Regression testing
+B) Integration testing
+C) System testing
+D) Fuzz testing
+3
+Which of the following is a type of database management system that stores data in tables with rows and columns?
+A) NoSQL database
+B) Relational database
+C) Object-oriented database
+D) Hierarchical database
+1
+Which of the following is not a common type of database model?
+A) Hierarchical model
+B) Network model
+C) Relational model
+D) Circular model
+3
+What is the primary purpose of a primary key in a database table?
+A) To identify a unique record in the table
+B) To store metadata about the table
+C) To establish relationships with other tables
+D) To provide a backup copy of the data
+0
+Which of the following is a popular open-source database management system?
+A) MySQL
+B) Microsoft SQL Server
+C) Oracle Database
+D) IBM DB2
+0
+What is the term used to describe the process of combining data from multiple tables in a database using a common field?
+A) Sorting
+B) Filtering
+C) Joining
+D) Indexing
+2
+Which of the following is not one of the four basic principles of OOP?
+A) Abstraction
+B) Inheritance
+C) Encapsulation
+D) Efficiency
+3
+What is the term used to describe a blueprint for creating objects that defines its properties and methods?
+A) Instance
+B) Class
+C) Method
+D) Property
+1
+Which OOP principle allows a subclass to inherit properties and methods from a superclass?
+A) Abstraction
+B) Inheritance
+C) Encapsulation
+D) Polymorphism
+1
+What is the term used to describe the process of creating an object from a class?
+A) Encapsulation
+B) Inheritance
+C) Abstraction
+D) Instantiation
+3
+What is the term used to describe the ability of an object to take on many forms or have many behaviors?
+A) Abstraction
+B) Inheritance
+C) Encapsulation
+D) Polymorphism
+3

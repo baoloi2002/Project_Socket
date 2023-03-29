@@ -1,0 +1,412 @@
+[
+    {
+        "question": "What is the capital of France?",
+        "choices": [
+            "A) Berlin",
+            "B) Paris",
+            "C) Madrid",
+            "D) Rome"
+        ],
+        "answer": 1
+    },
+    {
+        "question": "Who was the first U.S. president?",
+        "choices": [
+            "A) George Washington",
+            "B) Thomas Jefferson",
+            "C) Abraham Lincoln",
+            "D) John F. Kennedy"
+        ],
+        "answer": 0
+    },
+    {
+        "question": "Which planet in our solar system is known as the \"Red Planet\"?",
+        "choices": [
+            "A) Venus",
+            "B) Jupiter",
+            "C) Mars",
+            "D) Saturn"
+        ],
+        "answer": 2
+    },
+    {
+        "question": "In what year did the first moon landing occur?",
+        "choices": [
+            "A) 1957",
+            "B) 1961",
+            "C) 1969",
+            "D) 1972"
+        ],
+        "answer": 2
+    },
+    {
+        "question": "Which of the following is not one of the Great Lakes?",
+        "choices": [
+            "A) Lake Michigan",
+            "B) Lake Huron",
+            "C) Lake Superior",
+            "D) Lake Yellowstone"
+        ],
+        "answer": 3
+    },
+    {
+        "question": "What is the tallest mammal on Earth?",
+        "choices": [
+            "A) Elephant",
+            "B) Giraffe",
+            "C) Rhino",
+            "D) Hippopotamus"
+        ],
+        "answer": 1
+    },
+    {
+        "question": "Who wrote the novel \"To Kill a Mockingbird\"?",
+        "choices": [
+            "A) William Faulkner",
+            "B) Ernest Hemingway",
+            "C) Harper Lee",
+            "D) Mark Twain"
+        ],
+        "answer": 2
+    },
+    {
+        "question": "What is the largest country in the world by land area?",
+        "choices": [
+            "A) Canada",
+            "B) China",
+            "C) Russia",
+            "D) United States"
+        ],
+        "answer": 2
+    },
+    {
+        "question": "Which of the following is not a primary color?",
+        "choices": [
+            "A) Red",
+            "B) Blue",
+            "C) Yellow",
+            "D) Green"
+        ],
+        "answer": 3
+    },
+    {
+        "question": "Who painted the famous work of art \"The Mona Lisa\"?",
+        "choices": [
+            "A) Vincent van Gogh",
+            "B) Pablo Picasso",
+            "C) Leonardo da Vinci",
+            "D) Claude Monet"
+        ],
+        "answer": 2
+    },
+    {
+        "question": "Which of the following is not a programming language?",
+        "choices": [
+            "A) Java",
+            "B) Python",
+            "C) HTML",
+            "D) Photoshop"
+        ],
+        "answer": 3
+    },
+    {
+        "question": "What is the currency of Japan?",
+        "choices": [
+            "A) Yen",
+            "B) Peso",
+            "C) Euro",
+            "D) Dollar"
+        ],
+        "answer": 0
+    },
+    {
+        "question": "Who is the current CEO of Tesla?",
+        "choices": [
+            "A) Mark Zuckerberg",
+            "B) Jeff Bezos",
+            "C) Tim Cook",
+            "D) Elon Musk"
+        ],
+        "answer": 3
+    },
+    {
+        "question": "In what city is the headquarters of the United Nations located?",
+        "choices": [
+            "A) Paris",
+            "B) Tokyo",
+            "C) Geneva",
+            "D) New York"
+        ],
+        "answer": 3
+    },
+    {
+        "question": "Which of the following is not a continent?",
+        "choices": [
+            "A) Asia",
+            "B) Africa",
+            "C) Antarctica",
+            "D) Atlantic"
+        ],
+        "answer": 3
+    },
+    {
+        "question": "Which famous physicist formulated the theory of relativity?",
+        "choices": [
+            "A) Albert Einstein",
+            "B) Isaac Newton",
+            "C) Galileo Galilei",
+            "D) Stephen Hawking"
+        ],
+        "answer": 0
+    },
+    {
+        "question": "In the anime \"Naruto,\" what is the name of Naruto's rival and teammate?",
+        "choices": [
+            "A) Sakura Haruno",
+            "B) Sasuke Uchiha",
+            "C) Hinata Hyuga",
+            "D) Kakashi Hatake"
+        ],
+        "answer": 1
+    },
+    {
+        "question": "Which anime features a young boy named Gon Freecss who aspires to become a hunter like his father?",
+        "choices": [
+            "A) Naruto",
+            "B) One Piece",
+            "C) Hunter x Hunter",
+            "D) My Hero Academia"
+        ],
+        "answer": 2
+    },
+    {
+        "question": "In the anime \"Death Note,\" what is the name of the genius high school student who finds a supernatural notebook that allows him to kill anyone whose name he writes in it?",
+        "choices": [
+            "A) Light Yagami",
+            "B) L Lawliet",
+            "C) Mello",
+            "D) Near"
+        ],
+        "answer": 0
+    },
+    {
+        "question": "Which anime series features the story of Monkey D. Luffy and his quest to become the Pirate King?",
+        "choices": [
+            "A) Naruto",
+            "B) Dragon Ball",
+            "C) One Piece",
+            "D) Bleach"
+        ],
+        "answer": 2
+    },
+    {
+        "question": "In the anime \"Attack on Titan,\" what are the giant humanoid creatures that threaten humanity called?",
+        "choices": [
+            "A) Titans",
+            "B) Behemoths",
+            "C) Colossi",
+            "D) Giants"
+        ],
+        "answer": 0
+    },
+    {
+        "question": "What does the acronym \"IP\" stand for in the context of networking?",
+        "choices": [
+            "A) Internet Provider",
+            "B) Internet Protocol",
+            "C) Internet Port",
+            "D) Internet Password"
+        ],
+        "answer": 1
+    },
+    {
+        "question": "Which of the following is a version of the Internet Protocol that is widely used today?",
+        "choices": [
+            "A) IPX",
+            "B) IPv3",
+            "C) IPv4",
+            "D) IPv6"
+        ],
+        "answer": 3
+    },
+    {
+        "question": "What is the purpose of the Domain Name System (DNS) in Internet Protocol?",
+        "choices": [
+            "A) To translate domain names into IP addresses",
+            "B) To encrypt data transmissions",
+            "C) To filter unwanted traffic",
+            "D) To protect against malware"
+        ],
+        "answer": 0
+    },
+    {
+        "question": "What is the name of the protocol that is responsible for transporting email messages over the Internet?",
+        "choices": [
+            "A) SMTP",
+            "B) POP3",
+            "C) IMAP",
+            "D) HTTP"
+        ],
+        "answer": 0
+    },
+    {
+        "question": "Which of the following is not a type of IP address?",
+        "choices": [
+            "A) Private IP",
+            "B) Public IP",
+            "C) Static IP",
+            "D) Dynamic IP"
+        ],
+        "answer": 2
+    },
+    {
+        "question": "Which programming language was created by James Gosling at Sun Microsystems in the mid-1990s?",
+        "choices": [
+            "A) C++",
+            "B) Java",
+            "C) Python",
+            "D) Ruby"
+        ],
+        "answer": 1
+    },
+    {
+        "question": "What does the acronym \"RAM\" stand for in computer hardware?",
+        "choices": [
+            "A) Random Access Memory",
+            "B) Read-Only Memory",
+            "C) Read-Write Memory",
+            "D) Refresh Access Memory"
+        ],
+        "answer": 0
+    },
+    {
+        "question": "Which of the following is not a fundamental data structure in computer science?",
+        "choices": [
+            "A) Arrays",
+            "B) Trees",
+            "C) Hash Tables",
+            "D) Stacks"
+        ],
+        "answer": 3
+    },
+    {
+        "question": "Which operating system is developed and maintained by the Linux community as an open-source software project?",
+        "choices": [
+            "A) Windows",
+            "B) macOS",
+            "C) Ubuntu",
+            "D) Android"
+        ],
+        "answer": 2
+    },
+    {
+        "question": "What is the term used to describe the practice of testing software by deliberately introducing errors or faults?",
+        "choices": [
+            "A) Regression testing",
+            "B) Integration testing",
+            "C) System testing",
+            "D) Fuzz testing"
+        ],
+        "answer": 3
+    },
+    {
+        "question": "Which of the following is a type of database management system that stores data in tables with rows and columns?",
+        "choices": [
+            "A) NoSQL database",
+            "B) Relational database",
+            "C) Object-oriented database",
+            "D) Hierarchical database"
+        ],
+        "answer": 1
+    },
+    {
+        "question": "Which of the following is not a common type of database model?",
+        "choices": [
+            "A) Hierarchical model",
+            "B) Network model",
+            "C) Relational model",
+            "D) Circular model"
+        ],
+        "answer": 3
+    },
+    {
+        "question": "What is the primary purpose of a primary key in a database table?",
+        "choices": [
+            "A) To identify a unique record in the table",
+            "B) To store metadata about the table",
+            "C) To establish relationships with other tables",
+            "D) To provide a backup copy of the data"
+        ],
+        "answer": 0
+    },
+    {
+        "question": "Which of the following is a popular open-source database management system?",
+        "choices": [
+            "A) MySQL",
+            "B) Microsoft SQL Server",
+            "C) Oracle Database",
+            "D) IBM DB2"
+        ],
+        "answer": 0
+    },
+    {
+        "question": "What is the term used to describe the process of combining data from multiple tables in a database using a common field?",
+        "choices": [
+            "A) Sorting",
+            "B) Filtering",
+            "C) Joining",
+            "D) Indexing"
+        ],
+        "answer": 2
+    },
+    {
+        "question": "Which of the following is not one of the four basic principles of OOP?",
+        "choices": [
+            "A) Abstraction",
+            "B) Inheritance",
+            "C) Encapsulation",
+            "D) Efficiency"
+        ],
+        "answer": 3
+    },
+    {
+        "question": "What is the term used to describe a blueprint for creating objects that defines its properties and methods?",
+        "choices": [
+            "A) Instance",
+            "B) Class",
+            "C) Method",
+            "D) Property"
+        ],
+        "answer": 1
+    },
+    {
+        "question": "Which OOP principle allows a subclass to inherit properties and methods from a superclass?",
+        "choices": [
+            "A) Abstraction",
+            "B) Inheritance",
+            "C) Encapsulation",
+            "D) Polymorphism"
+        ],
+        "answer": 1
+    },
+    {
+        "question": "What is the term used to describe the process of creating an object from a class?",
+        "choices": [
+            "A) Encapsulation",
+            "B) Inheritance",
+            "C) Abstraction",
+            "D) Instantiation"
+        ],
+        "answer": 3
+    },
+    {
+        "question": "What is the term used to describe the ability of an object to take on many forms or have many behaviors?",
+        "choices": [
+            "A) Abstraction",
+            "B) Inheritance",
+            "C) Encapsulation",
+            "D) Polymorphism"
+        ],
+        "answer": 3
+    }
+]
