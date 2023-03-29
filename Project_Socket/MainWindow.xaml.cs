@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project_Socket.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,27 @@ namespace Project_Socket
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+
+        }
+
+        private void btnClient_Click(object sender, RoutedEventArgs e)
+        {
+            ClientWindow clientWindow = new ClientWindow();
+            clientWindow.Show();
+            this.Close();
+        }
+
+        private void btnServer_Click(object sender, RoutedEventArgs e)
+        {
+            ClientWindow serverWindow = new ClientWindow();
+            serverWindow.Show();   
+            this.Close();
         }
     }
 }
