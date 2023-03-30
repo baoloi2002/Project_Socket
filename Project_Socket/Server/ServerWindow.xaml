@@ -7,6 +7,62 @@
         mc:Ignorable="d"
         Title="ServerWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid
+            Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TextBlock Text="test"></TextBlock>
+
+            </Grid>
+            <Grid
+                Grid.Row="1">
+                <Border Background="{StaticResource MaterialDesignPaper}" CornerRadius="8" Margin="16">
+                    <StackPanel Margin="16">
+                        <TextBlock TextWrapping="Wrap" Text="What is the capital of France?" Style="{StaticResource MaterialDesignCaptionTextBlock}" Foreground="#009688"
+                                   Name="tbQuestion"/>
+                        <Grid Margin="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource MaterialDesignRaisedButton}"
+                                    Name="btnAns0"
+                    Content="A" 
+                    Background="#F44336" Foreground="White" Margin="8" />
+                            <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource MaterialDesignRaisedButton}" 
+                                    Name="btnAns1"
+                    Content="B" 
+                    Background="#E91E63" Foreground="White" Margin="8" />
+                            <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource MaterialDesignRaisedButton}" 
+                                    Name="btnAns2"
+                    Content="C" 
+                    Background="#9C27B0" Foreground="White" Margin="8" />
+                            <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource MaterialDesignRaisedButton}" 
+                                    Name="btnAns3"
+                    Content="D" 
+                    Background="#3F51B5" Foreground="White" Margin="8" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+        </Grid>
+        <Grid
+            Grid.Column="1">
+            <TextBlock Text="test"></TextBlock>
+
+        </Grid>
     </Grid>
 </Window>

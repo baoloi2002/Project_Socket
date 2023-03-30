@@ -1,4 +1,5 @@
 ﻿using Project_Socket.Client;
+using Project_Socket.Server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,7 @@ namespace Project_Socket
 
         private void btnServer_Click(object sender, RoutedEventArgs e)
         {
-            ClientWindow serverWindow = new ClientWindow();
+            ServerWindow serverWindow = new ServerWindow();
             serverWindow.Show();   
             this.Close();
         }
