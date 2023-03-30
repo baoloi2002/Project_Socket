@@ -21,70 +21,43 @@ namespace Project_Socket.Server
     /// </summary>
     public class QuizQuestion
     {
-        public string? Question { get; set; }
-        public List<string>? Choices { get; set; }
-        public int Answer { get; set; }
+        public string question { get; set; }
+        public string[] choices { get; set; }
+        public int answer { get; set; }
     }
 
-    public class Quiz
-    {
-        public List<QuizQuestion>? Questions { get; set; }
-    }
     public partial class ServerWindow : Window
     {
 
-        private Quiz QuizLoad()
+        private QuizQuestion[] LoadQuestions(string filePath)
         {
-            string filePath = "QuizList.json";
-            string jsonString;
-            if (File.Exists(filePath))
-            {
-                jsonString = File.ReadAllText(filePath);
-                // Do something with the file contents
-            }
-            else
-            {
-                // File does not exist
-                return null; // or throw an exception if appropriate
-            }
-
-            try
-            {
-                Quiz quiz = JsonSerializer.Deserialize<Quiz>(json: jsonString);
-                return quiz;
-            }
-            catch (Exception ex)
-            {
-                // Handle any exceptions that occur during deserialization
-                // (e.g. invalid JSON format)
-                Console.WriteLine($"Error deserializing Quiz: {ex.Message}");
-                return null;
-            }
+            string jsonString = File.ReadAllText(filePath);
+            QuizQuestion[] questions = JsonSerializer.Deserialize<QuizQuestion[]>(jsonString);
+            return questions;
         }
-
-        private Quiz quizList;
 
         private void ShowQuiz( QuizQuestion quiz)
         {
-            tbQuestion.Text = quiz.Question;
-            if (quiz.Choices != null && quiz.Choices.Count >= 4)
+            tbQuestion.Text = quiz.question;
+            if (quiz.choices != null)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    btnAns0.Content = quiz.Choices[0];
-                    btnAns1.Content = quiz.Choices[1];
-                    btnAns2.Content = quiz.Choices[2];
-                    btnAns3.Content = quiz.Choices[3];
+                    btnAns0.Content = quiz.choices[0];
+                    btnAns1.Content = quiz.choices[1];
+                    btnAns2.Content = quiz.choices[2];
+                    btnAns3.Content = quiz.choices[3];
                 }
             }
         }
 
+        private QuizQuestion[] quizList;
         public ServerWindow()
         {
             InitializeComponent();
-            quizList = QuizLoad();
+            quizList = LoadQuestions("QuizList.json");
 
-            //ShowQuiz(quiz: quizList.Questions[0]);
+            ShowQuiz(quiz: quizList[0]);
         }
     }
 }
