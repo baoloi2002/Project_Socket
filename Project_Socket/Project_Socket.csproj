@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.8.0" />
+    <PackageReference Include="SuperSimpleTcp" Version="3.0.10" />
   </ItemGroup>
 
 </Project>

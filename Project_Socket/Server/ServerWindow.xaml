@@ -14,11 +14,46 @@
         <Grid
             Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
-                <TextBlock Text="test"></TextBlock>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Text="IP:"
+                    Grid.Row="0" Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Margin="0,0,5,5" FontSize="18" Width="38"/>
+
+                <TextBlock
+                    Text="Port:"
+                    Grid.Row="1" Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="5" FontSize="18"/>
+
+                <TextBlock
+                    Text="127.0.0.1"
+                    Grid.Row="0" Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Margin="5" FontSize="18"/>
+
+                <TextBlock
+                    Text="7483"
+                    Grid.Row="1" Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Margin="5" FontSize="18"/>
 
             </Grid>
             <Grid
@@ -26,7 +61,7 @@
                 <Border Background="{StaticResource MaterialDesignPaper}" CornerRadius="8" Margin="16">
                     <StackPanel Margin="16">
                         <TextBlock TextWrapping="Wrap" Text="What is the capital of France?" Style="{StaticResource MaterialDesignCaptionTextBlock}" Foreground="#009688"
-                                   Name="tbQuestion"/>
+                                   Name="tbQuestion" FontSize="18"/>
                         <Grid Margin="8">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -38,7 +73,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource MaterialDesignRaisedButton}"
-                                    Name="btnAns0"
+                                    Name="btnAns0"                                   
                     Content="A" 
                     Background="#F44336" Foreground="White" Margin="8" />
                             <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource MaterialDesignRaisedButton}" 

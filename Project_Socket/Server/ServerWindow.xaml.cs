@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SuperSimpleTcp;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,27 +17,40 @@ using System.Windows.Shapes;
 
 namespace Project_Socket.Server
 {
-    /// <summary>
-    /// Interaction logic for ServerWindow.xaml
-    /// </summary>
-    public class QuizQuestion
-    {
-        public string question { get; set; }
-        public string[] choices { get; set; }
-        public int answer { get; set; }
-    }
 
     public partial class ServerWindow : Window
     {
+        private QuizQuestion[] quizList;
+        SimpleTcpServer server;
+        public ServerWindow()
+        {
+            InitializeComponent();
+            StartServer();
+            quizList = LoadQuestions("QuizList.json");
+            ShowQuiz(quiz: quizList[30]);
+        }
+
+        private void StartServer()
+        {
+            
+        }
 
         private QuizQuestion[] LoadQuestions(string filePath)
         {
             string jsonString = File.ReadAllText(filePath);
             QuizQuestion[] questions = JsonSerializer.Deserialize<QuizQuestion[]>(jsonString);
+            Random random = new Random();
+            for(int i = questions.Length - 1; i > 0; i--)
+            {
+                int j = random.Next(i+1);
+                QuizQuestion tmp = questions[j];
+                questions[j] = questions[i];
+                questions[i] = tmp;
+            }
             return questions;
         }
 
-        private void ShowQuiz( QuizQuestion quiz)
+        private void ShowQuiz(QuizQuestion quiz)
         {
             tbQuestion.Text = quiz.question;
             if (quiz.choices != null)
@@ -49,15 +63,6 @@ namespace Project_Socket.Server
                     btnAns3.Content = quiz.choices[3];
                 }
             }
-        }
-
-        private QuizQuestion[] quizList;
-        public ServerWindow()
-        {
-            InitializeComponent();
-            quizList = LoadQuestions("QuizList.json");
-
-            ShowQuiz(quiz: quizList[0]);
         }
     }
 }
