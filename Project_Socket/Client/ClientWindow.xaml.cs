@@ -24,4 +24,5 @@ namespace Project_Socket.Client
             InitializeComponent();
         }
     }
+
 }
