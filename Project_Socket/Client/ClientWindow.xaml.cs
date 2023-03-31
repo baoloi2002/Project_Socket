@@ -23,5 +23,10 @@ namespace Project_Socket.Client
         {
             InitializeComponent();
         }
+
+        private void Button_Click()
+        {
+
+        }
     }
 }
