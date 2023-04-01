@@ -12,7 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Client\Gura.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="AssemblyInfo.cs" />
+    <Resource Include="Client\Gura.jpg" />
   </ItemGroup>
 
   <ItemGroup>
