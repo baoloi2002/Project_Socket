@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,41 +22,53 @@ namespace Project_Socket.Server
 
     public partial class ServerWindow : Window
     {
+        private static bool _isServerRunning = false;
+
         private QuizQuestion[] quizList;
-        private List<Person> people;
+        private List<Player> people;
         public ServerWindow()
         {
             InitializeComponent();
-            StartServer();
             quizList = LoadQuestions("QuizList.json");
-            ShowQuiz(quiz: quizList[30]);
+            Console.Title = "Server";
 
-            // Create a collection of Person objects
-            people = new List<Person>
-            {
-                new Person { Name = "Alice", Icon = PackIconKind.Account, Order = -9 },
-                new Person { Name = "Bob1", Icon = PackIconKind.AccountOff, Order = 8 },
-                new Person { Name = "Bob2", Icon = PackIconKind.AccountOff, Order = 7 },
-                new Person { Name = "Bob3", Icon = PackIconKind.AccountOff, Order = 6 },
-                new Person { Name = "Bob4", Icon = PackIconKind.AccountOff, Order = 5 },
-                new Person { Name = "Bob5", Icon = PackIconKind.AccountOff, Order = 4 },
-                new Person { Name = "Bob6", Icon = PackIconKind.AccountOff, Order = 3 },
-                new Person { Name = "Bob7", Icon = PackIconKind.AccountOff, Order = 2 },
-                new Person { Name = "Bob8", Icon = PackIconKind.AccountOff, Order = 1 },
-                new Person { Name = "Charlie", Icon = PackIconKind.Account, Order = -1 },
-            };
+            // START GAME THREAD
+            _isServerRunning = true;
+            Thread mainThread = new Thread(new ThreadStart(MainThread));
+            mainThread.Start();
 
-            lstUsersView.ItemsSource = people;
+            // START SERVER
+
+
         }
-
-        private void StartServer()
+        // GAME LOOP IS HERE
+        private void MainThread()
         {
-            
+            Console.WriteLine($"Main thread started. Running at {Constants.TICKS_PER_SEC} ticks per second.");
+            DateTime nextLoop = DateTime.Now;
+
+            while (_isServerRunning)
+            {
+                while (nextLoop < DateTime.Now)
+                {
+                    // If the time for the next loop is in the past, aka it's time to execute another tick
+                    //GameManager.Update(); // Execute game logic
+
+                    nextLoop = nextLoop.AddMilliseconds(Constants.MS_PER_TICK); // Calculate at what point in time the next tick should be executed
+
+                    if (nextLoop > DateTime.Now)
+                    {
+                        // If the execution time for the next tick is in the future, aka the server is NOT running behind
+                        Thread.Sleep(nextLoop - DateTime.Now); // Let the thread sleep until it's needed again.
+                    }
+                }
+            }
         }
+
         private void SortList()
         {
             // Sort the list
-            List<Person> sortedList = people.OrderBy(p => p.Order).ToList();
+            List<Player> sortedList = people.OrderBy(p => p.Order).ToList();
 
             // Update the SortOrder property of each item
             for (int i = 0; i < sortedList.Count; i++)

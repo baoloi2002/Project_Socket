@@ -43,6 +43,7 @@
                     Margin="5" FontSize="18"/>
 
                 <TextBlock
+                    Name="tbIP"
                     Text="127.0.0.1"
                     Grid.Row="0" Grid.Column="1"
                     HorizontalAlignment="Left"
@@ -50,6 +51,7 @@
                     Margin="5" FontSize="18"/>
 
                 <TextBlock
+                    Name="tbPort"
                     Text="7483"
                     Grid.Row="1" Grid.Column="1"
                     HorizontalAlignment="Left"
