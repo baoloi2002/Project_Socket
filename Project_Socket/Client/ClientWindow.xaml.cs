@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,6 +24,11 @@ namespace Project_Socket.Client
         public ClientWindow()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click()
+        {
+
         }
     }
 

@@ -1,14 +1,9 @@
-<Window
-    x:Class="Project_Socket.Client.ClientWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Title="ClientWindow"
-    Height="450"
-    Width="800"
-    WindowStartupLocation="CenterScreen">
+﻿<Window x:Class="Project_Socket.Client.ClientWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" Title="ClientWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+
 
     <Window.Resources>
         <ResourceDictionary>
@@ -67,10 +62,62 @@
                 </Grid>
             </Grid>
         </Grid>
-        <Grid Grid.Column="1" Margin="5" Background="Firebrick">
-            <TextBlock FontSize="12" VerticalAlignment="Center">
-                This is where players list is
-            </TextBlock>
+        <Grid Grid.Column="1" Background="AliceBlue">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/> <!--Player 1-->
+                    <RowDefinition Height="*"/> <!--Player 2-->
+                    <RowDefinition Height="*"/> <!--Player 3-->
+                    <RowDefinition Height="*"/> <!--Player 4-->
+                    <RowDefinition Height="*"/> <!--Player 5-->
+                    <RowDefinition Height="*"/> <!--Player 6-->
+                    <RowDefinition Height="*"/> <!--Player 7-->
+                    <RowDefinition Height="*"/> <!--Player 8-->
+                    <RowDefinition Height="*"/> <!--Player 9-->
+                    <RowDefinition Height="*"/> <!--Player 10-->
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">
+                    Player 1
+                </TextBlock>
+                <TextBlock Grid.Row="1" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">
+                    Player 2
+                </TextBlock>
+                <TextBlock Grid.Row="2" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">
+                    Player 3
+                </TextBlock>
+                <TextBlock Grid.Row="3" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">
+                    Player 4
+                </TextBlock>
+                <TextBlock Grid.Row="4" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">
+                    Player 5
+                </TextBlock>
+                <TextBlock Grid.Row="5" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">
+                    Player 6
+                </TextBlock>
+                <TextBlock Grid.Row="6" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">
+                    Player 7
+                </TextBlock>
+                <TextBlock Grid.Row="7" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">
+                    Player 8
+                </TextBlock>
+                <TextBlock Grid.Row="8" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">
+                    Player 9
+                </TextBlock>
+                <TextBlock Grid.Row="9" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">
+                    Player 10
+                </TextBlock>
+                
+                
+            </Grid>
+            <Button Grid.Row="1" Margin="10">
+                SKIP BUTTON
+            </Button>
+
         </Grid>
     </Grid>
 </Window>
