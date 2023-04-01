@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Project_Socket.Server"
+        xmlns:local="clr-namespace:Project_Socket.Server" 
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="ServerWindow" Height="450" Width="800">
     <Grid>
@@ -75,7 +76,7 @@
                             <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource MaterialDesignRaisedButton}"
                                     Name="btnAns0"                                   
                     Content="A" 
-                    Background="#F44336" Foreground="White" Margin="8" />
+                    Background="#F44336" Foreground="White" Margin="8"/>
                             <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource MaterialDesignRaisedButton}" 
                                     Name="btnAns1"
                     Content="B" 
@@ -96,8 +97,44 @@
         </Grid>
         <Grid
             Grid.Column="1">
-            <TextBlock Text="test"></TextBlock>
-
+            <ListView Height="auto" x:Name="lstUsersView">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Style.Triggers>
+                            <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                <Setter Property="Background" Value="#FFF0F0F0" />
+                            </Trigger>
+                            <DataTrigger Binding="{Binding Path=SortOrder}" Value="Ascending">
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="-10" />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=SortOrder}" Value="Descending">
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform Y="10" />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <materialDesign:Chip
+                Content="{Binding Name}"
+                IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+                IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                Style="{StaticResource MaterialDesignOutlineChip}">
+                            <materialDesign:Chip.Icon>
+                                <materialDesign:PackIcon Kind="{Binding Icon}" />
+                            </materialDesign:Chip.Icon>
+                        </materialDesign:Chip>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </Grid>
 </Window>
