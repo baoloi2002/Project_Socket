@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 // TODO
@@ -27,15 +28,28 @@ namespace Project_Socket.Client
     /// <summary>
     /// Interaction logic for ClientWindow.xaml
     /// </summary>
-    public partial class ClientWindow : Window
+    public partial class ClientGame : UserControl
     {
-        public ClientWindow()
+        public ClientGame()
         {
             InitializeComponent();
         }
 
-        private void Connect_Click(object sender, RoutedEventArgs e)
+
+        private void Choice_Click(object sender, RoutedEventArgs e)
         {
+            // TODO: Choose the question
+            // Return dialog box
+            MessageBox.Show("Hello World!");
+            
+
+        }
+
+        private void Skip_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: Skip the question
+            // Return dialog box
+            MessageBox.Show("Hello World!");
 
         }
     }
