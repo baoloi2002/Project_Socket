@@ -56,8 +56,8 @@ namespace Project_Socket.Server
 
             packetHandlers = new Dictionary<int, PacketHandler>()
         {
-            //{ (int)ClientPackets.ResendUsername, ServerHandler.ResendUsername },
-            //{ (int)ClientPackets.GiveAnswer, ServerHandler.GiveAnswer }
+            { (int)ClientPackets.ResendUsername, ServerHandler.ResendUsername },
+            { (int)ClientPackets.GiveAnswer, ServerHandler.GiveAnswer }
         };
 
             Console.WriteLine("Initialized packets.");
@@ -66,7 +66,7 @@ namespace Project_Socket.Server
 
         public static void DisconnectClient(int clientId)
         {
-            //clients[clientId].Disconnect();
+            clients[clientId].Disconnect();
         }
 
         public static void Stop()

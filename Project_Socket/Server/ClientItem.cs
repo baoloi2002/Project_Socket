@@ -17,5 +17,38 @@ namespace Project_Socket.Server
             ID = clientId;
             TCP = new TCP(ID);
         }
+
+        private bool _isConnected = false;
+        private delegate void PacketHandler(Packet packet);
+        private static Dictionary<int, PacketHandler> _packetHandlers;
+
+        private void OnApplicationQuit()
+        {
+            Disconnect(); // Disconnect when the game is closed
+        }
+
+        public void HandlePacket(int id, Packet data) => _packetHandlers[id](data);
+
+        public Player ConstructPlayer(int clientId, string username)
+        {
+            player = new Player(clientId, username);
+            Console.WriteLine($"Constructed player with id {clientId}");
+            return player;
+        }
+
+        public void DestroyPlayer()
+        {
+            //Server.RemovePlayerFromGame(ID);
+            player = null;
+        }
+
+        public void Disconnect()
+        {
+            Console.WriteLine($"{TCP.socket.Client.RemoteEndPoint} has disconnected.");
+
+            DestroyPlayer();
+
+            TCP.Disconnect();
+        }
     }
 }
