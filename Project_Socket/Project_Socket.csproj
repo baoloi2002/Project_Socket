@@ -13,11 +13,13 @@
 
   <ItemGroup>
     <None Remove="Client\Gura.jpg" />
+    <None Remove="QuizList.json" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="AssemblyInfo.cs" />
     <Resource Include="Client\Gura.jpg" />
+    <Resource Include="QuizList.json" />
   </ItemGroup>
 
   <ItemGroup>
