@@ -15,20 +15,6 @@ namespace Project_Socket.Server
             var endpoint = Server.clients[fromClient].TCP.socket.Client.RemoteEndPoint;
 
             Console.WriteLine($"Receive client {clientId}: handshake server");
-            // if (GameManager.IsGameStarted) {
-            //     ServerSender.MatchInProgress(fromClient);
-            //     return;
-            // }
-
-            // if (IsValidUsername(fromClient, username)) {
-            //     Server.clients[fromClient].ConstructPlayer(username);
-            //     Console.WriteLine($"{endpoint} with username {username} connected successfully and is now player {fromClient}.");
-            // }
-
-            // if (fromClient != clientId)
-            // {
-            //     Console.WriteLine($"Player \"{username}\" (ID: {fromClient}) has assumed the wrong client ID ({clientId})!");
-            // }
         }
 
         public static void ResendUsername(int fromClient, Packet packet)
@@ -44,18 +30,36 @@ namespace Project_Socket.Server
 
         public static void GiveAnswer(int fromClient, Packet packet)
         {
-            Console.WriteLine($"Receive client {fromClient}: give answer");
 
-            int clientId = packet.ReadInt();
-            string character = packet.ReadString();
-            string keyword = packet.ReadString();
-
-            //MatchManager.HandleAnswer(fromClient, character, keyword);
         }
-
         public static void HandleUsername(int clientId, string username)
         {
-
+            string sms = "Success";
+            // Check if the length of the nickname is less than or equal to 10 characters
+            if (username.Length > 10)
+            {
+                sms = "Too Long! At most 10 chars.";
+                ServerSender.RegistrationFailed(clientId, sms);
+                return;
+            }
+            foreach (char c in username)
+            {
+                if (!char.IsLetterOrDigit(c) && c != '_')
+                {
+                    sms = "Using char in [a..zA..Z0..9_].";
+                    ServerSender.RegistrationFailed(clientId, sms);
+                    return;
+                }
+            }
+            for (int i = 0; i < 10; i++)
+            if (Server.clients[i] != null && Server.clients[i].player.Name == username)
+                {
+                    sms = "Name is used by other";
+                    ServerSender.RegistrationFailed(clientId, sms);
+                    return;
+                }
+            Server.clients[clientId].player.Name = username;
+            ServerSender.RegistrationSuccessful(clientId, Server.clients[clientId].player);
         }
     }
 }
