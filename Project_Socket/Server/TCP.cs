@@ -34,7 +34,7 @@ namespace Project_Socket.Server
 
             _stream.BeginRead(_buffer, 0, Constants.DATA_BUFFER_SIZE, OnReceivedData, null);
 
-            //ServerSender.WelcomePlayer(_id, "Welcome to the game!");
+            ServerSender.WelcomePlayer(_id, "Welcome to the game!");
         }
 
         // Send data to the server via TCP

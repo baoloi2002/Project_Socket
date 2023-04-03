@@ -53,6 +53,7 @@ namespace Project_Socket.Server
                 {
                     // If the time for the next loop is in the past, aka it's time to execute another tick
                     //GameManager.Update(); // Execute game logic
+                    lstUsersView.ItemsSource = GameManager.GetAllPlayers();
 
                     nextLoop = nextLoop.AddMilliseconds(Constants.MS_PER_TICK); // Calculate at what point in time the next tick should be executed
 
@@ -106,6 +107,6 @@ namespace Project_Socket.Server
                     tbQuestion.Text += "\n" + quiz.choices[i].ToString();
                 }
             }
-        }
+        }      
     }
 }
