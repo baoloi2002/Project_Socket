@@ -30,7 +30,7 @@ namespace Project_Socket.Server
         {
             InitializeComponent();
             quizList = LoadQuestions("QuizList.json");
-            Console.Title = "Server";
+            ShowQuiz(quizList[0]);
 
             // START GAME THREAD
             _isServerRunning = true;
@@ -38,7 +38,7 @@ namespace Project_Socket.Server
             mainThread.Start();
 
             // START SERVER
-
+            Server.Start();
 
         }
         // GAME LOOP IS HERE
@@ -101,12 +101,9 @@ namespace Project_Socket.Server
             tbQuestion.Text = quiz.question;
             if (quiz.choices != null)
             {
-                for (int i = 0; i < 4; i++)
+                for (int i=0; i<quiz.choices.Length; i++)
                 {
-                    btnAns0.Content = quiz.choices[0];
-                    btnAns1.Content = quiz.choices[1];
-                    btnAns2.Content = quiz.choices[2];
-                    btnAns3.Content = quiz.choices[3];
+                    tbQuestion.Text += "\n" + quiz.choices[i].ToString();
                 }
             }
         }
