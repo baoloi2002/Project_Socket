@@ -35,10 +35,18 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="1">
-                <TextBlock Margin="20" HorizontalAlignment="Center" FontSize="20" FontWeight="DemiBold">
+                <TextBlock Margin="5" HorizontalAlignment="Center" FontSize="20" FontWeight="DemiBold">
+                    Enter your Nickname
+                </TextBlock>
+                <TextBox Margin="5" Background="Aqua" BorderThickness="2" Name="txtNickname">
+                    
+                </TextBox>
+
+                <TextBlock Margin="5" HorizontalAlignment="Center" FontSize="20" FontWeight="DemiBold">
                     Enter Server IP Address and Port
                 </TextBlock>
-                <TextBox Margin="20" Background="Bisque"  BorderThickness="2" Name="txtServerIP">
+                
+                <TextBox Margin="5" Background="Bisque"  BorderThickness="2" Name="txtServerAddress">
                     
                 </TextBox>
                 <Button Margin="10" Click="Connect_Click">

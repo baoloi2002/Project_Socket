@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Project_Socket;
 
 // TODO
 // 1. Add Game Menu: Play, Quit
@@ -14,6 +15,8 @@ namespace Project_Socket.Client
     /// </summary>
     public partial class ClientWindow : Window
     {
+        public Packet send, receive;
+                
         public ClientWindow()
         {
             InitializeComponent();
@@ -21,6 +24,7 @@ namespace Project_Socket.Client
 
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
+            Client client = new Client();
             //string[] userInput = txtServerAddress.Text.Split(':');
             //string serverIP = userInput[0];
             //int serverPort = int.Parse(userInput[1]);
@@ -31,35 +35,70 @@ namespace Project_Socket.Client
             string nickname = "Bob";
 
             // Create a TCP/IP socket by using a client object
-            Client client = new Client();
-            client.ClientConnect(serverIP, serverPort);
+            try
+            {
+                client.ClientConnect(serverIP, serverPort);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
-            // Send the nickname to the server
-            //try
-            //{
-            //    // Package and send to server
-            //    Packet temp = new Packet();
-            //    //temp.AddData(nickname);
+            // Receive WelcomePlayer
+            try
+            {
+                using (Packet packet = client.receivePacket())
+                {
+                    int packetType = packet.ReadInt();
+                    if (packetType == (int)ServerPackets.WelcomePlayer)
+                    {
+                        int id = packet.ReadInt();
+                        MessageBox.Show("Welcome to the game!");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
-            //    client.SendPacket(temp);
-            //    // Check if the nickname is valid
-            //    //if (client.ReceivePacket() == "1")
-            //    //{
-            //    //    // If the nickname is valid, go to the game page
-            //    ClientGame clientGame = new ClientGame();
-            //    this.Content = clientGame;
-            //    //}
-            //    //else
-            //    //{
-            //    //    // If the nickname is invalid, show the error message
-            //    //    MessageBox.Show("Nickname is invalid!");
-            //    //}
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
-            
+            //Send the nickname to the server
+            try
+            {
+                using (Packet packet = new((int)ClientPackets.ResendUsername))
+                {
+                    packet.PutInt(1);
+                    packet.PutString(nickname);
+                }
+                // Check if the nickname is valid
+                
+                // Receive the packet
+                using (Packet packet = client.receivePacket())
+                {
+                    int packetType = packet.ReadInt();
+                    if (packetType == (int)ServerPackets.RegistrationFailed)
+                    {
+                        int result = packet.ReadInt();
+                        if (result == 1)
+                        {
+                            // If the nickname is valid, go to the game page
+                            ClientGame clientGame = new ClientGame();
+                            this.Content = clientGame;
+                        }
+                        else
+                        {
+                            // If the nickname is invalid, show the error message
+                            MessageBox.Show("Nickname is invalid!");
+                        }
+                    }
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
     }
 }
