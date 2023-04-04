@@ -26,6 +26,8 @@ namespace Project_Socket
         public MainWindow()
         {
             InitializeComponent();
+            // Center the window on startup
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
         }
 

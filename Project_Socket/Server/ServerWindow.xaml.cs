@@ -29,6 +29,9 @@ namespace Project_Socket.Server
         public ServerWindow()
         {
             InitializeComponent();
+            // Center the window on startup
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             quizList = LoadQuestions("QuizList.json");
             ShowQuiz(quizList[0]);
 

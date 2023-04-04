@@ -26,6 +26,8 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock
@@ -52,11 +54,32 @@
 
                 <TextBlock
                     Name="tbPort"
-                    Text="7483"
+                    Text="6294"
                     Grid.Row="1" Grid.Column="1"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Margin="5" FontSize="18"/>
+                
+                <TextBlock
+                    Text="Time:"
+                    Grid.Row="0" Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Margin="5" FontSize="18"/>
+                
+                <TextBlock
+                    Text="0"
+                    Grid.Row="0" Grid.Column="3"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Margin="5" FontSize="18"/>
+                <Button
+                    Grid.Column="2" Grid.ColumnSpan="2"
+                    Grid.Row="1"
+                    Margin="10"    
+  Content="Reset"
+  IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+  Style="{StaticResource MaterialDesignOutlinedSecondaryDarkButton}" />
 
             </Grid>
             <Grid
@@ -64,7 +87,7 @@
                 <Border Background="{StaticResource MaterialDesignPaper}" CornerRadius="8" Margin="16">
                     <StackPanel Margin="16">
                         <TextBlock TextWrapping="Wrap" Text="What is the capital of France?" Style="{StaticResource MaterialDesignCaptionTextBlock}" Foreground="#009688"
-                                   Name="tbQuestion" FontSize="18"/>
+                                   Name="tbQuestion" FontSize="16"/>
                         <Grid Margin="8">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
