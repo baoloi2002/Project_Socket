@@ -23,10 +23,19 @@ namespace Project_Socket.Server
             this.Id = id;
             this.Name = username;
             this.Icon = PackIconKind.Account;
+
+            this.Order = 0;
+        }        
+
+        public void Lose() { 
+            iskilled = true;
+            Icon = PackIconKind.AccountOff;
         }
+
         public void ResetForNextRound()
         {
             iskilled = false;
+            Icon = PackIconKind.Account;
         }
     }
 }

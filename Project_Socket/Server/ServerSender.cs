@@ -84,7 +84,7 @@ namespace Project_Socket.Server
                 Console.WriteLine($"Server sends to {toClient}: registration successful");
             }
         }
-        /*
+        
         public static void SendPlayerIntoGame(int toClient, Player player)
         {
             using (Packet packet = new Packet((int)ServerPackets.SendPlayerIntoGame))
@@ -280,10 +280,9 @@ namespace Project_Socket.Server
                 packet.PutInt(players.Count);
                 foreach (Player player in players)
                 {
-                    packet.PutInt(player.ID);
+                    packet.PutInt(player.Id);
                     packet.PutString(player.Name);
-                    packet.PutBool(player.isDisqualified);
-                    packet.PutInt(player.score);
+                    packet.PutBool(player.iskilled);
                 }
 
                 SendTCPToAllInMatch(packet);
@@ -303,6 +302,6 @@ namespace Project_Socket.Server
                 Console.WriteLine($"Server sends to all: player {clientId} leaves");
             }
         }
-        */
+        
     }
 }

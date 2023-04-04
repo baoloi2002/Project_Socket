@@ -59,7 +59,7 @@ namespace Project_Socket.Server
                 int byteLength = _stream.EndRead(result);
                 if (byteLength <= 0)
                 {
-                    //Server.DisconnectClient(_id);
+                    Server.DisconnectClient(_id);
                     return;
                 }
 

@@ -15,15 +15,7 @@ namespace Project_Socket.Server
         private static DateTime _lastTick = DateTime.Now;
 
         public static void Update()
-        {
-            foreach (ClientItem client in Server.clients.Values)
-            {
-                if (client.player != null)
-                {
-                    //client.player.Update();
-                }
-            }
-            /*
+        {         
             if (IsTimerStarted)
             {
                 _startTime -= (float)(DateTime.Now - _lastTick).Milliseconds / 1000;
@@ -41,26 +33,23 @@ namespace Project_Socket.Server
             {
                 MatchManager.Update();
             }
-            */
+            
 
             ThreadManager.Update();
         }
-        /*
+        
         public static void ReorderPlayer()
-        {
-            int accu = 1;
-            foreach (Client client in Server.clients.Values.OrderByDescending(client =>
-            {
-                if (client.player != null) return client.player.joinedDate;
-                return DateTime.Now;
-            }))
+        {            
+            foreach(ClientItem client in Server.clients.Values)
             {
                 if (client.player != null)
-                    client.player.order = accu++;
+                {
+                    ++client.player.Order;
+                }
             }
             ServerSender.UpdatePlayerOrder();
         }
-        */
+        
 
         public static int GetPlayerCount()
         {
@@ -84,12 +73,12 @@ namespace Project_Socket.Server
             }
             return players;
         }
-        /*
+        
         public static Player DetermineNextPlayer(int highestOrder)
         {
             int minDist = int.MaxValue;
             Player player = null;
-            foreach (Client client in Server.clients.Values)
+            foreach (ClientItem client in Server.clients.Values)
             {
                 if (client.player != null && !client.player.isDisqualified && client.player.order > highestOrder && client.player.order - highestOrder < minDist)
                 {
@@ -128,18 +117,7 @@ namespace Project_Socket.Server
 
         public static void ResetPlayerStats()
         {
-            foreach (Client client in Server.clients.Values)
-            {
-                if (client.player != null && client.player.inGame)
-                {
-                    client.player.ResetPlayer();
-                }
-            }
-        }
-
-        public static void ResetPlayersForNextRound()
-        {
-            foreach (Client client in Server.clients.Values)
+            foreach (ClientItem client in Server.clients.Values)
             {
                 if (client.player != null && client.player.inGame)
                 {
@@ -147,7 +125,6 @@ namespace Project_Socket.Server
                 }
             }
         }
-
         public static void StopGame()
         {
             IsGameStarted = false;
@@ -156,7 +133,7 @@ namespace Project_Socket.Server
         public static void EndGame()
         {
             IsGameStarted = false;
-            foreach (Client client in Server.clients.Values)
+            foreach (ClientItem client in Server.clients.Values)
             {
                 if (client.player != null && client.player.inGame)
                 {
@@ -164,7 +141,7 @@ namespace Project_Socket.Server
                 }
             }
         }
-        */
+        
 
     }
 }

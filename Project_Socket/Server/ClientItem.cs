@@ -10,24 +10,19 @@ namespace Project_Socket.Server
     internal class ClientItem
     {
         public int ID = 0;
-        public Player player;
+        public Player? player;
         public TCP TCP;
 
         public ClientItem(int clientId) { 
             ID = clientId;
             TCP = new TCP(ID);
+            player = null;
         }
-
-        private bool _isConnected = false;
-        private delegate void PacketHandler(Packet packet);
-        private static Dictionary<int, PacketHandler> _packetHandlers;
 
         private void OnApplicationQuit()
         {
             Disconnect(); // Disconnect when the game is closed
         }
-
-        public void HandlePacket(int id, Packet data) => _packetHandlers[id](data);
 
         public Player ConstructPlayer(int clientId, string username)
         {

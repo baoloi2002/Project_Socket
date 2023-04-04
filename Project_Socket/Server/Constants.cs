@@ -20,5 +20,8 @@ namespace Project_Socket.Server
         public const float MS_PER_TICK = 1000f / TICKS_PER_SEC;
 
         public static int MAX_LENGTH_NAME = 10;
+
+        public static int START_TIMER = 10;//second
+
     }
 }
