@@ -51,15 +51,14 @@ namespace Project_Socket.Server
                     return;
                 }
             }
-            for (int i = 0; i < 10; i++)
-            if (Server.clients[i] != null && Server.clients[i].player.Name == username)
+            foreach(ClientItem clientItem in Server.clients.Values)
+            if (clientItem != null &&clientItem.player != null && clientItem.player.Name == username)
                 {
                     sms = "Name is used by other";
                     ServerSender.RegistrationFailed(clientId, sms);
                     return;
                 }
-            Server.clients[clientId].player.Name = username;
-            ServerSender.RegistrationSuccessful(clientId, Server.clients[clientId].player);
+            Server.AcceptPlayerIntoGame(clientId, username);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Project_Socket.Server
         public static bool IsGameStarted = false;
         public static bool IsTimerStarted = false;
 
-        private static float _startTime = 1;
+        public static float _startTime = 1;
         private static DateTime _lastTick = DateTime.Now;
 
         public static void Update()
@@ -76,15 +76,28 @@ namespace Project_Socket.Server
         
         public static Player DetermineNextPlayer(int highestOrder)
         {
-            int minDist = int.MaxValue;
+            int mi = int.MaxValue;
+            int mx = int.MinValue;
             Player player = null;
             foreach (ClientItem client in Server.clients.Values)
             {
-                if (client.player != null && !client.player.isDisqualified && client.player.order > highestOrder && client.player.order - highestOrder < minDist)
+                if (client.player != null && !client.player.iskilled)
                 {
-                    minDist = client.player.order - highestOrder;
-                    player = client.player;
+                    if (client.player.Order < mi)
+                    {
+                        player = client.player;
+                        mi = client.player.Order;
+                    }
+                    if (client.player.Order > mx)
+                    {
+                        mx = client.player.Order;
+                    }
+
                 }
+            }
+            if (player != null)
+            {
+                player.Order = mx + 1;
             }
             return player;
         }

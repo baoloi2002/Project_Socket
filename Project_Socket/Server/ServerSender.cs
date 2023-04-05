@@ -112,7 +112,7 @@ namespace Project_Socket.Server
                 {
                     if (client.player != null)
                     {
-                        packet.PutInt(client.player.order);
+                        packet.PutInt(client.player.Order);
                         packet.PutInt(client.player.Id);
                     }
                 }
@@ -126,7 +126,7 @@ namespace Project_Socket.Server
         {
             using (Packet packet = new Packet((int)ServerPackets.CountdownStartGame))
             {
-                //packet.PutInt(Constants.START_TIMER);
+                packet.PutInt(Constants.START_TIMER);
                 SendTCPToAllInMatch(packet);
 
                 Console.WriteLine($"Server sends to all: Start countdown");
@@ -157,15 +157,6 @@ namespace Project_Socket.Server
             }
         }
 
-        public static void SetupGame()
-        {
-            using (Packet packet = new Packet((int)ServerPackets.SetupGame))
-            {
-                SendTCPToAllInMatch(packet);
-                Console.WriteLine($"Server sends to all: Setup game");
-            }
-        }
-
         public static void WaitForNextPlayer()
         {
             using (Packet packet = new Packet((int)ServerPackets.WaitForNextPlayer))
@@ -186,41 +177,7 @@ namespace Project_Socket.Server
             }
         }
 
-        public static void VerifyAnswer(Player player, bool correctCharacter, string character, bool correctKeyword, string keyword, bool isDisqualified)
-        {
-            using (Packet packet = new Packet((int)ServerPackets.VerifyAnswer))
-            {
-                packet.PutInt(player.Id);
-                packet.PutString(player.Name);
-                packet.PutBool(correctCharacter);
-                packet.PutString(character);
-                packet.PutBool(correctKeyword);
-                packet.PutString(keyword);
-                packet.PutBool(isDisqualified);
-                SendTCPDataToAll(packet);
-
-                Console.WriteLine($"Server sends to all: Verify answer by {player.Id}, character is {character} ({correctCharacter.ToString()}), keyword is {keyword} ({correctKeyword.ToString()}, he is disqualified {isDisqualified.ToString()})");
-            }
-        }
-
-        public static void ShowResult()
-        {
-            using (Packet packet = new Packet((int)ServerPackets.ShowResult))
-            {
-
-                List<Player> players = GameManager.GetAllPlayers();
-                packet.PutInt(MatchManager.currentRound);
-                packet.PutInt(players.Count);
-
-                foreach (Player player in players)
-                {
-                    packet.PutInt(player.Id);
-                    packet.PutString(player.Name);
-                    packet.PutBool(player.iskilled);
-                }
-                SendTCPToAllInMatch(packet);
-            }
-        }
+   
 
         public static void EndTurn(int currentTurn)
         {

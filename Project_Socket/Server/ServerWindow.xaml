@@ -69,6 +69,7 @@
                 
                 <TextBlock
                     Text="0"
+                    Name="tbTimer"
                     Grid.Row="0" Grid.Column="3"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
