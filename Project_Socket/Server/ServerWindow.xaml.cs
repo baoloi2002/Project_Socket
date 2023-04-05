@@ -24,16 +24,12 @@ namespace Project_Socket.Server
     {
         private static bool _isServerRunning = false;
 
-        private QuizQuestion[] quizList;
         private List<Player> people;
         public ServerWindow()
         {
             InitializeComponent();
             // Center the window on startup
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
-            quizList = LoadQuestions("QuizList.json");
-            ShowQuiz(quizList[0]);
 
             // START GAME THREAD
             _isServerRunning = true;
@@ -87,33 +83,17 @@ namespace Project_Socket.Server
             lstUsersView.ItemsSource = sortedList;
         }
 
-
-        private QuizQuestion[] LoadQuestions(string filePath)
-        {
-            string jsonString = File.ReadAllText(filePath);
-            QuizQuestion[] questions = JsonSerializer.Deserialize<QuizQuestion[]>(jsonString);
-            Random random = new Random();
-            for(int i = questions.Length - 1; i > 0; i--)
-            {
-                int j = random.Next(i+1);
-                QuizQuestion tmp = questions[j];
-                questions[j] = questions[i];
-                questions[i] = tmp;
-            }
-            return questions;
-        }
-
         private void ShowQuiz(QuizQuestion quiz)
         {
             tbQuestion.Text = quiz.question;
             if (quiz.choices != null)
             {
-                for (int i=0; i<quiz.choices.Length; i++)
+                for (int i = 0; i < quiz.choices.Length; i++)
                 {
                     tbQuestion.Text += "\n" + quiz.choices[i].ToString();
                 }
             }
-        }      
+        }
 
         private void UpdateUI()
         {

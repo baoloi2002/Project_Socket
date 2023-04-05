@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project_Socket.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,18 +21,6 @@ namespace Project_Socket.Server
             for (int i = 1; i <= Constants.MAX_PLAYER; i++)
             {
                 Server.clients[i].TCP.SendData(packet);
-            }
-        }
-
-        private static void SendTCPDataToAll(int exceptClient, Packet packet)
-        {
-            packet.InsertLength();
-            for (int i = 1; i <= Constants.MAX_PLAYER; i++)
-            {
-                if (i != exceptClient)
-                {
-                    Server.clients[i].TCP.SendData(packet);
-                }
             }
         }
 
@@ -133,59 +122,23 @@ namespace Project_Socket.Server
             }
         }
 
-        public static void StartRound(KeyValuePair<string, string> question, string currentKeyword, int roundNumber)
+        public static void StartRound(int roundNumber)
         {
             using (Packet packet = new Packet((int)ServerPackets.StartRound))
             {
                 packet.PutInt(roundNumber);
-                packet.PutString(currentKeyword);
-                packet.PutString(question.Value);
                 SendTCPToAllInMatch(packet);
 
                 Console.WriteLine($"Server sends to all: Start round {roundNumber}");
             }
         }
 
-        public static void StartTurn(int turnNumber)
+        public static void SetupGame()
         {
-            using (Packet packet = new Packet((int)ServerPackets.StartTurn))
-            {
-                packet.PutInt(turnNumber);
-                SendTCPToAllInMatch(packet);
-
-                Console.WriteLine($"Server sends to all: Start turn {turnNumber}");
-            }
-        }
-
-        public static void WaitForNextPlayer()
-        {
-            using (Packet packet = new Packet((int)ServerPackets.WaitForNextPlayer))
+            using (Packet packet = new Packet((int)ServerPackets.SetupGame))
             {
                 SendTCPToAllInMatch(packet);
-                Console.WriteLine($"Server sends to all: wait for next player");
-            }
-        }
-
-        public static void PickNextPlayer(Player player)
-        {
-            using (Packet packet = new Packet((int)ServerPackets.PickNextPlayer))
-            {
-                packet.PutInt(player.Id);
-                packet.PutString(player.Name);
-                SendTCPToAllInMatch(packet);
-                Console.WriteLine($"Server sends to all: pick next player {player.Id}");
-            }
-        }
-
-   
-
-        public static void EndTurn(int currentTurn)
-        {
-            using (Packet packet = new Packet((int)ServerPackets.EndTurn))
-            {
-                packet.PutInt(currentTurn);
-                SendTCPToAllInMatch(packet);
-                Console.WriteLine($"Server sends to all: end turn {currentTurn}");
+                Console.WriteLine($"Server sends to all: Setup game");
             }
         }
 
@@ -196,15 +149,6 @@ namespace Project_Socket.Server
                 packet.PutInt(roundNumber);
                 SendTCPToAllInMatch(packet);
                 Console.WriteLine($"Server sends to all: end round {roundNumber}");
-            }
-        }
-
-        public static void EndGame()
-        {
-            using (Packet packet = new Packet((int)ServerPackets.EndGame))
-            {
-                SendTCPToAllInMatch(packet);
-                Console.WriteLine($"Server sends to all: end game");
             }
         }
 
@@ -219,46 +163,37 @@ namespace Project_Socket.Server
             }
         }
 
-        public static void UpdateRoundInfo(string currentKeyword, int currentRound, HashSet<char> unlockedCharacters)
+        public static void SendQuestion(QuizQuestion question)
         {
-            using (Packet packet = new Packet((int)ServerPackets.UpdateRoundInfo))
+            using (Packet packet = new Packet((int)ServerPackets.SendQuestion))
             {
-                // Update the info of all players in the match
-                List<Player> players = GameManager.GetAllPlayers();
-                packet.PutInt(currentRound);
-                packet.PutString(currentKeyword);
-
-                packet.PutInt(unlockedCharacters.Count);
-                foreach (char c in unlockedCharacters)
+                string tmp = question.question;
+                for (int i = 0; i < question.choices.Length; i++)
                 {
-                    packet.PutString(c.ToString());
+                    tmp += "\n" + question.choices[i].ToString();
                 }
+                packet.PutString(tmp);
+                SendTCPToAllInMatch(packet);                
+            }
+        }
 
-                packet.PutInt(players.Count);
-                foreach (Player player in players)
-                {
-                    packet.PutInt(player.Id);
-                    packet.PutString(player.Name);
-                    packet.PutBool(player.iskilled);
-                }
-
+        public static void SendAnswer(int ans)
+        {
+            using (Packet packet = new Packet((int)ServerPackets.SendAnswer))
+            {
+                packet.PutInt(ans);
                 SendTCPToAllInMatch(packet);
-
-                Console.WriteLine($"Server sends to all: update round info");
             }
         }
-
-        public static void PlayerLeave(int clientId, string username)
+        public static void SkipQuiz(Player player)
         {
-            using (Packet packet = new Packet((int)ServerPackets.PlayerLeave))
+            using (Packet packet = new Packet((int)ServerPackets.SkipQuiz))
             {
-                packet.PutInt(clientId);
-                packet.PutString(username);
-                SendTCPDataToAll(packet);
-
-                Console.WriteLine($"Server sends to all: player {clientId} leaves");
+                packet.PutInt(player.Id);
+                packet.PutString(player.Name);
+                SendTCPToAllInMatch(packet);
             }
         }
-        
+
     }
 }

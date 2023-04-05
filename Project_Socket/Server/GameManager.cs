@@ -74,7 +74,7 @@ namespace Project_Socket.Server
             return players;
         }
         
-        public static Player DetermineNextPlayer(int highestOrder)
+        public static Player DetermineNextPlayer()
         {
             int mi = int.MaxValue;
             int mx = int.MinValue;

@@ -17,12 +17,13 @@ public enum ServerPackets
 
     SetupGame,
     StartRound,
-    StartTurn,
+    SendQuestion,
+    SendAnswer,
+    SkipQuiz,
     WaitForNextPlayer,
     PickNextPlayer,
     VerifyAnswer,
     ShowResult,
-    EndTurn,
     EndRound,
     EndGame,
     UpdateRoundInfo
