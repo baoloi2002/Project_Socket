@@ -54,7 +54,7 @@
 
                 <TextBlock
                     Name="tbPort"
-                    Text="6294"
+                    Text="1234"
                     Grid.Row="1" Grid.Column="1"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"

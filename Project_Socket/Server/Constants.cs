@@ -9,7 +9,7 @@ namespace Project_Socket.Server
     public class Constants
     {
         public static string SERVER_IP = "127.0.0.1";
-        public static int PORT = 6294;
+        public static int PORT = 1234;
         public static int DATA_BUFFER_SIZE = 1024;
 
         public static int MAX_PLAYER = 10;

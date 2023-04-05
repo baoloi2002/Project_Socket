@@ -38,7 +38,7 @@ namespace Project_Socket.Server
             // START GAME THREAD
             _isServerRunning = true;
             Thread mainThread = new Thread(new ThreadStart(MainThread));
-            mainThread.Start();
+            //mainThread.Start();
 
             // START SERVER
             Server.Start();

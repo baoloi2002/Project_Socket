@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Project_Socket.Server
 {
@@ -20,10 +21,10 @@ namespace Project_Socket.Server
         {
             InitializeServerData();
 
-            _tcpListener = new TcpListener(IPAddress.Any, Constants.PORT);
+            //_tcpListener = new TcpListener(IPAddress.Any, Constants.PORT);
+            _tcpListener = new TcpListener(IPAddress.Parse(Constants.SERVER_IP), Constants.PORT);
             _tcpListener.Start();
             _tcpListener.BeginAcceptTcpClient(OnTCPConnected, null);
-
             Console.WriteLine($"Server started on port {Constants.PORT}.");
         }
 
@@ -32,7 +33,6 @@ namespace Project_Socket.Server
             TcpClient client = _tcpListener.EndAcceptTcpClient(result);
             _tcpListener.BeginAcceptTcpClient(OnTCPConnected, null);
             Console.WriteLine($"Incoming connection from {client.Client.RemoteEndPoint}...");
-
             for (int i = 1; i <= Constants.MAX_PLAYER; i++)
             {
                 if (clients[i].TCP.socket == null)
