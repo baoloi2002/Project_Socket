@@ -41,7 +41,6 @@ namespace Project_Socket.Server
         {
             using (Packet packet = new Packet((int)ServerPackets.WelcomePlayer))
             {
-                packet.PutString(msg);
                 packet.PutInt(toClient);
 
                 SendTCPData(toClient, packet);
