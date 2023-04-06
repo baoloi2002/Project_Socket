@@ -31,7 +31,7 @@ namespace Project_Socket.Client
             //string nickname = txtNickname.Text;
 
             string serverIP = "127.0.0.1";
-            int serverPort = 6294;
+            int serverPort = 1234;
             string nickname = "Bob";
 
             // Create a TCP/IP socket by using a client object
