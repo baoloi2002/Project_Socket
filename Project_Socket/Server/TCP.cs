@@ -13,7 +13,7 @@ namespace Project_Socket.Server
         public TcpClient socket;
         private NetworkStream _stream;
         private Packet _data;
-        private Byte[] _buffer;
+        private byte[] _buffer;
         private readonly int _id;
 
         public TCP(int id)
@@ -31,7 +31,7 @@ namespace Project_Socket.Server
             _stream = socket.GetStream();
 
             _data = new Packet();
-            _buffer = new Byte[Constants.DATA_BUFFER_SIZE];
+            _buffer = new byte[Constants.DATA_BUFFER_SIZE];
 
             _stream.BeginRead(_buffer, 0, Constants.DATA_BUFFER_SIZE, OnReceivedData, null);
 
@@ -63,7 +63,7 @@ namespace Project_Socket.Server
                     return;
                 }
 
-                Byte[] streamedData = new Byte[byteLength];
+                byte[] streamedData = new byte[byteLength];
                 Array.Copy(_buffer, streamedData, byteLength);
 
                 if (HandleData(streamedData)) _data.Reset();
@@ -81,7 +81,7 @@ namespace Project_Socket.Server
         }
 
         // Extract the data in order, and call the matching handler methods
-        public bool HandleData(Byte[] data)
+        public bool HandleData(byte[] data)
         {
             int packetLength = 0;
             _data.AssignBytes(data);
@@ -95,7 +95,8 @@ namespace Project_Socket.Server
 
             while (packetLength > 0 && packetLength <= _data.UnreadLength)
             {
-                Byte[] packetBytes = _data.ReadBytes(packetLength);
+                byte[] packetBytes = _data.ReadBytes(packetLength);
+
                 ThreadManager.ExecuteWithPriority(() =>
                 {
                     using (Packet packet = new Packet(packetBytes))

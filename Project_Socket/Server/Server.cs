@@ -37,7 +37,7 @@ namespace Project_Socket.Server
             {
                 if (clients[i].TCP.socket == null)
                 {
-                    MessageBox.Show(i.ToString());
+                    //MessageBox.Show(i.ToString());
                     clients[i].TCP.Connect(client);
                     return;
                 }

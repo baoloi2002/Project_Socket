@@ -29,7 +29,7 @@ namespace Project_Socket.Server
             packet.InsertLength();
             for (int i = 1; i <= Constants.MAX_PLAYER; i++)
             {
-                if (Server.clients[i].player != null && Server.clients[i].player.inGame)
+                if (Server.clients[i].player != null)
                 {
                     Server.clients[i].TCP.SendData(packet);
                 }

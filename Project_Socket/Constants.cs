@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project_Socket.Server
+namespace Project_Socket
 {
     public class Constants
     {

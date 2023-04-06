@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Security.Cryptography;
+using System.Threading;
 using System.Windows;
 using Project_Socket;
+using Project_Socket.Server;
 
 // TODO
 // 1. Add Game Menu: Play, Quit
@@ -15,89 +18,41 @@ namespace Project_Socket.Client
     /// </summary>
     public partial class ClientWindow : Window
     {
-        public Packet send, receive;
-                
+
+        string serverIP = "127.0.0.1";
+        int serverPort = 1234;
+        string nickname = "Bob";
+
         public ClientWindow()
         {
             InitializeComponent();
+            Client.Start();
+
+            Thread mainThread = new Thread(new ThreadStart(MainThread));
+            mainThread.Start();
+            Client.Connect(serverIP, serverPort);
         }
 
+        private void MainThread()
+        {
+            DateTime nextLoop = DateTime.Now;
+
+            while (nextLoop < DateTime.Now)
+            {
+                ThreadManager.Update();
+                nextLoop = nextLoop.AddMilliseconds(Constants.MS_PER_TICK); // Calculate at what point in time the next tick should be executed
+
+                if (nextLoop > DateTime.Now)
+                {
+                    // If the execution time for the next tick is in the future, aka the server is NOT running behind
+                    Thread.Sleep(nextLoop - DateTime.Now); // Let the thread sleep until it's needed again.
+                }
+            }
+
+        }
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
-            Client client = new Client();
-            //string[] userInput = txtServerAddress.Text.Split(':');
-            //string serverIP = userInput[0];
-            //int serverPort = int.Parse(userInput[1]);
-            //string nickname = txtNickname.Text;
-
-            string serverIP = "127.0.0.1";
-            int serverPort = 1234;
-            string nickname = "Bob";
-
-            // Create a TCP/IP socket by using a client object
-            try
-            {
-                client.ClientConnect(serverIP, serverPort);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-            // Receive WelcomePlayer
-            try
-            {
-                using (Packet packet = client.receivePacket())
-                {
-                    int packetType = packet.ReadInt();
-                    if (packetType == (int)ServerPackets.WelcomePlayer)
-                    {
-                        int id = packet.ReadInt();
-                        MessageBox.Show("Welcome to the game!");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-            //Send the nickname to the server
-            try
-            {
-                using (Packet packet = new((int)ClientPackets.ResendUsername))
-                {
-                    packet.PutInt(1);
-                    packet.PutString(nickname);
-                }
-                // Check if the nickname is valid
-                
-                // Receive the packet
-                using (Packet packet = client.receivePacket())
-                {
-                    int packetType = packet.ReadInt();
-                    if (packetType == (int)ServerPackets.RegistrationFailed)
-                    {
-                        int result = packet.ReadInt();
-                        if (result == 1)
-                        {
-                            // If the nickname is valid, go to the game page
-                            ClientGame clientGame = new ClientGame();
-                            this.Content = clientGame;
-                        }
-                        else
-                        {
-                            // If the nickname is invalid, show the error message
-                            MessageBox.Show("Nickname is invalid!");
-                        }
-                    }
-                }
-                
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            Client.SendUsername(nickname);
 
         }
     }

@@ -1,72 +1,153 @@
-﻿using System;
+﻿using Project_Socket.Server;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows;
 
 namespace Project_Socket.Client
 {
     internal class Client
     {
-        public TcpClient _tcpClient;
-        private NetworkStream _stream;
-        private Packet _data;
-        private Byte[] _buffer;
+        private static TcpClient client;
+        private static NetworkStream stream;
+        private static byte[] buffer = new byte[1024];
 
-        private readonly int _id;
+        public static int ID;
 
-        private static string serverIP = "127.0.0.1";
-        private static int serverPort = 6295;
+        public delegate void PacketHandler(Packet _packet);
+        public static Dictionary<int, PacketHandler> packetHandlers;
+        public static void HandlePacket(int id, Packet packet) => packetHandlers[id](packet);
 
-
-        public void ClientConnect(string ip, int port)
+        public static void Start()
         {
-            _tcpClient = new TcpClient();
-            _tcpClient.Connect(ip, port);
-
+            packetHandlers = new Dictionary<int, PacketHandler>()
+        {
+            { (int)ServerPackets.WelcomePlayer, Client.RecieveID },            
+        };
         }
 
-        public void sendPacket(Packet packet) 
+        public static void Connect(string server, int port)
         {
             try
             {
-                // Get the network stream for the client
-                _stream = _tcpClient.GetStream();
-
-                // Send the packet to the server
-                _stream.BeginWrite(packet.Array, 0, packet.Length, null, null);
-                _stream.Close();
+                client = new TcpClient(server, port);
+                stream = client.GetStream();
+                stream.BeginRead(buffer, 0, buffer.Length, OnReceivedData, null);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine("Error sending answer: " + ex.Message);
+                Console.WriteLine("Error connecting to server: " + e.Message);
             }
         }
 
-        public Packet receivePacket() 
+        private static void OnReceivedData(IAsyncResult result)
         {
-
-            _data = new Packet();
-            _buffer = new Byte[1024];
             try
             {
-                // Open network stream
-                _stream = _tcpClient.GetStream();
+                int byteLength = stream.EndRead(result);
+                if (byteLength <= 0)
+                {
+                    // Connection closed by server
+                    Disconnect();
+                    return;
+                }
 
-                // Receive packet from server
-                _stream.BeginRead(_buffer, 1024, 1, null, null);
-                _stream.Close();
+                byte[] data = new byte[byteLength];
+                Array.Copy(buffer, data, byteLength);
+
+                // Handle the incoming data using the same packet format as the server
+                HandleData(data);
+
+                // Read the next packet
+                stream.BeginRead(buffer, 0, buffer.Length, OnReceivedData, null);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine("Something go wrong: " + ex.Message);
+                Console.WriteLine("Error receiving data from server: " + e.Message);
+                Disconnect();
             }
-            _data = new Packet(_buffer);
-            return _data;
         }
 
+        private static void HandleData(byte[] data)
+        {
+            // Parse the incoming data using the same packet format as the server
+            int packetLength = 0;
+            Packet packet = new Packet();
+            packet.AssignBytes(data);
+
+            if (packet.UnreadLength >= 4)
+            {
+                packetLength = packet.ReadInt();
+                if (packetLength <= 0) return; // The packet is empty
+            }
+
+            while (packetLength > 0 && packetLength <= packet.UnreadLength)
+            {
+                byte[] packetBytes = packet.ReadBytes(packetLength);
+
+                // Handle the packet by calling the appropriate method based on the packet ID
+                ThreadManager.ExecuteWithPriority(() =>
+                {
+                    using (Packet pt = new Packet(packetBytes))
+                    {
+                        int packetId = pt.ReadInt(); // The first integer of the packet indicates the enum of the method to call
+                        Client.HandlePacket(packetId, pt); // Call appropriate method to handle the packet
+                    }
+                });
+
+                // Read the next packet
+                packetLength = 0;
+                if (packet.UnreadLength >= 4)
+                {
+                    packetLength = packet.ReadInt();
+                    if (packetLength <= 0) return; // The packet is empty
+                }
+            }
+
+            if (packetLength <= 0) return; // Recycle packets
+            else packet.Revert();
+        }
+
+        public static void RecieveID(Packet packet)
+        {
+            ID = packet.ReadInt();
+            MessageBox.Show("Nhan duoc ID: " + ID.ToString());
+        }
+
+        public static void Disconnect()
+        {
+            if (client != null) client.Close();
+            client = null;
+            stream = null;
+        }
+
+        public static void sendDataToServer(Packet packet)
+        {
+            try
+            {
+                stream.BeginWrite(packet.Array, 0, packet.Length, null, null);
+            }
+            catch (Exception e)
+            {
+                //CHET
+            }
+        }
+
+        public static void SendUsername(string username)
+        {
+            using (Packet packet = new Packet((int)ClientPackets.ResendUsername)) {
+                packet.PutInt(ID);
+                packet.PutString(username); 
+                packet.InsertLength();
+
+
+                sendDataToServer(packet);
+            }
+        }
     }
 }
