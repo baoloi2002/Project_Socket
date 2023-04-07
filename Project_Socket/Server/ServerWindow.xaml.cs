@@ -100,12 +100,18 @@ namespace Project_Socket.Server
             lstUsersView.ItemsSource = GameManager.GetAllPlayers();
             if (GameManager.IsTimerStarted)
             {
-                tbTimer.Text = GameManager._startTime.ToString();
+                int tmp = (int)GameManager._startTime;
+                tbTimer.Text = tmp.ToString();
             }
             else
             if (GameManager.IsGameStarted)
             {
-                //tbTimer.Text = MatchManager._waitTimer.ToString();
+                if (MatchManager.curQuiz != -1)
+                {
+                    ShowQuiz(MatchManager.quizList[MatchManager.curQuiz]);
+                }
+                int tmp = (int)MatchManager._waitTimer;
+                tbTimer.Text = tmp.ToString();
             }
 
         }

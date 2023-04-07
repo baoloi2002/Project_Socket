@@ -24,7 +24,7 @@ namespace Project_Socket.Server
         public static QuizQuestion[] quizList;
         public static int curQuiz = -1;
         public static Dictionary<int, bool> isUsedSkill;
-        private static float _waitTimer = 3;
+        public static float _waitTimer = 3;
         private static bool _isWaiting = false;
         private static bool _isLocked = false;
         private static Player _currentPlayer;

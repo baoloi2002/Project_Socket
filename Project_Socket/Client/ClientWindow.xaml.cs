@@ -52,7 +52,7 @@ namespace Project_Socket.Client
         }
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
-            Client.SendUsername(nickname);
+            Client.SendUsername(txtNickname.Text);
 
         }
     }
