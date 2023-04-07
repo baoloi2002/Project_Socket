@@ -39,6 +39,7 @@ namespace Project_Socket.Server
             curQuiz = -1;
             currentRound = 0;
             isUsedSkill = new Dictionary<int, bool>();
+            ChangeState(MatchState.INIT);
 
         }
 
@@ -206,7 +207,7 @@ namespace Project_Socket.Server
                     // Send order to all player
                     ServerSender.UpdatePlayerOrder();
                     ServerSender.EndRound(currentRound);
-
+                    ChangeState(MatchState.START_ROUND);
                     break;
 
                 case MatchState.END:
