@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Project_Socket.Server
+namespace Project_Socket
 {
     internal class Player
     {
