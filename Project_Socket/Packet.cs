@@ -36,6 +36,7 @@ public enum ClientPackets
     GiveAnswer,
     Ready,
     GiveQuestionToOther,
+    Skip,
 }
 
 public class Packet : IDisposable
