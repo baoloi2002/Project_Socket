@@ -1,13 +1,6 @@
-﻿using Project_Socket.Server;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net.Sockets;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace Project_Socket.Client
 {
@@ -20,15 +13,19 @@ namespace Project_Socket.Client
         public static int ID;
 
         public delegate void PacketHandler(Packet _packet);
+
         public static Dictionary<int, PacketHandler> packetHandlers;
+
         public static void HandlePacket(int id, Packet packet) => packetHandlers[id](packet);
 
         public static void Start()
         {
             packetHandlers = new Dictionary<int, PacketHandler>()
-        {
-            { (int)ServerPackets.WelcomePlayer, Client.RecieveID },            
-        };
+            {
+                { 
+                    (int)ServerPackets.WelcomePlayer, Client.RecieveID 
+                },
+            };
         }
 
         public static void Connect(string server, int port)
@@ -116,7 +113,6 @@ namespace Project_Socket.Client
         public static void RecieveID(Packet packet)
         {
             ID = packet.ReadInt();
-            MessageBox.Show("Nhan duoc ID: " + ID.ToString());
         }
 
         public static void Disconnect()
@@ -134,20 +130,100 @@ namespace Project_Socket.Client
             }
             catch (Exception e)
             {
-                //CHET
+                // Die
             }
         }
 
+        public static void receiveDataFromServer(Packet packet)
+        {
+            try
+            {
+                stream.BeginRead(buffer, 0, buffer.Length, OnReceivedData, null);
+            }
+            catch (Exception e)
+            {
+                // Die 
+            }
+        }
+
+        #region SendThings
+
         public static void SendUsername(string username)
         {
-            using (Packet packet = new Packet((int)ClientPackets.ResendUsername)) {
+            using (Packet packet = new Packet((int)ClientPackets.ResendUsername))
+            {
                 packet.PutInt(ID);
-                packet.PutString(username); 
+                packet.PutString(username);
                 packet.InsertLength();
-
 
                 sendDataToServer(packet);
             }
         }
+
+        public static void SendAnswer(int answer)
+        {
+            using (Packet packet = new Packet((int)ClientPackets.GiveAnswer))
+            {
+                packet.PutInt(ID);
+                packet.PutInt(answer);
+                packet.InsertLength();
+
+                sendDataToServer(packet);
+            }
+        }
+
+        public static void SendSkip(int skip)
+        {
+            using (Packet packet = new Packet((int)ClientPackets.Skip))
+            {
+                packet.PutInt(ID);
+                packet.PutInt(skip);
+                packet.InsertLength();
+
+                sendDataToServer(packet);
+            }
+        }
+
+        #endregion
+        #region ReceiveThings
+
+        public static void ReceivePlayerList(ref List<Player> players)
+        {
+            static void ReceivePlayerList_handler(Packet packet)
+            {
+                string newPlayerName = packet.ReadString();
+                int newPlayerId = packet.ReadInt();
+
+            }
+            packetHandlers = new Dictionary<int, PacketHandler>()
+            {
+                {
+                    (int)ServerPackets.SendPlayerIntoGame, ReceivePlayerList_handler
+                },
+            };
+
+            //playerList.Add(new Player(newPlayerId, newPlayerName));
+        }
+
+        public static void ReceiveQuizQuestion(ref QuizQuestion question)
+        {
+            static void Local_ReceiveQuizQuestion_handler(Packet packet)
+            {
+                string question = packet.ReadString();
+                string choices = packet.ReadString();
+                string answer = packet.ReadString();
+                
+
+            }
+            packetHandlers = new Dictionary<int, PacketHandler>()
+            {
+                {
+                    (int)ServerPackets.SendQuestion, Local_ReceiveQuizQuestion_handler
+                },
+            };
+
+        }
+
+        #endregion
     }
 }
