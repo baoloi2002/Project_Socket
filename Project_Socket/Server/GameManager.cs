@@ -74,9 +74,14 @@ namespace Project_Socket.Server
             }
             return players;
         }
-        
+
+        static Player lastTakeP;
+
         public static Player DetermineNextPlayer()
         {
+            if (MatchManager.currentTurn == MatchManager._Turn) return lastTakeP;
+            MatchManager._Turn = MatchManager.currentTurn;
+            MessageBox.Show("Turn " + MatchManager._Turn.ToString());
             int mi = int.MaxValue;
             int mx = int.MinValue;
             Player player = null;
@@ -100,6 +105,7 @@ namespace Project_Socket.Server
             {
                 player.Order = mx + 1;
             }
+            lastTakeP = player;
             return player;
         }
 
@@ -149,11 +155,12 @@ namespace Project_Socket.Server
             IsGameStarted = false;
             foreach (ClientItem client in Server.clients.Values)
             {
-                if (client.player != null && client.player.inGame)
+                if (client.player != null)
                 {
-                    Server.RemovePlayerFromGame(client.ID);
+                    client.player.ResetForNextRound();
                 }
             }
+            HandleStartGame();
         }
         
 

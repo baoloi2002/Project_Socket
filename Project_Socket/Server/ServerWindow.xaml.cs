@@ -71,15 +71,22 @@ namespace Project_Socket.Server
         private void SortList()
         {
             // Sort the list
-            List<Player> sortedList = people.OrderBy(p => p.Order).ToList();
-
-            // Update the SortOrder property of each item
-            for (int i = 0; i < sortedList.Count; i++)
+            List<Player> sortedList = GameManager.GetAllPlayers();
+            sortedList.Sort((u, v) =>
             {
-                sortedList[i].Order = i;
-            }
+                if (u.iskilled == v.iskilled)
+                {
+                    return u.Order.CompareTo(v.Order);                    
+                }
 
+                return u.iskilled.CompareTo(v.iskilled);
+            });
             // Set the sorted list as the ItemsSource of the ListView
+            LOG.log = "";
+            foreach(Player p in sortedList)
+            {
+                LOG.log += p.Name + " " + p.Order.ToString() + "\n";
+            }
             lstUsersView.ItemsSource = sortedList;
         }
 
@@ -93,11 +100,12 @@ namespace Project_Socket.Server
                     tbQuestion.Text += "\n" + quiz.choices[i].ToString();
                 }
             }
+            tbQuestion.Text += "\nAnswer: " + (char)(quiz.answer + 'A');
         }
 
         private void UpdateUI()
         {
-            lstUsersView.ItemsSource = GameManager.GetAllPlayers();
+            SortList();
             if (GameManager.IsTimerStarted)
             {
                 int tmp = (int)GameManager._startTime;
@@ -112,8 +120,8 @@ namespace Project_Socket.Server
                 }
                 int tmp = (int)MatchManager._waitTimer;
                 tbTimer.Text = tmp.ToString();
-            }
-
+            }           
+            tbLog.Text = LOG.log;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Project_Socket.Server
 {
@@ -33,6 +34,7 @@ namespace Project_Socket.Server
         private static Action _timerCallback;
         private static bool _isAnswered = false;
         public static int currentRound;
+        public static int currentTurn, _Turn;
 
         public static void Start()
         {
@@ -40,7 +42,8 @@ namespace Project_Socket.Server
             currentRound = 0;
             isUsedSkill = new Dictionary<int, bool>();
             ChangeState(MatchState.INIT);
-
+            _Turn = 0;
+            currentTurn = 1;
         }
 
         public static void Update() 
@@ -112,6 +115,18 @@ namespace Project_Socket.Server
             ChangeState(MatchState.VERIFY_ANSWER);
         }
 
+        private static int PlayerCount()
+        {
+            int count = 0;
+            foreach(ClientItem client in Server.clients.Values)
+            {
+                if (client.player != null && !client.player.iskilled)
+                {
+                    ++count;
+                }
+            }
+            return count;
+        }
         private static void ChangeState(MatchState matchState)
         {
             Console.WriteLine($"Changing the match state from {_matchState.ToString()} to {matchState.ToString()}");
@@ -156,11 +171,19 @@ namespace Project_Socket.Server
                     break;
 
                 case MatchState.START_ROUND:
+                    currentTurn += 1;
+                    currentRound += 1;
                     // Choose a random question
                     curQuiz += 1;
                     if (curQuiz == quizList.Length)
                     {                       
-                        GameManager.EndGame();
+                        ChangeState(MatchState.END);
+                        break;
+                    }
+                    // Only 1 player left
+                    if (PlayerCount() == 1)
+                    {
+                        ChangeState(MatchState.END);
                         break;
                     }
 

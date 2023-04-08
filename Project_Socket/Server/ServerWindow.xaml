@@ -121,46 +121,54 @@
             </Grid>
 
         </Grid>
-        <Grid
-            Grid.Column="1">
-            <ListView Height="auto" x:Name="lstUsersView">
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListViewItem}">
-                        <Style.Triggers>
-                            <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                                <Setter Property="Background" Value="#FFF0F0F0" />
-                            </Trigger>
-                            <DataTrigger Binding="{Binding Path=SortOrder}" Value="Ascending">
-                                <Setter Property="RenderTransform">
-                                    <Setter.Value>
-                                        <TranslateTransform Y="-10" />
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Path=SortOrder}" Value="Descending">
-                                <Setter Property="RenderTransform">
-                                    <Setter.Value>
-                                        <TranslateTransform Y="10" />
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <materialDesign:Chip
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid
+            Grid.Row="0">
+                <ListView Height="auto" x:Name="lstUsersView">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Style.Triggers>
+                                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                    <Setter Property="Background" Value="#FFF0F0F0" />
+                                </Trigger>
+                                <DataTrigger Binding="{Binding Path=SortOrder}" Value="Ascending">
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <TranslateTransform Y="-10" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=SortOrder}" Value="Descending">
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <TranslateTransform Y="10" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <materialDesign:Chip
                 Content="{Binding Name}"
                 IconBackground="{DynamicResource PrimaryHueDarkBrush}"
                 IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                 Style="{StaticResource MaterialDesignOutlineChip}">
-                            <materialDesign:Chip.Icon>
-                                <materialDesign:PackIcon Kind="{Binding Icon}" />
-                            </materialDesign:Chip.Icon>
-                        </materialDesign:Chip>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                <materialDesign:Chip.Icon>
+                                    <materialDesign:PackIcon Kind="{Binding Icon}" />
+                                </materialDesign:Chip.Icon>
+                            </materialDesign:Chip>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <TextBlock Grid.Row="1" Name="tbLog" Text="LOG"/>
         </Grid>
+       
     </Grid>
 </Window>
