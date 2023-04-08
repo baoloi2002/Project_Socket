@@ -19,9 +19,9 @@ namespace Project_Socket.Client
     public partial class ClientWindow : Window
     {
 
-        string serverIP = "127.0.0.1";
-        int serverPort = 1234;
-        string nickname = "Bob";
+        private string serverIP = "127.0.0.1";
+        private int serverPort = 1234;
+        private string nickname = "Bob";
 
         public ClientWindow()
         {
@@ -53,7 +53,8 @@ namespace Project_Socket.Client
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
             Client.SendUsername(txtNickname.Text);
-
+            ClientGame clientGame = new ClientGame();
+            this.Content = clientGame;
         }
     }
 }
