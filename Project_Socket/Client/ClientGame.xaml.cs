@@ -1,5 +1,22 @@
-﻿using System.Windows;
+﻿using MaterialDesignThemes.Wpf;
+using Project_Socket.Server;
+using SuperSimpleTcp;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 // TODO
 // 1. Add Game Menu: Play, Quit
@@ -12,16 +29,44 @@ namespace Project_Socket.Client
     /// <summary>
     /// Interaction logic for ClientWindow.xaml
     /// </summary>
-    public partial class ClientGame : UserControl
+    public partial class ClientGame : Window
     {
         private QuizQuestion question;
         private int clientAnswer;
-        private bool gameEnd = false, isTurn = true;
+        private bool gameEnd = false, isTurn = true, isSkip = false, isInGame;
 
         public ClientGame()
         {
             InitializeComponent();
             question = new QuizQuestion();
+            isInGame = true;
+            Thread mainThread = new Thread(new ThreadStart(MainThread));
+            mainThread.Start();
+        }
+
+        private void MainThread()
+        {
+            DateTime nextLoop = DateTime.Now;
+
+            while (isInGame)
+            {
+                while (nextLoop < DateTime.Now)
+                {
+                    ThreadManager.Update();
+                    Dispatcher.Invoke(() =>
+                    {
+                        UpdatePlayerList();
+                    });
+
+                    nextLoop = nextLoop.AddMilliseconds(Constants.MS_PER_TICK); // Calculate at what point in time the next tick should be executed
+
+                    if (nextLoop > DateTime.Now)
+                    {
+                        // If the execution time for the next tick is in the future, aka the server is NOT running behind
+                        Thread.Sleep(nextLoop - DateTime.Now); // Let the thread sleep until it's needed again.
+                    }
+                }
+            }
         }
 
         private void waitForTurn()
@@ -31,6 +76,26 @@ namespace Project_Socket.Client
             Update();
         }
 
+        private void UpdatePlayerList()
+        {
+            // Sort the list
+            if (Client.playerList.Count == 0)
+            {
+                return;
+            }
+            List<Player> sortedList = Client.playerList;
+           
+            sortedList.Sort((u, v) =>
+            {
+                if (u.iskilled == v.iskilled)
+                {
+                    return u.Order.CompareTo(v.Order);
+                }
+
+                return u.iskilled.CompareTo(v.iskilled);
+            });
+            lstUsersView.ItemsSource = sortedList;
+        }
         private void Update()
         {
             // Receive question from server and change window content
@@ -109,6 +174,8 @@ namespace Project_Socket.Client
 
         private void Skip_Click(object sender, RoutedEventArgs e)
         {
+            if (isSkip) return;
+            isSkip = true;
             isTurn = false;
             Client.SendSkip(1);
         }

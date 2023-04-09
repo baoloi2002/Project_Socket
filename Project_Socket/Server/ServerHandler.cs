@@ -37,9 +37,9 @@ namespace Project_Socket.Server
         {
             string sms = "Success";
             // Check if the length of the nickname is less than or equal to 10 characters
-            if (username.Length > 10)
+            if (username.Length > 10 || username.Length == 0)
             {
-                sms = "Too Long! At most 10 chars.";
+                sms = "Length Wrong!";
                 ServerSender.RegistrationFailed(clientId, sms);
                 return;
             }

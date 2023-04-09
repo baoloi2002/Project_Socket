@@ -18,6 +18,17 @@ namespace Project_Socket
         public PackIconKind Icon { get; set; }
         public int Order { get; set; }
 
+        public Player(string username, int order, bool iskilled) {
+            this.Name = username;
+            this.Order = order;
+            this.iskilled = iskilled;
+            if (iskilled)
+                Icon = PackIconKind.AccountOff;
+            else
+                Icon = PackIconKind.Account;
+
+        }
+
         public Player(int id, string username)
         {
             this.Id = id;

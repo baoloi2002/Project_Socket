@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Project_Socket.Server
 {
@@ -27,13 +28,16 @@ namespace Project_Socket.Server
         private static void SendTCPToAllInMatch(Packet packet)
         {
             packet.InsertLength();
+            string tmp = "";
             for (int i = 1; i <= Constants.MAX_PLAYER; i++)
             {
                 if (Server.clients[i].player != null)
                 {
                     Server.clients[i].TCP.SendData(packet);
+                    tmp += i.ToString() + " ";
                 }
             }
+            MessageBox.Show(tmp);
         }
 
         // A client booted up the game and connected to the server
@@ -73,18 +77,6 @@ namespace Project_Socket.Server
             }
         }
         
-        public static void SendPlayerIntoGame(int toClient, Player player)
-        {
-            using (Packet packet = new Packet((int)ServerPackets.SendPlayerIntoGame))
-            {
-                packet.PutString(player.Name);
-                packet.PutInt(player.Id);
-                SendTCPData(toClient, packet);
-
-                Console.WriteLine($"Server sends to {toClient}: send player into game");
-            }
-        }
-
         public static void UpdatePlayerOrder()
         {
             using (Packet packet = new Packet((int)ServerPackets.UpdatePlayerOrder))
@@ -99,8 +91,8 @@ namespace Project_Socket.Server
                 foreach (ClientItem client in Server.clients.Values)
                 {
                     if (client.player != null)
-                    {
-                        packet.PutInt(client.player.Id);
+                    {                        
+                        packet.PutString(client.player.Name);
                         packet.PutInt(client.player.Order);                        
                         packet.PutBool(client.player.iskilled);
                     }

@@ -68,27 +68,6 @@ namespace Project_Socket.Server
             Player player = clients[clientId].ConstructPlayer(clientId, username);
             Console.WriteLine($"Player {username} joined the game successfully with id {clientId}.");
 
-            // Send every previous player to this new player
-            foreach (ClientItem client in clients.Values)
-            {
-                if (client.player != null)
-                {
-                    if (client.ID != clientId)
-                    {
-                        ServerSender.SendPlayerIntoGame(clientId, client.player);
-                    }
-                }
-            }
-
-            // Send the new player to every client previously inside the game (new player included)
-            foreach (ClientItem client in clients.Values)
-            {
-                if (client.player != null)
-                {
-                    ServerSender.SendPlayerIntoGame(client.ID, player);
-                }
-            }
-
             ServerSender.RegistrationSuccessful(clientId, clients[clientId].player);
 
             // The order should have changes, resend this to every client

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
+using System.Security.Cryptography.Xml;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace Project_Socket.Client
 {
@@ -8,23 +11,32 @@ namespace Project_Socket.Client
     {
         private static TcpClient client;
         private static NetworkStream stream;
-        private static byte[] buffer = new byte[1024];
+        private static Packet _data;
+        private static byte[] buffer;
 
-        public static int ID;
+        public static int ID = 0;
+        public static string nickname;
+        public static bool isRegSuccess = false;
 
         public delegate void PacketHandler(Packet _packet);
 
         public static Dictionary<int, PacketHandler> packetHandlers;
+        public static List<Player> playerList;
+        
 
         public static void HandlePacket(int id, Packet packet) => packetHandlers[id](packet);
 
+
+
         public static void Start()
         {
+            playerList = new List<Player>();
             packetHandlers = new Dictionary<int, PacketHandler>()
             {
-                { 
-                    (int)ServerPackets.WelcomePlayer, Client.RecieveID 
-                },
+                {(int)ServerPackets.WelcomePlayer, Client.RecieveID },
+                {(int)ServerPackets.RegistrationSuccessful, Client.RegistrationSuccessful },
+                {(int)ServerPackets.RegistrationFailed, Client.RegistrationFailed },
+                {(int)ServerPackets.UpdatePlayerOrder, Client.UpdatePlayerOrder },
             };
         }
 
@@ -33,12 +45,19 @@ namespace Project_Socket.Client
             try
             {
                 client = new TcpClient(server, port);
+                client.ReceiveBufferSize = Constants.DATA_BUFFER_SIZE;
+                client.SendBufferSize = Constants.DATA_BUFFER_SIZE;
+
                 stream = client.GetStream();
-                stream.BeginRead(buffer, 0, buffer.Length, OnReceivedData, null);
+                _data = new Packet();
+                buffer = new byte[Constants.DATA_BUFFER_SIZE];
+
+                stream.BeginRead(buffer, 0, Constants.DATA_BUFFER_SIZE, OnReceivedData, null);
             }
             catch (Exception e)
             {
                 Console.WriteLine("Error connecting to server: " + e.Message);
+                ID = -1;
             }
         }
 
@@ -58,10 +77,11 @@ namespace Project_Socket.Client
                 Array.Copy(buffer, data, byteLength);
 
                 // Handle the incoming data using the same packet format as the server
-                HandleData(data);
+                if (HandleData(data)) _data.Reset();
+                else _data.Revert();
 
                 // Read the next packet
-                stream.BeginRead(buffer, 0, buffer.Length, OnReceivedData, null);
+                stream.BeginRead(buffer, 0, Constants.DATA_BUFFER_SIZE, OnReceivedData, null);
             }
             catch (Exception e)
             {
@@ -70,24 +90,21 @@ namespace Project_Socket.Client
             }
         }
 
-        private static void HandleData(byte[] data)
+        private static bool HandleData(byte[] data)
         {
             // Parse the incoming data using the same packet format as the server
             int packetLength = 0;
-            Packet packet = new Packet();
-            packet.AssignBytes(data);
+            _data.AssignBytes(data);
 
-            if (packet.UnreadLength >= 4)
+            if (_data.UnreadLength >= 4)
             {
-                packetLength = packet.ReadInt();
-                if (packetLength <= 0) return; // The packet is empty
+                packetLength = _data.ReadInt();
+                if (packetLength <= 0) return true; // The packet is empty
             }
 
-            while (packetLength > 0 && packetLength <= packet.UnreadLength)
+            while (packetLength > 0 && packetLength <= _data.UnreadLength)
             {
-                byte[] packetBytes = packet.ReadBytes(packetLength);
-
-                // Handle the packet by calling the appropriate method based on the packet ID
+                byte[] packetBytes = _data.ReadBytes(packetLength);
                 ThreadManager.ExecuteWithPriority(() =>
                 {
                     using (Packet pt = new Packet(packetBytes))
@@ -99,34 +116,32 @@ namespace Project_Socket.Client
 
                 // Read the next packet
                 packetLength = 0;
-                if (packet.UnreadLength >= 4)
+                if (_data.UnreadLength >= 4)
                 {
-                    packetLength = packet.ReadInt();
-                    if (packetLength <= 0) return; // The packet is empty
+                    packetLength = _data.ReadInt();
+                    if (packetLength <= 0) return true; // The packet is empty
                 }
             }
 
-            if (packetLength <= 0) return; // Recycle packets
-            else packet.Revert();
-        }
-
-        public static void RecieveID(Packet packet)
-        {
-            ID = packet.ReadInt();
+            if (packetLength <= 0) return true; // Recycle packets
+            return false;
         }
 
         public static void Disconnect()
         {
-            if (client != null) client.Close();
+            if (client != null) return;
+            client.Close();
             client = null;
             stream = null;
+            _data = null;
+            buffer = null;
         }
 
         public static void sendDataToServer(Packet packet)
         {
             try
             {
-                stream.BeginWrite(packet.Array, 0, packet.Length, null, null);
+                if (client != null) stream.BeginWrite(packet.Array, 0, packet.Length, null, null);
             }
             catch (Exception e)
             {
@@ -148,12 +163,12 @@ namespace Project_Socket.Client
 
         #region SendThings
 
-        public static void SendUsername(string username)
+        public static void SendUsername()
         {
             using (Packet packet = new Packet((int)ClientPackets.ResendUsername))
             {
                 packet.PutInt(ID);
-                packet.PutString(username);
+                packet.PutString(nickname);
                 packet.InsertLength();
 
                 sendDataToServer(packet);
@@ -186,6 +201,34 @@ namespace Project_Socket.Client
 
         #endregion
         #region ReceiveThings
+        public static void UpdatePlayerOrder(Packet packet)
+        {
+            List<Player> nw = new List<Player>();
+            int num = packet.ReadInt();
+            for (int i = 0; i < num; ++i)
+            {
+                string name = packet.ReadString();
+                int order = packet.ReadInt();
+                bool iskilled = packet.ReadBool();
+                nw.Add(new Player(name, order, iskilled));
+            }
+            playerList = nw;
+        }
+
+        public static void RecieveID(Packet packet)
+        {
+            ID = packet.ReadInt();
+        }        
+        public static void RegistrationFailed(Packet packet)
+        {
+            nickname = "";
+        }       
+        public static void RegistrationSuccessful(Packet packet)
+        {
+            isRegSuccess = true;
+            ClientWindow.isAnnounce = true;
+        }
+
 
         public static void ReceivePlayerList(ref List<Player> players)
         {
@@ -204,6 +247,7 @@ namespace Project_Socket.Client
 
             //playerList.Add(new Player(newPlayerId, newPlayerName));
         }
+
 
         public static void ReceiveQuizQuestion(ref QuizQuestion question)
         {

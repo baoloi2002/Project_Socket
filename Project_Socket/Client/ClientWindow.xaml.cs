@@ -2,8 +2,11 @@
 using System.Security.Cryptography;
 using System.Threading;
 using System.Windows;
+using MaterialDesignThemes.Wpf;
 using Project_Socket;
 using Project_Socket.Server;
+using System.Windows.Navigation;
+using System.Timers;
 
 // TODO
 // 1. Add Game Menu: Play, Quit
@@ -18,43 +21,59 @@ namespace Project_Socket.Client
     /// </summary>
     public partial class ClientWindow : Window
     {
-
         private string serverIP = "127.0.0.1";
         private int serverPort = 1234;
-        private string nickname = "Bob";
+        public static bool isAnnounce = false;
+        private System.Timers.Timer timer; // add a timer field
 
         public ClientWindow()
         {
             InitializeComponent();
             Client.Start();
-
-            Thread mainThread = new Thread(new ThreadStart(MainThread));
-            mainThread.Start();
             Client.Connect(serverIP, serverPort);
+
+            // initialize the timer with a 1-second interval
+            timer = new System.Timers.Timer(100);
+            timer.Elapsed += Timer_Elapsed; // register the event handler
+            timer.Start(); // start the timer
         }
-
-        private void MainThread()
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            DateTime nextLoop = DateTime.Now;
-
-            while (nextLoop < DateTime.Now)
+            // this code will be executed every 1 second
+            // you can put your desired logic here
+            // for example, updating a label with the current time
+            Dispatcher.Invoke(() =>
             {
                 ThreadManager.Update();
-                nextLoop = nextLoop.AddMilliseconds(Constants.MS_PER_TICK); // Calculate at what point in time the next tick should be executed
-
-                if (nextLoop > DateTime.Now)
+                if (isAnnounce)
                 {
-                    // If the execution time for the next tick is in the future, aka the server is NOT running behind
-                    Thread.Sleep(nextLoop - DateTime.Now); // Let the thread sleep until it's needed again.
+                    isAnnounce = false;
+                    if (Client.isRegSuccess)
+                    {
+                        ClientGame clientGame = new ClientGame();
+                        clientGame.Show();
+                        this.Close();
+                        timer.Stop();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Username wrong");
+                    }
                 }
-            }
-
+            });
         }
+
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
-            Client.SendUsername(txtNickname.Text);
-            ClientGame clientGame = new ClientGame();
-            this.Content = clientGame;
+            if (Client.ID == -1)
+            {
+                MessageBox.Show("No SLOT TO CONNECT");                
+            }
+            else
+            {
+                Client.nickname = txtNickname.Text;
+                Client.SendUsername();
+            }
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Project_Socket.Server
 
         public void DestroyPlayer()
         {
-            //Server.RemovePlayerFromGame(ID);
+            Server.RemovePlayerFromGame(ID);
             player = null;
         }
 
