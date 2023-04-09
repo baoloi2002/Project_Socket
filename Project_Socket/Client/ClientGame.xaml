@@ -38,8 +38,8 @@
                 <RowDefinition Height="3*" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Margin="20">
-                <materialDesign:Card Padding="32" Background="CornflowerBlue">
-                    <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Name="QuestionBlock">
+                <materialDesign:Card Padding="5" Background="CornflowerBlue">
+                    <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Name="QuestionBlock">
                         Hello world, this where question should be
                     </TextBlock>
                 </materialDesign:Card>
