@@ -22,6 +22,8 @@ namespace Project_Socket.Client
 
         public static Dictionary<int, PacketHandler> packetHandlers;
         public static List<Player> playerList;
+
+        public static QuizQuestion question;
         
 
         public static void HandlePacket(int id, Packet packet) => packetHandlers[id](packet);
@@ -34,11 +36,31 @@ namespace Project_Socket.Client
             packetHandlers = new Dictionary<int, PacketHandler>()
             {
                 {(int)ServerPackets.WelcomePlayer, Client.RecieveID },
-                {(int)ServerPackets.RegistrationSuccessful, Client.RegistrationSuccessful },
+                {(int)ServerPackets.PlayerLeave, Client.ReceivePlayerLeave },
+
                 {(int)ServerPackets.RegistrationFailed, Client.RegistrationFailed },
+                {(int)ServerPackets.RegistrationSuccessful, Client.RegistrationSuccessful },
+
+                {(int)ServerPackets.SendPlayerIntoGame, Client.ReceiveSendPlayerIntoGame },
+                {(int)ServerPackets.RemovePlayerFromGame, Client.ReceiveRemovePlayerFromGame },
                 {(int)ServerPackets.UpdatePlayerOrder, Client.UpdatePlayerOrder },
+                {(int)ServerPackets.CountdownStartGame, Client.CountdownStartGame },
+
+                {(int)ServerPackets.SetupGame, Client.SetupGame },
+                {(int)ServerPackets.StartRound, Client.StartRound },
+                {(int)ServerPackets.SendQuestion, Client.ReceiveSendQuestion },
+                {(int)ServerPackets.SendAnswer, Client.ReceiveSendAnswer },
+                {(int)ServerPackets.SkipQuiz, Client.ReceiveSkipQuiz },
+                {(int)ServerPackets.WaitForNextPlayer, Client.ReceiveWaitForNextPlayer },
+                {(int)ServerPackets.PickNextPlayer, Client.ReceivePickNextPlayer },
+                {(int)ServerPackets.VerifyAnswer, Client.ReceiveVerifyAnswer },
+                {(int)ServerPackets.ShowResult, Client.ReceiveShowResult },
+                {(int)ServerPackets.EndRound, Client.EndRound },
+                {(int)ServerPackets.EndGame, Client.ReceiveEndGame },
+                {(int)ServerPackets.UpdateRoundInfo, Client.ReceiveUpdateRoundInfo },
             };
         }
+
 
         public static void Connect(string server, int port)
         {
@@ -228,45 +250,48 @@ namespace Project_Socket.Client
             isRegSuccess = true;
             ClientWindow.isAnnounce = true;
         }
-
-
-        public static void ReceivePlayerList(ref List<Player> players)
+        public static void ReceiveSendQuestion(Packet packet)
         {
-            static void ReceivePlayerList_handler(Packet packet)
-            {
-                string newPlayerName = packet.ReadString();
-                int newPlayerId = packet.ReadInt();
-
-            }
-            packetHandlers = new Dictionary<int, PacketHandler>()
-            {
-                {
-                    (int)ServerPackets.SendPlayerIntoGame, ReceivePlayerList_handler
-                },
-            };
-
-            //playerList.Add(new Player(newPlayerId, newPlayerName));
-        }
-
-
-        public static void ReceiveQuizQuestion(ref QuizQuestion question)
+            question = new QuizQuestion();
+            question.question = packet.ReadString();
+            string c0 = packet.ReadString();
+            string c1 = packet.ReadString();
+            string c2 = packet.ReadString();
+            string c3 = packet.ReadString();
+            question.choices = new string[]{ c0, c1, c2, c3};
+        }        
+        public static void ReceiveSendAnswer(Packet packet)
         {
-            static void Local_ReceiveQuizQuestion_handler(Packet packet)
-            {
-                string question = packet.ReadString();
-                string choices = packet.ReadString();
-                string answer = packet.ReadString();
-                
-
-            }
-            packetHandlers = new Dictionary<int, PacketHandler>()
-            {
-                {
-                    (int)ServerPackets.SendQuestion, Local_ReceiveQuizQuestion_handler
-                },
-            };
+            question.answer = packet.ReadInt();
+        }  
+        public static void StartRound(Packet packet)
+        {
 
         }
+        public static void CountdownStartGame(Packet packet)
+        {
+
+        }
+        public static void ReceiveSkipQuiz(Packet packet)
+        {
+
+        }
+
+        public static void EndRound(Packet packet)
+        {
+
+        }
+
+        public static void ReceivePlayerLeave(Packet packet) { }
+        public static void ReceiveSendPlayerIntoGame(Packet packet) { }
+        public static void ReceiveRemovePlayerFromGame(Packet packet) { }
+        public static void SetupGame(Packet packet) { }
+        public static void ReceiveWaitForNextPlayer(Packet packet) { }
+        public static void ReceivePickNextPlayer(Packet packet) { }
+        public static void ReceiveVerifyAnswer(Packet packet) { }
+        public static void ReceiveShowResult(Packet packet) { }
+        public static void ReceiveEndGame(Packet packet) { }
+        public static void ReceiveUpdateRoundInfo(Packet packet) { }
 
         #endregion
     }

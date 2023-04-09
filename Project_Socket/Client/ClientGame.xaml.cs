@@ -56,6 +56,7 @@ namespace Project_Socket.Client
                     Dispatcher.Invoke(() =>
                     {
                         UpdatePlayerList();
+                        Update();
                     });
 
                     nextLoop = nextLoop.AddMilliseconds(Constants.MS_PER_TICK); // Calculate at what point in time the next tick should be executed
@@ -98,15 +99,13 @@ namespace Project_Socket.Client
         }
         private void Update()
         {
-            // Receive question from server and change window content
-            Client.ReceiveQuizQuestion(ref question);
+            if (Client.question == null) return;
+            QuestionBlock.Text = Client.question.question;
 
-            QuestionBlock.Text = question.question;
-
-            Choice_1.Content = question.choices[0];
-            Choice_2.Content = question.choices[1];
-            Choice_3.Content = question.choices[2];
-            Choice_4.Content = question.choices[3];
+            Choice_1.Content = Client.question.choices[0];
+            Choice_2.Content = Client.question.choices[1];
+            Choice_3.Content = Client.question.choices[2];
+            Choice_4.Content = Client.question.choices[3];
         }
 
         private void Choice_Click(object sender, RoutedEventArgs e)
@@ -174,7 +173,7 @@ namespace Project_Socket.Client
 
         private void Skip_Click(object sender, RoutedEventArgs e)
         {
-            if (isSkip) return;
+            if (isSkip || !isTurn) return;
             isSkip = true;
             isTurn = false;
             Client.SendSkip(1);

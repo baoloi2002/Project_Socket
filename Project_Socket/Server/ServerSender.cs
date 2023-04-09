@@ -28,16 +28,13 @@ namespace Project_Socket.Server
         private static void SendTCPToAllInMatch(Packet packet)
         {
             packet.InsertLength();
-            string tmp = "";
             for (int i = 1; i <= Constants.MAX_PLAYER; i++)
             {
                 if (Server.clients[i].player != null)
                 {
                     Server.clients[i].TCP.SendData(packet);
-                    tmp += i.ToString() + " ";
                 }
             }
-            MessageBox.Show(tmp);
         }
 
         // A client booted up the game and connected to the server
@@ -159,12 +156,11 @@ namespace Project_Socket.Server
         {
             using (Packet packet = new Packet((int)ServerPackets.SendQuestion))
             {
-                string tmp = question.question;
-                for (int i = 0; i < question.choices.Length; i++)
-                {
-                    tmp += "\n" + question.choices[i].ToString();
-                }
-                packet.PutString(tmp);
+                packet.PutString(question.question);
+                packet.PutString(question.choices[0]);
+                packet.PutString(question.choices[1]);
+                packet.PutString(question.choices[2]);
+                packet.PutString(question.choices[3]);
                 SendTCPToAllInMatch(packet);                
             }
         }

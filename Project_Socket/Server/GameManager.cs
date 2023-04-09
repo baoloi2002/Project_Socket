@@ -81,7 +81,6 @@ namespace Project_Socket.Server
         {
             if (MatchManager.currentTurn == MatchManager._Turn) return lastTakeP;
             MatchManager._Turn = MatchManager.currentTurn;
-            MessageBox.Show("Turn " + MatchManager._Turn.ToString());
             int mi = int.MaxValue;
             int mx = int.MinValue;
             Player player = null;
