@@ -43,7 +43,6 @@ namespace Project_Socket.Server
             isUsedSkill = new Dictionary<int, bool>();
             ChangeState(MatchState.INIT);
             _Turn = 0;
-            currentTurn = 1;
         }
 
         public static void Update() 
@@ -171,7 +170,6 @@ namespace Project_Socket.Server
                     break;
 
                 case MatchState.START_ROUND:
-                    currentTurn += 1;
                     currentRound += 1;
                     // Choose a random question
                     curQuiz += 1;

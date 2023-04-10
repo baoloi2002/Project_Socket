@@ -209,12 +209,12 @@ namespace Project_Socket.Client
             }
         }
 
-        public static void SendSkip(int skip)
+        public static void SendSkip()
         {
-            using (Packet packet = new Packet((int)ClientPackets.Skip))
+            using (Packet packet = new Packet((int)ClientPackets.GiveAnswer))
             {
                 packet.PutInt(ID);
-                packet.PutInt(skip);
+                packet.PutInt(5);
                 packet.InsertLength();
 
                 sendDataToServer(packet);
@@ -235,6 +235,18 @@ namespace Project_Socket.Client
                 nw.Add(new Player(name, order, iskilled));
             }
             playerList = nw;
+            int bestID = -1, bestOrder = -1;
+            foreach(Player player in playerList)
+            {
+                if (player.iskilled) continue;
+                if (player.Order > bestOrder)
+                {
+                    bestOrder = player.Order;
+                    bestID = player.Id;
+                }
+            }
+            if (bestID == ID)
+                ClientGame.isTurn = true;
         }
 
         public static void RecieveID(Packet packet)
@@ -259,6 +271,7 @@ namespace Project_Socket.Client
             string c2 = packet.ReadString();
             string c3 = packet.ReadString();
             question.choices = new string[]{ c0, c1, c2, c3};
+            question.answer = -1;
         }        
         public static void ReceiveSendAnswer(Packet packet)
         {

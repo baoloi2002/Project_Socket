@@ -32,8 +32,9 @@ namespace Project_Socket.Client
     public partial class ClientGame : Window
     {
         private QuizQuestion question;
-        private int clientAnswer;
-        private bool gameEnd = false, isTurn = true, isSkip = false, isInGame;
+        public static int clientAnswer = 4; // 4 is nothing, 0-3 answer, 5 is skip
+        private bool gameEnd = false, isSkip = false, isInGame;
+        public static bool isTurn = false;
 
         public ClientGame()
         {
@@ -57,6 +58,7 @@ namespace Project_Socket.Client
                     {
                         UpdatePlayerList();
                         Update();
+                        UpdateQuestionUI();
                     });
 
                     nextLoop = nextLoop.AddMilliseconds(Constants.MS_PER_TICK); // Calculate at what point in time the next tick should be executed
@@ -70,11 +72,64 @@ namespace Project_Socket.Client
             }
         }
 
-        private void waitForTurn()
+        private void UpdateQuestionUI()
         {
-            // Do something to wait
-            // If is turn, do update
-            Update();
+            if (clientAnswer == 4) return;
+            if (clientAnswer == 5) return;
+            if (question.answer == -1) return;
+            if (clientAnswer == Client.question.answer)
+            {
+                switch (clientAnswer)
+                {
+                    case 0:
+                        {
+                            Choice_1.Background= System.Windows.Media.Brushes.Green;
+                            break;
+                        }
+                    case 1:
+                        {
+                            Choice_2.Background = System.Windows.Media.Brushes.Green;
+                            break;
+                        }
+                    case 2:
+                        {
+                            Choice_3.Background = System.Windows.Media.Brushes.Green;
+                            break;
+                        }
+                    case 3:
+                        {
+                            Choice_4.Background = System.Windows.Media.Brushes.Green;
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                switch (clientAnswer)
+                {
+                    case 0:
+                        {
+                            Choice_1.Background = System.Windows.Media.Brushes.Red;
+                            break;
+                        }
+                    case 1:
+                        {
+                            Choice_2.Background = System.Windows.Media.Brushes.Red;
+                            break;
+                        }
+                    case 2:
+                        {
+                            Choice_3.Background = System.Windows.Media.Brushes.Red;
+                            break;
+                        }
+                    case 3:
+                        {
+                            Choice_4.Background = System.Windows.Media.Brushes.Red;
+                            break;
+                        }
+                }
+            }
+            clientAnswer = 4;
         }
 
         private void UpdatePlayerList()
@@ -95,7 +150,7 @@ namespace Project_Socket.Client
 
                 return u.iskilled.CompareTo(v.iskilled);
             });
-            lstUsersView.ItemsSource = sortedList;
+            lstUsersView.ItemsSource = sortedList;          
         }
         private void Update()
         {
@@ -110,9 +165,8 @@ namespace Project_Socket.Client
 
         private void Choice_Click(object sender, RoutedEventArgs e)
         {
-            //if (question != null)
-            //{
-            // Check if clicked button is the correct
+            if (!isTurn || clientAnswer ==4) return;
+
             Button clickedButton = (Button)sender;
 
             // Convert button name to integer, to send to client or compare with answer
@@ -120,63 +174,35 @@ namespace Project_Socket.Client
             {
                 case "Choice_1":
                     {
-                        clientAnswer = 1;
+                        clientAnswer = 0;
                         break;
                     }
                 case "Choice_2":
                     {
-                        clientAnswer = 2;
+                        clientAnswer = 1;
                         break;
                     }
                 case "Choice_3":
                     {
-                        clientAnswer = 3;
+                        clientAnswer = 2;
                         break;
                     }
                 case "Choice_4":
                     {
-                        clientAnswer = 4;
+                        clientAnswer = 3;
                         break;
                     }
             }
-            if (question.isCorrect(clientAnswer))
-            {
-                clickedButton.Background = System.Windows.Media.Brushes.Red;
-                isTurn = false;
-
-                // Disqualify (handled by server)
-                Client.Disconnect();
-                QuestionBlock.Visibility = Visibility.Collapsed;
-            }
-            switch (question.answer)
-            {
-                case 1:
-                    Choice_1.Background = System.Windows.Media.Brushes.Red;
-                    break;
-
-                case 2:
-                    Choice_2.Background = System.Windows.Media.Brushes.Green;
-                    break;
-
-                case 3:
-                    Choice_3.Background = System.Windows.Media.Brushes.Green;
-                    break;
-
-                case 4:
-                    Choice_4.Background = System.Windows.Media.Brushes.Green;
-                    break;
-            }
-
             Client.SendAnswer(clientAnswer);
-            //}
         }
 
         private void Skip_Click(object sender, RoutedEventArgs e)
         {
             if (isSkip || !isTurn) return;
-            isSkip = true;
+            clientAnswer = 5;
+            //isSkip = true;
             isTurn = false;
-            Client.SendSkip(1);
+            Client.SendSkip();
         }
     }
 }
