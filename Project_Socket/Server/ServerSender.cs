@@ -88,7 +88,8 @@ namespace Project_Socket.Server
                 foreach (ClientItem client in Server.clients.Values)
                 {
                     if (client.player != null)
-                    {                        
+                    {
+                        packet.PutInt(client.player.Id);
                         packet.PutString(client.player.Name);
                         packet.PutInt(client.player.Order);                        
                         packet.PutBool(client.player.iskilled);

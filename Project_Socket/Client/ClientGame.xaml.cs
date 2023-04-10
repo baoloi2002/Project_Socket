@@ -59,6 +59,7 @@ namespace Project_Socket.Client
                         UpdatePlayerList();
                         Update();
                         UpdateQuestionUI();
+                        UpdateUI();
                     });
 
                     nextLoop = nextLoop.AddMilliseconds(Constants.MS_PER_TICK); // Calculate at what point in time the next tick should be executed
@@ -194,6 +195,20 @@ namespace Project_Socket.Client
                     }
             }
             Client.SendAnswer(clientAnswer);
+        }
+
+        private void UpdateUI()
+        {
+            if (isTurn)
+            {
+                turnAnnounce.Visibility = Visibility.Visible;
+                
+            }
+            else
+            {
+                turnAnnounce.Visibility = Visibility.Hidden;
+
+            }
         }
 
         private void Skip_Click(object sender, RoutedEventArgs e)

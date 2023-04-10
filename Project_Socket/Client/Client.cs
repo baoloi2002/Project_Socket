@@ -229,10 +229,11 @@ namespace Project_Socket.Client
             int num = packet.ReadInt();
             for (int i = 0; i < num; ++i)
             {
+                int id = packet.ReadInt();
                 string name = packet.ReadString();
                 int order = packet.ReadInt();
                 bool iskilled = packet.ReadBool();
-                nw.Add(new Player(name, order, iskilled));
+                nw.Add(new Player(id, name, order, iskilled));
             }
             playerList = nw;
             int bestID = -1, bestOrder = -1;

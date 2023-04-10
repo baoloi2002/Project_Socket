@@ -33,16 +33,15 @@ namespace Project_Socket.Server
         private static MatchState _matchState = MatchState.END;
         private static Action _timerCallback;
         private static bool _isAnswered = false;
-        public static int currentRound;
-        public static int currentTurn, _Turn;
+        public static int currentRound, _Round;
 
         public static void Start()
         {
             curQuiz = -1;
             currentRound = 0;
+            _Round = 0;
             isUsedSkill = new Dictionary<int, bool>();
-            ChangeState(MatchState.INIT);
-            _Turn = 0;
+            ChangeState(MatchState.INIT);            
         }
 
         public static void Update() 

@@ -79,8 +79,8 @@ namespace Project_Socket.Server
 
         public static Player DetermineNextPlayer()
         {
-            if (MatchManager.currentTurn == MatchManager._Turn) return lastTakeP;
-            MatchManager._Turn = MatchManager.currentTurn;
+            if (MatchManager._Round == MatchManager.currentRound) return lastTakeP;
+            MatchManager._Round = MatchManager.currentRound;
             int mi = int.MaxValue;
             int mx = int.MinValue;
             Player player = null;
