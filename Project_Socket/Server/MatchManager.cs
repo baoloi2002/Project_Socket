@@ -34,12 +34,14 @@ namespace Project_Socket.Server
         private static Action _timerCallback;
         private static bool _isAnswered = false;
         public static int currentRound, _Round;
+        public static int _ID;
 
         public static void Start()
         {
             curQuiz = -1;
             currentRound = 0;
             _Round = 0;
+            _ID = 0;
             isUsedSkill = new Dictionary<int, bool>();
             ChangeState(MatchState.INIT);            
         }

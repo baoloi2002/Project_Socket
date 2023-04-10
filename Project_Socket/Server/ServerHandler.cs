@@ -31,7 +31,10 @@ namespace Project_Socket.Server
 
         public static void GiveAnswer(int fromClient, Packet packet)
         {
-
+            int clientId = packet.ReadInt();
+            int answer = packet.ReadInt();
+            if (MatchManager._ID == fromClient)
+                MatchManager.HandleAnswer(clientId, packet.ReadInt());
         }
         public static void HandleUsername(int clientId, string username)
         {

@@ -105,6 +105,7 @@ namespace Project_Socket.Server
                 player.Order = mx + 1;
             }
             lastTakeP = player;
+            MatchManager._ID = player.Id;
             return player;
         }
 
