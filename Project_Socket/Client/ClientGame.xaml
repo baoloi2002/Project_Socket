@@ -38,9 +38,15 @@
                 <RowDefinition Height="4*" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Margin="20">
+                <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,-18,0,0">
+                    Time left:
+                </TextBlock>
+                <TextBlock FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="59,-18,0,0" Name="leftTimer">
+                    1000
+                </TextBlock>
                 <materialDesign:Card Padding="5" Background="CornflowerBlue">
                     <TextBlock Margin="10" FontSize="25" TextAlignment="Center" TextWrapping="Wrap" Style="{DynamicResource MaterialDesignTitleTextBlock}" HorizontalAlignment="Center" VerticalAlignment="Center" Name="QuestionBlock">
-                        Hello world, this where question should be
+                        Hello world, this is where question should be
                     </TextBlock>
                 </materialDesign:Card>
             </Grid>

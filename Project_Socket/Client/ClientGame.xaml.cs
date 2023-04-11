@@ -35,6 +35,7 @@ namespace Project_Socket.Client
         public static int clientAnswer = 4; // 4 is nothing, 0-3 answer, 5 is skip
         private bool gameEnd = false, isSkip = false, isInGame;
         public static bool isTurn = false;
+
         public static float _Timer = 1;
         private static DateTime _lastTick = DateTime.Now;
 
@@ -58,7 +59,6 @@ namespace Project_Socket.Client
                     ThreadManager.Update();
                     Dispatcher.Invoke(() =>
                     {
-                        UpdatePlayerList();
                         Update();
                         UpdateQuestionUI();
                         UpdateUI();
@@ -76,58 +76,81 @@ namespace Project_Socket.Client
             }
         }
 
-        private void UpdateQuestionUI()
+        // This waits for turn signal from server (after skipping)
+        private void waitForTurn()
+        {
+            while (!isTurn)
+            {
+                // Wait for signal from server
+                Client.ReceiveWaitForNextPlayer();
+
+            }
+            isTurn = false;
+        }
+
+
+        // This function gets called if player click a button
+        private void UpdateChoicesColor()
         {
             if (clientAnswer == 4) return;
             if (clientAnswer == 5) return;
             if (question.answer == -1) return;
-            switch (clientAnswer)
+
+            // Paint green the right answer
+            switch (question.answer)
             {
                 case 0:
-                    {
-                        Choice_1.Background = System.Windows.Media.Brushes.Red;
-                        break;
-                    }
-                case 1:
-                    {
-                        Choice_2.Background = System.Windows.Media.Brushes.Red;
-                        break;
-                    }
-                case 2:
-                    {
-                        Choice_3.Background = System.Windows.Media.Brushes.Red;
-                        break;
-                    }
-                case 3:
-                    {
-                        Choice_4.Background = System.Windows.Media.Brushes.Red;
-                        break;
-                    }
-            }
-
-
-            switch (Client.question.answer)
-            {
-                case 0:
-                    {
+                {
                         Choice_1.Background = System.Windows.Media.Brushes.Green;
                         break;
-                    }
-                case 1:
-                    {
+                } 
+            case 1:
+                {
                         Choice_2.Background = System.Windows.Media.Brushes.Green;
                         break;
-                    }
-                case 2:
-                    {
+                }
+            case 2:
+                {
                         Choice_3.Background = System.Windows.Media.Brushes.Green;
                         break;
-                    }
-                case 3:
-                    {
+                }
+            case 3:
+                {
                         Choice_4.Background = System.Windows.Media.Brushes.Green;
                         break;
-                    }
+                }
+            }
+
+            // Paint red if client choose the wrong answer
+            if (!question.isCorrect(clientAnswer))
+            {
+                switch (clientAnswer)
+                {
+                    case 0:
+                        {
+                            Choice_1.Background = System.Windows.Media.Brushes.Red;
+                            break;
+                        }
+                    case 1:
+                        {
+                            Choice_2.Background = System.Windows.Media.Brushes.Red;
+                            break;
+                        }
+                    case 2:
+                        {
+                            Choice_3.Background = System.Windows.Media.Brushes.Red;
+                            break;
+                        }
+                    case 3:
+                        {
+                            Choice_4.Background = System.Windows.Media.Brushes.Red;
+                            break;
+                        }
+                }
+
+                // Player disqualified
+                gameEnd = true;
+
             }
             clientAnswer = 4;
         }
@@ -152,19 +175,46 @@ namespace Project_Socket.Client
             });
             lstUsersView.ItemsSource = sortedList;          
         }
-        private void Update()
+        private void UpdateQuizQuestion()
         {
             if (Client.question == null) return;
             QuestionBlock.Text = Client.question.question;
 
+            // Change button color to default
+            Choice_1.Background = System.Windows.Media.Brushes.RosyBrown;
+            Choice_2.Background = System.Windows.Media.Brushes.RosyBrown;
+            Choice_3.Background = System.Windows.Media.Brushes.RosyBrown;
+            Choice_4.Background = System.Windows.Media.Brushes.RosyBrown;
+
+            // Update choices
             Choice_1.Content = Client.question.choices[0];
             Choice_2.Content = Client.question.choices[1];
             Choice_3.Content = Client.question.choices[2];
             Choice_4.Content = Client.question.choices[3];
         }
+        private void UpdateTurnDisplay()
+        {
+            if (isTurn)
+            {
+                turnAnnounce.Visibility = Visibility.Visible;
+
+            }
+            else
+            {
+                turnAnnounce.Visibility = Visibility.Hidden;
+
+            }
+        }
+        
+        private void timerCountdown(int time)
+        {
+            int timeleft = time - 1;
+            leftTimer.Text = timeleft.ToString();
+        }
 
         private void Choice_Click(object sender, RoutedEventArgs e)
         {
+
             if (!isTurn || clientAnswer !=4) return;
 
             Button clickedButton = (Button)sender;
@@ -195,20 +245,9 @@ namespace Project_Socket.Client
             }
             _Timer = 0;
             Client.SendAnswer(clientAnswer);
-        }
 
-        private void UpdateUI()
-        {
-            if (isTurn)
-            {
-                turnAnnounce.Visibility = Visibility.Visible;
-                
-            }
-            else
-            {
-                turnAnnounce.Visibility = Visibility.Hidden;
-
-            }
+            // Change button color 
+            UpdateChoicesColor();
         }
 
         private void Skip_Click(object sender, RoutedEventArgs e)
@@ -218,6 +257,10 @@ namespace Project_Socket.Client
             //isSkip = true;
             isTurn = false;
             Client.SendSkip();
+
+            // Change to 'not your turn'
+            UpdateTurnDisplay();
+
         }
 
         private void UpdateTimer()
