@@ -29,6 +29,7 @@ public enum ServerPackets
     UpdateRoundInfo,
 
     NumberOfQuestion,
+    YOUWIN,
 }
 
 public enum ClientPackets

@@ -190,5 +190,18 @@ namespace Project_Socket.Server
                 SendTCPToAllInMatch(packet);
             }
         }
+        public static void SendYOUWIN()
+        {
+            using (Packet packet = new Packet((int)(ServerPackets.YOUWIN)))
+            {                
+                foreach(ClientItem client in Server.clients.Values)
+                {
+                    if (client != null &&  client.player != null && !client.player.iskilled)
+                    {
+                        SendTCPData(client.player.Id, packet);
+                    }
+                }
+            }
+        }
     }
 }

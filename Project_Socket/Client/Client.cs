@@ -62,6 +62,7 @@ namespace Project_Socket.Client
                 {(int)ServerPackets.UpdateRoundInfo, Client.ReceiveUpdateRoundInfo },
 
                 {(int)ServerPackets.NumberOfQuestion, Client.ReceiveNumberOfQuestion },
+                {(int)ServerPackets.YOUWIN, Client.YOUWIN },
             };
         }
 
@@ -325,6 +326,10 @@ namespace Project_Socket.Client
             NumberOfQuestion = packet.ReadInt();
         }
 
+        public static void YOUWIN(Packet packet) 
+        {
+
+        }
         public static void ReceivePlayerLeave(Packet packet) { }
         public static void ReceiveSendPlayerIntoGame(Packet packet) { }
         public static void ReceiveRemovePlayerFromGame(Packet packet) { }
