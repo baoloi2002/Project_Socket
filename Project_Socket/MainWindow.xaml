@@ -15,32 +15,39 @@
      Background="{DynamicResource MaterialDesignPaper}"
      FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
+        
         <!-- Split the screen into two grids -->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
         <!-- First grid (top) -->
-        <Grid Grid.Row="0">
+        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+            <TextBlock HorizontalAlignment="Center" FontSize="40" FontWeight="Bold" Foreground="CadetBlue">
+                Run a Client
+            </TextBlock>
             <!-- Put your content here -->
-            <Button
+            <Button Margin="20" Grid.Row="1"
                 Name="btnClient"
   Content="Client"
   IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
   Style="{StaticResource MaterialDesignFlatMidBgButton}"
   ToolTip="MaterialDesignFlatMidButton" Click="btnClient_Click" />
-        </Grid>
+        </StackPanel>
 
         <!-- Second grid (bottom) -->
-        <Grid Grid.Row="1">
+        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+            <TextBlock HorizontalAlignment="Center" FontSize="40" FontWeight="Bold" Foreground="DarkGoldenrod">
+                Run a Server
+            </TextBlock>
             <!-- Put your content here -->
-            <Button
+            <Button Margin="20"
                 Name="btnServer"
   Content="Server"
   IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
   Style="{StaticResource MaterialDesignFlatMidBgButton}"
   ToolTip="MaterialDesignFlatMidButton" Click="btnServer_Click" />
-        </Grid>
+        </StackPanel>
     </Grid>
 </Window>

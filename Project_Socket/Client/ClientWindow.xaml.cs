@@ -8,29 +8,22 @@ using Project_Socket.Server;
 using System.Windows.Navigation;
 using System.Timers;
 
-// TODO
-// 1. Add Game Menu: Play, Quit
-// 2. Play Window: Server IP, Port, Nickname, Connect
-// 3. If click Connect -> Game Window (which is already done)
-// 4. Win Window: Win, Quit
 
 namespace Project_Socket.Client
 {
-    /// <summary>
-    /// Interaction logic for ClientWindow.xaml
-    /// </summary>
     public partial class ClientWindow : Window
     {
+        // default
         private string serverIP = "127.0.0.1";
         private int serverPort = 1234;
+
         public static bool isAnnounce = false;
-        private System.Timers.Timer timer; // add a timer field
+        public static System.Timers.Timer timer; // add a timer field
 
         public ClientWindow()
         {
             InitializeComponent();
             Client.Start();
-            Client.Connect(serverIP, serverPort);
 
             // initialize the timer with a 1-second interval
             timer = new System.Timers.Timer(100);
@@ -65,15 +58,19 @@ namespace Project_Socket.Client
 
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
-            if (Client.ID == -1)
-            {
-                MessageBox.Show("No SLOT TO CONNECT");                
-            }
-            else
-            {
+            //if (Client.ID == -1)
+            //{
+            //    MessageBox.Show("No SLOT TO CONNECT");                
+            //}
+            //else
+            //{
+            string[] temp = serverAddress.Text.Split(':');
+            serverIP = temp[0];
+            serverPort = int.Parse(temp[1]);
+                Client.Connect(serverIP, serverPort);
                 Client.nickname = txtNickname.Text;
                 Client.SendUsername();
-            }
+            //}
         }
     }
 }

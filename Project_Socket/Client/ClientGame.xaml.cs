@@ -57,9 +57,12 @@ namespace Project_Socket.Client
                     ThreadManager.Update();
                     Dispatcher.Invoke(() =>
                     {
+                        // Constantly check player list
                         UpdatePlayerList();
+
+                        // Wait for new question
                         UpdateQuizQuestion();
-                        UpdateTurnDisplay();
+                        
                     });
 
                     nextLoop = nextLoop.AddMilliseconds(Constants.MS_PER_TICK); // Calculate at what point in time the next tick should be executed
@@ -72,6 +75,19 @@ namespace Project_Socket.Client
                 }
             }
         }
+
+        // This waits for turn signal from server (after skipping)
+        private void waitForTurn()
+        {
+            while (!isTurn)
+            {
+                // Wait for signal from server
+                Client.ReceiveWaitForNextPlayer();
+
+            }
+            isTurn = false;
+        }
+
 
         // This function gets called if player click a button
         private void UpdateChoicesColor()
@@ -131,6 +147,9 @@ namespace Project_Socket.Client
                             break;
                         }
                 }
+
+                // Player disqualified
+                gameEnd = true;
             }
             clientAnswer = 4;
         }
@@ -223,6 +242,9 @@ namespace Project_Socket.Client
                     }
             }
             Client.SendAnswer(clientAnswer);
+
+            // Change button color 
+            UpdateChoicesColor();
         }
 
         private void Skip_Click(object sender, RoutedEventArgs e)
@@ -232,6 +254,10 @@ namespace Project_Socket.Client
             //isSkip = true;
             isTurn = false;
             Client.SendSkip();
+
+            // Change to 'not your turn'
+            UpdateTurnDisplay();
+
         }
     }
 }

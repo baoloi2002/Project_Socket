@@ -41,7 +41,7 @@
                 <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,-18,0,0">
                     Time left:
                 </TextBlock>
-                <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Margin="59,-18,0,0" Name="leftTimer">
+                <TextBlock FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="59,-18,0,0" Name="leftTimer">
                     1000
                 </TextBlock>
                 <materialDesign:Card Padding="5" Background="CornflowerBlue">
