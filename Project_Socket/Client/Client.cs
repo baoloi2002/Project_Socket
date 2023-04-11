@@ -295,7 +295,8 @@ namespace Project_Socket.Client
         }
         public static void CountdownStartGame(Packet packet)
         {
-
+            ClientGame._Timer = Constants.TIME_PER_ROUND;
+            ClientGame.isSkip = false;
         }
         public static void ReceiveSkipQuiz(Packet packet)
         {

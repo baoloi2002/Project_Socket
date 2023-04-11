@@ -33,13 +33,12 @@ namespace Project_Socket.Server
         private static MatchState _matchState = MatchState.END;
         private static Action _timerCallback;
         private static bool _isAnswered = false;
-        public static int currentRound, _Round;
+        public static int currentRound = 0, _Round;
         public static int _ID;
 
         public static void Start()
         {
             curQuiz = -1;
-            currentRound = 0;
             _Round = 0;
             _ID = 0;
             isUsedSkill = new Dictionary<int, bool>();
@@ -97,9 +96,8 @@ namespace Project_Socket.Server
             {
                 isUsedSkill[clientId] = true;
                 // Do something
-                if (_waitTimer > 0)
-                    return;
                 ChangeState(MatchState.SKIP_QUIZ);
+                return;
             }
             if (quizList[curQuiz].answer != ans)
             {
@@ -164,7 +162,6 @@ namespace Project_Socket.Server
             switch (_matchState)
             {
                 case MatchState.INIT:
-                    currentRound = 0;
                     quizList = LoadQuestions("QuizList.json");
                     curQuiz = -1;
                     ServerSender.SetupGame();
@@ -216,12 +213,14 @@ namespace Project_Socket.Server
                     break;
 
                 case MatchState.SKIP_QUIZ:
-                    ServerSender.SkipQuiz(_currentPlayer);
+                    ServerSender.SkipQuiz();
+                    currentRound += 1;
+                    ServerSender.StartRound(currentRound);
                     _currentPlayer = GameManager.DetermineNextPlayer();
                     // Send order to all player
                     ServerSender.UpdatePlayerOrder();
 
-                    SetTimer(3, () =>
+                    SetTimer(2, () =>
                     {
                         ChangeState(MatchState.WAIT_ANSWER);
                     }, true);

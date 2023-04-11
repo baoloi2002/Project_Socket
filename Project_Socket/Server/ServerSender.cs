@@ -174,12 +174,10 @@ namespace Project_Socket.Server
                 SendTCPToAllInMatch(packet);
             }
         }
-        public static void SkipQuiz(Player player)
+        public static void SkipQuiz()
         {
             using (Packet packet = new Packet((int)ServerPackets.SkipQuiz))
             {
-                packet.PutInt(player.Id);
-                packet.PutString(player.Name);
                 SendTCPToAllInMatch(packet);
             }
         }

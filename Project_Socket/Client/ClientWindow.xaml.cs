@@ -71,6 +71,7 @@ namespace Project_Socket.Client
             Client.Connect(serverIP, serverPort);
 
             Client.nickname = txtNickname.Text;
+
                 Client.SendUsername();
             //}
         }

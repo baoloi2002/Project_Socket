@@ -33,7 +33,8 @@ namespace Project_Socket.Client
     {
         private QuizQuestion question;
         public static int clientAnswer = 4; // 4 is nothing, 0-3 answer, 5 is skip
-        private bool gameEnd = false, isSkip = false, isInGame;
+        private bool gameEnd = false, isInGame;
+        public static bool isSkip = false;
         public static bool isTurn = false;
 
         public static float _Timer = 1;
@@ -59,6 +60,7 @@ namespace Project_Socket.Client
                     ThreadManager.Update();
                     Dispatcher.Invoke(() =>
                     {
+                        UpdatePlayerList();
                         UpdateQuizQuestion();
                         UpdateChoicesColor();
                         UpdateTurnDisplay();
@@ -76,53 +78,40 @@ namespace Project_Socket.Client
             }
         }
 
-        // This waits for turn signal from server (after skipping)
-        private void waitForTurn()
-        {
-            while (!isTurn)
-            {
-                // Wait for signal from server
-                Client.ReceiveWaitForNextPlayer();
-
-            }
-            isTurn = false;
-        }
 
 
         // This function gets called if player click a button
         private void UpdateChoicesColor()
         {
-            if (clientAnswer == 4) return;
-            if (clientAnswer == 5) return;
-            if (question.answer == -1) return;
-
-            // Paint green the right answer
-            switch (question.answer)
+            if (Client.question != null)
             {
-                case 0:
+                switch (Client.question.answer)
                 {
-                        Choice_1.Background = System.Windows.Media.Brushes.Green;
-                        break;
-                } 
-            case 1:
-                {
-                        Choice_2.Background = System.Windows.Media.Brushes.Green;
-                        break;
-                }
-            case 2:
-                {
-                        Choice_3.Background = System.Windows.Media.Brushes.Green;
-                        break;
-                }
-            case 3:
-                {
-                        Choice_4.Background = System.Windows.Media.Brushes.Green;
-                        break;
+                    case 0:
+                        {
+                            Choice_1.Background = System.Windows.Media.Brushes.Green;
+                            break;
+                        }
+                    case 1:
+                        {
+                            Choice_2.Background = System.Windows.Media.Brushes.Green;
+                            break;
+                        }
+                    case 2:
+                        {
+                            Choice_3.Background = System.Windows.Media.Brushes.Green;
+                            break;
+                        }
+                    case 3:
+                        {
+                            Choice_4.Background = System.Windows.Media.Brushes.Green;
+                            break;
+                        }
                 }
             }
 
             // Paint red if client choose the wrong answer
-            if (!question.isCorrect(clientAnswer))
+            if (Client.question != null && !Client.question.isCorrect(clientAnswer))
             {
                 switch (clientAnswer)
                 {
@@ -152,7 +141,6 @@ namespace Project_Socket.Client
                 gameEnd = true;
 
             }
-            clientAnswer = 4;
         }
 
         private void UpdatePlayerList()
@@ -243,7 +231,6 @@ namespace Project_Socket.Client
                         break;
                     }
             }
-            _Timer = 0;
             Client.SendAnswer(clientAnswer);
 
             // Change button color 
@@ -254,7 +241,7 @@ namespace Project_Socket.Client
         {
             if (isSkip || !isTurn) return;
             clientAnswer = 5;
-            //isSkip = true;
+            isSkip = true;
             isTurn = false;
             Client.SendSkip();
 
@@ -272,6 +259,7 @@ namespace Project_Socket.Client
             tbTimer.Content = tmp.ToString();
             if (_Timer > Constants.TIME_PER_ROUND - 1)
             {
+                clientAnswer = 4;
                 Choice_1.Background = System.Windows.Media.Brushes.RosyBrown;
                 Choice_2.Background = System.Windows.Media.Brushes.RosyBrown;
                 Choice_3.Background = System.Windows.Media.Brushes.RosyBrown;

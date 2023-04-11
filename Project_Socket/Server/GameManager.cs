@@ -122,7 +122,7 @@ namespace Project_Socket.Server
         {
             int playerCount = GetPlayerCount();
 
-            if (playerCount >= 2)
+            if (playerCount >= Constants.MIN_PLAYER)
             {
                 _startTime = Constants.START_TIMER;
                 _lastTick = DateTime.Now;
