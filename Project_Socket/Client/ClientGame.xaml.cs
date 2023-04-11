@@ -35,7 +35,9 @@ namespace Project_Socket.Client
         public static int clientAnswer = 4; // 4 is nothing, 0-3 answer, 5 is skip
         private bool gameEnd = false, isSkip = false, isInGame;
         public static bool isTurn = false;
-        private Timer timer;
+
+        public static float _Timer = 1;
+        private static DateTime _lastTick = DateTime.Now;
 
         public ClientGame()
         {
@@ -48,7 +50,7 @@ namespace Project_Socket.Client
 
         private void MainThread()
         {
-            DateTime nextLoop = DateTime.Now;
+            DateTime nextLoop = DateTime.Now;          
 
             while (isInGame)
             {
@@ -57,12 +59,10 @@ namespace Project_Socket.Client
                     ThreadManager.Update();
                     Dispatcher.Invoke(() =>
                     {
-                        // Constantly check player list
-                        UpdatePlayerList();
-
-                        // Wait for new question
-                        UpdateQuizQuestion();
-                        
+                        Update();
+                        UpdateQuestionUI();
+                        UpdateUI();
+                        UpdateTimer();
                     });
 
                     nextLoop = nextLoop.AddMilliseconds(Constants.MS_PER_TICK); // Calculate at what point in time the next tick should be executed
@@ -150,6 +150,7 @@ namespace Project_Socket.Client
 
                 // Player disqualified
                 gameEnd = true;
+
             }
             clientAnswer = 4;
         }
@@ -213,7 +214,8 @@ namespace Project_Socket.Client
 
         private void Choice_Click(object sender, RoutedEventArgs e)
         {
-            if (!isTurn || clientAnswer==4) return;
+
+            if (!isTurn || clientAnswer !=4) return;
 
             Button clickedButton = (Button)sender;
 
@@ -241,6 +243,7 @@ namespace Project_Socket.Client
                         break;
                     }
             }
+            _Timer = 0;
             Client.SendAnswer(clientAnswer);
 
             // Change button color 
@@ -258,6 +261,22 @@ namespace Project_Socket.Client
             // Change to 'not your turn'
             UpdateTurnDisplay();
 
+        }
+
+        private void UpdateTimer()
+        {
+            _Timer -= (float)(DateTime.Now - _lastTick).Milliseconds / 1000;
+            if (_Timer < 0) _Timer = 0;
+            _lastTick = DateTime.Now;
+            int tmp = (int)_Timer;
+            tbTimer.Content = tmp.ToString();
+            if (_Timer > Constants.TIME_PER_ROUND - 1)
+            {
+                Choice_1.Background = System.Windows.Media.Brushes.RosyBrown;
+                Choice_2.Background = System.Windows.Media.Brushes.RosyBrown;
+                Choice_3.Background = System.Windows.Media.Brushes.RosyBrown;
+                Choice_4.Background = System.Windows.Media.Brushes.RosyBrown;
+            }
         }
     }
 }

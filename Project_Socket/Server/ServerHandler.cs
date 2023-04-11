@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project_Socket.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,8 +34,11 @@ namespace Project_Socket.Server
         {
             int clientId = packet.ReadInt();
             int answer = packet.ReadInt();
-            if (MatchManager._ID == fromClient)
-                MatchManager.HandleAnswer(clientId, packet.ReadInt());
+            int rd = packet.ReadInt();
+            if (MatchManager._ID == fromClient && rd == MatchManager.currentRound)
+            {
+                MatchManager.HandleAnswer(clientId, answer);
+            }
         }
         public static void HandleUsername(int clientId, string username)
         {

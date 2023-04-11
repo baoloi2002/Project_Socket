@@ -85,7 +85,7 @@ namespace Project_Socket.Server
             LOG.log = "";
             foreach(Player p in sortedList)
             {
-                LOG.log += p.Name + " " + p.Order.ToString() + "\n";
+                LOG.log += p.Name + " " + p.Order.ToString() + " " + p.iskilled.ToString() + "\n";
             }
             lstUsersView.ItemsSource = sortedList;
         }

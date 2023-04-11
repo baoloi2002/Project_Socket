@@ -72,6 +72,7 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid
             Grid.Row="0">
@@ -120,6 +121,11 @@
             <Label Grid.Row="2"
                    Content="YOUR TURN"
                    Name="turnAnnounce"
+                   VerticalContentAlignment="Center"
+                   HorizontalContentAlignment="Center" />
+            <Label Grid.Row="3"
+                   Content="0"
+                   Name="tbTimer"
                    VerticalContentAlignment="Center"
                    HorizontalContentAlignment="Center" />
         </Grid>

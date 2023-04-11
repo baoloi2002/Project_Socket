@@ -92,6 +92,7 @@ namespace Project_Socket.Server
         {
             if (_matchState != MatchState.WAIT_ANSWER) return;
             if (ans == 5 && isUsedSkill.ContainsKey(clientId)) return; // SKIP TO NEXT 
+            _isAnswered = true;
             if (ans == 5)
             {
                 isUsedSkill[clientId] = true;
@@ -102,17 +103,17 @@ namespace Project_Socket.Server
             }
             if (quizList[curQuiz].answer != ans)
             {
-                _currentPlayer.iskilled = true;
-                Server.clients[clientId].player.Lose();
+                _currentPlayer.Lose();
                 // Do something
-                ChangeState(MatchState.VERIFY_ANSWER);                
+                ChangeState(MatchState.VERIFY_ANSWER);
+                return;
             }
             else
             {
                 // Do something
                 ChangeState(MatchState.VERIFY_ANSWER);
+                return;
             }
-            ChangeState(MatchState.VERIFY_ANSWER);
         }
 
         private static int PlayerCount()
@@ -167,13 +168,14 @@ namespace Project_Socket.Server
                     quizList = LoadQuestions("QuizList.json");
                     curQuiz = -1;
                     ServerSender.SetupGame();
-                    SetTimer(5, () => ChangeState(MatchState.START_ROUND), true);
+                    SetTimer(3, () => ChangeState(MatchState.START_ROUND), true);
                     break;
 
                 case MatchState.START_ROUND:
                     currentRound += 1;
                     // Choose a random question
                     curQuiz += 1;
+                    _isAnswered = false;
                     if (curQuiz == quizList.Length)
                     {                       
                         ChangeState(MatchState.END);
@@ -195,7 +197,7 @@ namespace Project_Socket.Server
                     // Send Question to all player
                     ServerSender.SendQuestion(quizList[curQuiz]);
 
-                    SetTimer(3, () =>
+                    SetTimer(2, () =>
                     {
                         ChangeState(MatchState.WAIT_ANSWER);
                     }, true);
@@ -203,7 +205,7 @@ namespace Project_Socket.Server
 
                 case MatchState.WAIT_ANSWER:
                     _isAnswered = false;
-                    SetTimer(Constants.TIME_PER_ROUND + 5, () => { });
+                    SetTimer(Constants.TIME_PER_ROUND + 2, () => { });
                     break;
 
                 case MatchState.VERIFY_ANSWER:
@@ -229,11 +231,24 @@ namespace Project_Socket.Server
                     // Send order to all player
                     ServerSender.UpdatePlayerOrder();
                     ServerSender.EndRound(currentRound);
-                    ChangeState(MatchState.START_ROUND);
+                    if (GameManager.GetPlayerCountNotkilled() > 1)
+                    {
+                        SetTimer(3, () =>
+                        {
+                            ChangeState(MatchState.START_ROUND);
+                        }, true);
+                    }
+                    else
+                    {
+                        ChangeState(MatchState.END);
+                    }
                     break;
 
                 case MatchState.END:
-                    GameManager.EndGame();
+                    SetTimer(5, () =>
+                    {
+                        GameManager.EndGame();
+                    }, true);                    
                     break;
             }
         }
