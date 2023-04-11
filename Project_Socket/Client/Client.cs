@@ -27,6 +27,7 @@ namespace Project_Socket.Client
         public static int _round = -1;
         public static void HandlePacket(int id, Packet packet) => packetHandlers[id](packet);
 
+        public static int currentNumberOfQuestion = 0;
         public static int NumberOfQuestion = 0;
 
 
@@ -282,6 +283,8 @@ namespace Project_Socket.Client
             question.choices = new string[]{ c0, c1, c2, c3};
             question.answer = -1;
             ClientGame._Timer = Constants.TIME_PER_ROUND;
+
+            currentNumberOfQuestion += 1;
         }        
         public static void ReceiveSendAnswer(Packet packet)
         {
@@ -318,7 +321,7 @@ namespace Project_Socket.Client
         }
         public static void ReceiveNumberOfQuestion(Packet packet)
         {
-
+            currentNumberOfQuestion = 0;
             NumberOfQuestion = packet.ReadInt();
         }
 

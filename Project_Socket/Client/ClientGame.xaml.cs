@@ -78,6 +78,16 @@ namespace Project_Socket.Client
             }
         }
 
+        // You win function
+        private void YouWin()
+        {
+            QuestionBlock.Text = "You WIN!";
+
+            Choice_1.Content = "";
+            Choice_2.Content = "";
+            Choice_3.Content = "";
+            Choice_4.Content = "";
+        }
 
 
         // This function gets called if player click a button
@@ -165,14 +175,12 @@ namespace Project_Socket.Client
         }
         private void UpdateQuizQuestion()
         {
+            // Update Count UI
+            questionCount.Content = "Total Question: " + Client.currentNumberOfQuestion.ToString() + "/" + Client.NumberOfQuestion.ToString();
+
+            // Update question
             if (Client.question == null) return;
             QuestionBlock.Text = Client.question.question;
-
-            // Change button color to default
-            Choice_1.Background = System.Windows.Media.Brushes.RosyBrown;
-            Choice_2.Background = System.Windows.Media.Brushes.RosyBrown;
-            Choice_3.Background = System.Windows.Media.Brushes.RosyBrown;
-            Choice_4.Background = System.Windows.Media.Brushes.RosyBrown;
 
             // Update choices
             Choice_1.Content = Client.question.choices[0];
@@ -256,7 +264,7 @@ namespace Project_Socket.Client
             if (_Timer < 0) _Timer = 0;
             _lastTick = DateTime.Now;
             int tmp = (int)_Timer;
-            tbTimer.Content = tmp.ToString();
+            leftTimer.Text = tmp.ToString();
             if (_Timer > Constants.TIME_PER_ROUND - 1)
             {
                 clientAnswer = 4;

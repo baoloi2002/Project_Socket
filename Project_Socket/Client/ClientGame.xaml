@@ -124,8 +124,8 @@
                    VerticalContentAlignment="Center"
                    HorizontalContentAlignment="Center" />
             <Label Grid.Row="3"
-                   Content="0"
-                   Name="tbTimer"
+                   Content="Total Question: 0/0"
+                   Name="questionCount"
                    VerticalContentAlignment="Center"
                    HorizontalContentAlignment="Center" />
         </Grid>
