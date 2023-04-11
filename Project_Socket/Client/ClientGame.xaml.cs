@@ -59,9 +59,9 @@ namespace Project_Socket.Client
                     ThreadManager.Update();
                     Dispatcher.Invoke(() =>
                     {
-                        Update();
-                        UpdateQuestionUI();
-                        UpdateUI();
+                        UpdateQuizQuestion();
+                        UpdateChoicesColor();
+                        UpdateTurnDisplay();
                         UpdateTimer();
                     });
 
