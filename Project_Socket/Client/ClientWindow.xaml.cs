@@ -23,7 +23,7 @@ namespace Project_Socket.Client
         public ClientWindow()
         {
             InitializeComponent();
-            Client.Start();
+            Client.Start();                
 
             // initialize the timer with a 1-second interval
             timer = new System.Timers.Timer(100);
@@ -45,6 +45,7 @@ namespace Project_Socket.Client
                     {
                         ClientGame clientGame = new ClientGame();
                         clientGame.Show();
+                        clientGame.Title = Client.nickname;
                         this.Close();
                         timer.Stop();
                     }
@@ -64,11 +65,12 @@ namespace Project_Socket.Client
             //}
             //else
             //{
-            string[] temp = serverAddress.Text.Split(':');
-            serverIP = temp[0];
-            serverPort = int.Parse(temp[1]);
-                Client.Connect(serverIP, serverPort);
-                Client.nickname = txtNickname.Text;
+            //string[] temp = serverAddress.Text.Split(':');
+            //serverIP = temp[0];
+            //serverPort = int.Parse(temp[1]);
+            Client.Connect(serverIP, serverPort);
+
+            Client.nickname = txtNickname.Text;
                 Client.SendUsername();
             //}
         }
