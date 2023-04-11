@@ -27,6 +27,8 @@ namespace Project_Socket.Client
         public static int _round = -1;
         public static void HandlePacket(int id, Packet packet) => packetHandlers[id](packet);
 
+        public static int NumberOfQuestion = 0;
+
 
 
         public static void Start()
@@ -57,6 +59,8 @@ namespace Project_Socket.Client
                 {(int)ServerPackets.EndRound, Client.EndRound },
                 {(int)ServerPackets.EndGame, Client.ReceiveEndGame },
                 {(int)ServerPackets.UpdateRoundInfo, Client.ReceiveUpdateRoundInfo },
+
+                {(int)ServerPackets.NumberOfQuestion, Client.ReceiveNumberOfQuestion },
             };
         }
 
@@ -311,6 +315,11 @@ namespace Project_Socket.Client
             {
                 _round = tmp;
             }
+        }
+        public static void ReceiveNumberOfQuestion(Packet packet)
+        {
+
+            NumberOfQuestion = packet.ReadInt();
         }
 
         public static void ReceivePlayerLeave(Packet packet) { }

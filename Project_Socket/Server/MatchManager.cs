@@ -165,6 +165,7 @@ namespace Project_Socket.Server
                     quizList = LoadQuestions("QuizList.json");
                     curQuiz = -1;
                     ServerSender.SetupGame();
+                    ServerSender.NumberOfQuestion(quizList.Length);
                     SetTimer(3, () => ChangeState(MatchState.START_ROUND), true);
                     break;
 

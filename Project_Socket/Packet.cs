@@ -26,7 +26,9 @@ public enum ServerPackets
     ShowResult,
     EndRound,
     EndGame,
-    UpdateRoundInfo
+    UpdateRoundInfo,
+
+    NumberOfQuestion,
 }
 
 public enum ClientPackets

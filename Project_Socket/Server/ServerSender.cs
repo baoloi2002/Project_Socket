@@ -181,5 +181,14 @@ namespace Project_Socket.Server
                 SendTCPToAllInMatch(packet);
             }
         }
+
+        public static void NumberOfQuestion(int cnt)
+        {
+            using (Packet packet = new Packet((int)(ServerPackets.NumberOfQuestion)))
+            {
+                packet.PutInt(cnt);
+                SendTCPToAllInMatch(packet);
+            }
+        }
     }
 }
