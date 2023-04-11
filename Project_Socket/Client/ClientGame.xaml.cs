@@ -81,57 +81,53 @@ namespace Project_Socket.Client
             if (clientAnswer == 4) return;
             if (clientAnswer == 5) return;
             if (question.answer == -1) return;
-            if (clientAnswer == Client.question.answer)
+            switch (clientAnswer)
             {
-                switch (clientAnswer)
-                {
-                    case 0:
-                        {
-                            Choice_1.Background= System.Windows.Media.Brushes.Green;
-                            break;
-                        }
-                    case 1:
-                        {
-                            Choice_2.Background = System.Windows.Media.Brushes.Green;
-                            break;
-                        }
-                    case 2:
-                        {
-                            Choice_3.Background = System.Windows.Media.Brushes.Green;
-                            break;
-                        }
-                    case 3:
-                        {
-                            Choice_4.Background = System.Windows.Media.Brushes.Green;
-                            break;
-                        }
-                }
+                case 0:
+                    {
+                        Choice_1.Background = System.Windows.Media.Brushes.Red;
+                        break;
+                    }
+                case 1:
+                    {
+                        Choice_2.Background = System.Windows.Media.Brushes.Red;
+                        break;
+                    }
+                case 2:
+                    {
+                        Choice_3.Background = System.Windows.Media.Brushes.Red;
+                        break;
+                    }
+                case 3:
+                    {
+                        Choice_4.Background = System.Windows.Media.Brushes.Red;
+                        break;
+                    }
             }
-            else
+
+
+            switch (Client.question.answer)
             {
-                switch (clientAnswer)
-                {
-                    case 0:
-                        {
-                            Choice_1.Background = System.Windows.Media.Brushes.Red;
-                            break;
-                        }
-                    case 1:
-                        {
-                            Choice_2.Background = System.Windows.Media.Brushes.Red;
-                            break;
-                        }
-                    case 2:
-                        {
-                            Choice_3.Background = System.Windows.Media.Brushes.Red;
-                            break;
-                        }
-                    case 3:
-                        {
-                            Choice_4.Background = System.Windows.Media.Brushes.Red;
-                            break;
-                        }
-                }
+                case 0:
+                    {
+                        Choice_1.Background = System.Windows.Media.Brushes.Green;
+                        break;
+                    }
+                case 1:
+                    {
+                        Choice_2.Background = System.Windows.Media.Brushes.Green;
+                        break;
+                    }
+                case 2:
+                    {
+                        Choice_3.Background = System.Windows.Media.Brushes.Green;
+                        break;
+                    }
+                case 3:
+                    {
+                        Choice_4.Background = System.Windows.Media.Brushes.Green;
+                        break;
+                    }
             }
             clientAnswer = 4;
         }
@@ -169,7 +165,7 @@ namespace Project_Socket.Client
 
         private void Choice_Click(object sender, RoutedEventArgs e)
         {
-            if (!isTurn || clientAnswer ==4) return;
+            if (!isTurn || clientAnswer !=4) return;
 
             Button clickedButton = (Button)sender;
 
@@ -197,6 +193,7 @@ namespace Project_Socket.Client
                         break;
                     }
             }
+            _Timer = 0;
             Client.SendAnswer(clientAnswer);
         }
 
@@ -230,6 +227,13 @@ namespace Project_Socket.Client
             _lastTick = DateTime.Now;
             int tmp = (int)_Timer;
             tbTimer.Content = tmp.ToString();
+            if (_Timer > Constants.TIME_PER_ROUND - 1)
+            {
+                Choice_1.Background = System.Windows.Media.Brushes.RosyBrown;
+                Choice_2.Background = System.Windows.Media.Brushes.RosyBrown;
+                Choice_3.Background = System.Windows.Media.Brushes.RosyBrown;
+                Choice_4.Background = System.Windows.Media.Brushes.RosyBrown;
+            }
         }
     }
 }

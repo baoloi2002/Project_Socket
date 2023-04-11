@@ -61,6 +61,15 @@ namespace Project_Socket.Server
             }
             return playerCount;
         }
+        public static int GetPlayerCountNotkilled()
+        {
+            int playerCount = 0;
+            foreach (ClientItem client in Server.clients.Values)
+            {
+                if (client.player != null && !client.player.iskilled) playerCount++;
+            }
+            return playerCount;
+        }
 
         public static List<Player> GetAllPlayers()
         {

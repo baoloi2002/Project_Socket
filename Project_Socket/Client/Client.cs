@@ -282,9 +282,11 @@ namespace Project_Socket.Client
         public static void ReceiveSendAnswer(Packet packet)
         {
             question.answer = packet.ReadInt();
+            ClientGame._Timer = 0;
         }  
         public static void StartRound(Packet packet)
         {
+            ClientGame._Timer = 0;
             int tmp = packet.ReadInt();
             if (tmp != null && tmp > _round)
             {
@@ -302,6 +304,7 @@ namespace Project_Socket.Client
 
         public static void EndRound(Packet packet)
         {
+            ClientGame._Timer = 0;
             int tmp = packet.ReadInt();
             if (tmp != null && tmp > _round)
             {

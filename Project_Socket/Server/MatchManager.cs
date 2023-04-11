@@ -92,6 +92,7 @@ namespace Project_Socket.Server
         {
             if (_matchState != MatchState.WAIT_ANSWER) return;
             if (ans == 5 && isUsedSkill.ContainsKey(clientId)) return; // SKIP TO NEXT 
+            _isAnswered = true;
             if (ans == 5)
             {
                 isUsedSkill[clientId] = true;
@@ -174,6 +175,7 @@ namespace Project_Socket.Server
                     currentRound += 1;
                     // Choose a random question
                     curQuiz += 1;
+                    _isAnswered = false;
                     if (curQuiz == quizList.Length)
                     {                       
                         ChangeState(MatchState.END);
@@ -195,7 +197,7 @@ namespace Project_Socket.Server
                     // Send Question to all player
                     ServerSender.SendQuestion(quizList[curQuiz]);
 
-                    SetTimer(3, () =>
+                    SetTimer(2, () =>
                     {
                         ChangeState(MatchState.WAIT_ANSWER);
                     }, true);
@@ -229,7 +231,17 @@ namespace Project_Socket.Server
                     // Send order to all player
                     ServerSender.UpdatePlayerOrder();
                     ServerSender.EndRound(currentRound);
-                    ChangeState(MatchState.START_ROUND);
+                    if (GameManager.GetPlayerCountNotkilled() > 1)
+                    {
+                        SetTimer(3, () =>
+                        {
+                            ChangeState(MatchState.START_ROUND);
+                        }, true);
+                    }
+                    else
+                    {
+                        ChangeState(MatchState.END);
+                    }
                     break;
 
                 case MatchState.END:
