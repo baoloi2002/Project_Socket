@@ -16,7 +16,7 @@ namespace Project_Socket
         public static int MIN_PLAYER = 2;
 
         public static int TIME_PER_ROUND = 15; //second
-        public const int TICKS_PER_SEC = 24;
+        public const int TICKS_PER_SEC = 30;
         public const float MS_PER_TICK = 1000f / TICKS_PER_SEC;
 
         public static int MAX_LENGTH_NAME = 10;

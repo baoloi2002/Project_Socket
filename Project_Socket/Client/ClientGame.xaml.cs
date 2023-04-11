@@ -19,10 +19,11 @@ namespace Project_Socket.Client
     {
         private QuizQuestion question;
         public static int clientAnswer = 4; // 4 is nothing, 0-3 answer, 5 is skip
-        public static bool gameEnd = false, isInGame;
+        public static bool gameEnd = false, isInGame = false;
         public static bool isSkip = false;
         public static bool isTurn = false;
         public static bool isWin = false;
+        public static bool isSetup = false;
 
         public static float _Timer = 1;
         private static DateTime _lastTick = DateTime.Now;
@@ -47,13 +48,18 @@ namespace Project_Socket.Client
                     ThreadManager.Update();
                     Dispatcher.Invoke(() =>
                     {
+                        UpdatePlayerList();
                         if (!gameEnd)
                         {
-                            UpdatePlayerList();
                             UpdateQuizQuestion();
                             UpdateChoicesColor();
                             UpdateTurnDisplay();
                             UpdateTimer();
+                            if (isSetup)
+                            {
+                                QuestionBlock.Text = "READY TO START NEW GAME";
+                                isSetup = false;
+                            }
                         }
                         else
                         {
@@ -224,7 +230,7 @@ namespace Project_Socket.Client
         private void Choice_Click(object sender, RoutedEventArgs e)
         {
             if (!isTurn || clientAnswer != 4) return;
-            if (_Timer < 1) return;
+            if (_Timer < 0.2) return;
 
             Button clickedButton = (Button)sender;
 
@@ -261,7 +267,7 @@ namespace Project_Socket.Client
         private void Skip_Click(object sender, RoutedEventArgs e)
         {
             if (isSkip || !isTurn) return;
-            if (_Timer < 1) return;
+            if (_Timer < 0.2) return;
             clientAnswer = 5;
             isSkip = true;
             isTurn = false;

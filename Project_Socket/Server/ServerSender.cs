@@ -105,7 +105,6 @@ namespace Project_Socket.Server
         {
             using (Packet packet = new Packet((int)ServerPackets.CountdownStartGame))
             {
-                packet.PutInt(Constants.START_TIMER);
                 SendTCPToAllInMatch(packet);
 
                 Console.WriteLine($"Server sends to all: Start countdown");

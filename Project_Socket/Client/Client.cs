@@ -288,14 +288,23 @@ namespace Project_Socket.Client
             currentNumberOfQuestion += 1;
         }
 
+        public static bool isLose;
+
         public static void ReceiveSendAnswer(Packet packet)
         {
             question.answer = packet.ReadInt();
+            if (ClientGame.isTurn)
+                isLose = question.answer != ClientGame.clientAnswer;
             ClientGame._Timer = 0;
         }
 
         public static void StartRound(Packet packet)
         {
+            if (isLose)
+            {
+                ClientGame.gameEnd = true;
+                isLose = false;
+            }
             ClientGame._Timer = 0;
             int tmp = packet.ReadInt();
             if (tmp != null && tmp > _round)
@@ -306,12 +315,12 @@ namespace Project_Socket.Client
 
         public static void CountdownStartGame(Packet packet)
         {
-            ClientGame._Timer = Constants.TIME_PER_ROUND;
-            ClientGame.isSkip = false;
+            ClientGame._Timer = Constants.START_TIMER;
         }
 
         public static void ReceiveSkipQuiz(Packet packet)
         {
+            ClientGame._Timer = Constants.TIME_PER_ROUND;
         }
 
         public static void EndRound(Packet packet)
@@ -325,8 +334,7 @@ namespace Project_Socket.Client
         }
 
         public static void ReceiveNumberOfQuestion(Packet packet)
-        {
-            ClientGame.gameEnd = false;
+        {     
             currentNumberOfQuestion = 0;
             NumberOfQuestion = packet.ReadInt();
         }
@@ -335,6 +343,16 @@ namespace Project_Socket.Client
         {
             ClientGame.isWin = true;
             ClientGame.gameEnd = true;
+        }
+        public static void SetupGame(Packet packet)
+        {
+            question = null;
+            isLose = false;
+            ClientGame.isSkip = false;
+            ClientGame.isSetup = true;
+            ClientGame.isWin = false;
+            ClientGame.gameEnd = false;
+            ClientGame.isTurn = false;
         }
 
         public static void ReceivePlayerLeave(Packet packet)
@@ -346,8 +364,6 @@ namespace Project_Socket.Client
         public static void ReceiveRemovePlayerFromGame(Packet packet)
         { }
 
-        public static void SetupGame(Packet packet)
-        { }
 
         public static void ReceiveWaitForNextPlayer(Packet packet)
         { }
