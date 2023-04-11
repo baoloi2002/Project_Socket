@@ -24,8 +24,7 @@ namespace Project_Socket.Client
         public static List<Player> playerList;
 
         public static QuizQuestion question;
-        
-
+        public static int _round = -1;
         public static void HandlePacket(int id, Packet packet) => packetHandlers[id](packet);
 
 
@@ -203,6 +202,7 @@ namespace Project_Socket.Client
             {
                 packet.PutInt(ID);
                 packet.PutInt(answer);
+                packet.PutInt(_round);
                 packet.InsertLength();
 
                 sendDataToServer(packet);
@@ -215,6 +215,7 @@ namespace Project_Socket.Client
             {
                 packet.PutInt(ID);
                 packet.PutInt(5);
+                packet.PutInt(_round);
                 packet.InsertLength();
 
                 sendDataToServer(packet);
@@ -246,8 +247,11 @@ namespace Project_Socket.Client
                     bestID = player.Id;
                 }
             }
+            
             if (bestID == ID)
                 ClientGame.isTurn = true;
+            else
+                ClientGame.isTurn = false;
         }
 
         public static void RecieveID(Packet packet)
@@ -273,6 +277,7 @@ namespace Project_Socket.Client
             string c3 = packet.ReadString();
             question.choices = new string[]{ c0, c1, c2, c3};
             question.answer = -1;
+            ClientGame._Timer = Constants.TIME_PER_ROUND;
         }        
         public static void ReceiveSendAnswer(Packet packet)
         {
@@ -280,7 +285,11 @@ namespace Project_Socket.Client
         }  
         public static void StartRound(Packet packet)
         {
-
+            int tmp = packet.ReadInt();
+            if (tmp != null && tmp > _round)
+            {
+                _round = tmp;
+            }
         }
         public static void CountdownStartGame(Packet packet)
         {
@@ -293,7 +302,11 @@ namespace Project_Socket.Client
 
         public static void EndRound(Packet packet)
         {
-
+            int tmp = packet.ReadInt();
+            if (tmp != null && tmp > _round)
+            {
+                _round = tmp;
+            }
         }
 
         public static void ReceivePlayerLeave(Packet packet) { }

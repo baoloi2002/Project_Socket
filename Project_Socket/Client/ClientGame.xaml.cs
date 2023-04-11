@@ -35,6 +35,8 @@ namespace Project_Socket.Client
         public static int clientAnswer = 4; // 4 is nothing, 0-3 answer, 5 is skip
         private bool gameEnd = false, isSkip = false, isInGame;
         public static bool isTurn = false;
+        public static float _Timer = 1;
+        private static DateTime _lastTick = DateTime.Now;
 
         public ClientGame()
         {
@@ -47,7 +49,7 @@ namespace Project_Socket.Client
 
         private void MainThread()
         {
-            DateTime nextLoop = DateTime.Now;
+            DateTime nextLoop = DateTime.Now;          
 
             while (isInGame)
             {
@@ -60,6 +62,7 @@ namespace Project_Socket.Client
                         Update();
                         UpdateQuestionUI();
                         UpdateUI();
+                        UpdateTimer();
                     });
 
                     nextLoop = nextLoop.AddMilliseconds(Constants.MS_PER_TICK); // Calculate at what point in time the next tick should be executed
@@ -218,6 +221,15 @@ namespace Project_Socket.Client
             //isSkip = true;
             isTurn = false;
             Client.SendSkip();
+        }
+
+        private void UpdateTimer()
+        {
+            _Timer -= (float)(DateTime.Now - _lastTick).Milliseconds / 1000;
+            if (_Timer < 0) _Timer = 0;
+            _lastTick = DateTime.Now;
+            int tmp = (int)_Timer;
+            tbTimer.Content = tmp.ToString();
         }
     }
 }

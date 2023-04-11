@@ -102,17 +102,17 @@ namespace Project_Socket.Server
             }
             if (quizList[curQuiz].answer != ans)
             {
-                _currentPlayer.iskilled = true;
-                Server.clients[clientId].player.Lose();
+                _currentPlayer.Lose();
                 // Do something
-                ChangeState(MatchState.VERIFY_ANSWER);                
+                ChangeState(MatchState.VERIFY_ANSWER);
+                return;
             }
             else
             {
                 // Do something
                 ChangeState(MatchState.VERIFY_ANSWER);
+                return;
             }
-            ChangeState(MatchState.VERIFY_ANSWER);
         }
 
         private static int PlayerCount()
@@ -167,7 +167,7 @@ namespace Project_Socket.Server
                     quizList = LoadQuestions("QuizList.json");
                     curQuiz = -1;
                     ServerSender.SetupGame();
-                    SetTimer(5, () => ChangeState(MatchState.START_ROUND), true);
+                    SetTimer(3, () => ChangeState(MatchState.START_ROUND), true);
                     break;
 
                 case MatchState.START_ROUND:
@@ -203,7 +203,7 @@ namespace Project_Socket.Server
 
                 case MatchState.WAIT_ANSWER:
                     _isAnswered = false;
-                    SetTimer(Constants.TIME_PER_ROUND + 5, () => { });
+                    SetTimer(Constants.TIME_PER_ROUND + 2, () => { });
                     break;
 
                 case MatchState.VERIFY_ANSWER:
@@ -233,7 +233,10 @@ namespace Project_Socket.Server
                     break;
 
                 case MatchState.END:
-                    GameManager.EndGame();
+                    SetTimer(5, () =>
+                    {
+                        GameManager.EndGame();
+                    }, true);                    
                     break;
             }
         }
