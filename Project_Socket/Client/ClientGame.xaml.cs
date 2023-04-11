@@ -1,22 +1,8 @@
-﻿using MaterialDesignThemes.Wpf;
-using Project_Socket.Server;
-using SuperSimpleTcp;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 // TODO
 // 1. Add Game Menu: Play, Quit
@@ -33,9 +19,10 @@ namespace Project_Socket.Client
     {
         private QuizQuestion question;
         public static int clientAnswer = 4; // 4 is nothing, 0-3 answer, 5 is skip
-        private bool gameEnd = false, isInGame;
+        public static bool gameEnd = false, isInGame;
         public static bool isSkip = false;
         public static bool isTurn = false;
+        public static bool isWin = false;
 
         public static float _Timer = 1;
         private static DateTime _lastTick = DateTime.Now;
@@ -51,7 +38,7 @@ namespace Project_Socket.Client
 
         private void MainThread()
         {
-            DateTime nextLoop = DateTime.Now;          
+            DateTime nextLoop = DateTime.Now;
 
             while (isInGame)
             {
@@ -60,11 +47,18 @@ namespace Project_Socket.Client
                     ThreadManager.Update();
                     Dispatcher.Invoke(() =>
                     {
-                        UpdatePlayerList();
-                        UpdateQuizQuestion();
-                        UpdateChoicesColor();
-                        UpdateTurnDisplay();
-                        UpdateTimer();
+                        if (!gameEnd)
+                        {
+                            UpdatePlayerList();
+                            UpdateQuizQuestion();
+                            UpdateChoicesColor();
+                            UpdateTurnDisplay();
+                            UpdateTimer();
+                        }
+                        else
+                        {
+                            CheckWinCondition();
+                        }
                     });
 
                     nextLoop = nextLoop.AddMilliseconds(Constants.MS_PER_TICK); // Calculate at what point in time the next tick should be executed
@@ -75,6 +69,19 @@ namespace Project_Socket.Client
                         Thread.Sleep(nextLoop - DateTime.Now); // Let the thread sleep until it's needed again.
                     }
                 }
+            }
+        }
+
+        // Check win condition
+        private void CheckWinCondition()
+        {
+            if (isWin)
+            {
+                YouWin();
+            }
+            else
+            {
+                YouLose();
             }
         }
 
@@ -89,6 +96,16 @@ namespace Project_Socket.Client
             Choice_4.Content = "";
         }
 
+        // You lose function
+        private void YouLose()
+        {
+            QuestionBlock.Text = "You LOSE!";
+
+            Choice_1.Content = "";
+            Choice_2.Content = "";
+            Choice_3.Content = "";
+            Choice_4.Content = "";
+        }
 
         // This function gets called if player click a button
         private void UpdateChoicesColor()
@@ -146,10 +163,6 @@ namespace Project_Socket.Client
                             break;
                         }
                 }
-
-                // Player disqualified
-                gameEnd = true;
-
             }
         }
 
@@ -161,7 +174,7 @@ namespace Project_Socket.Client
                 return;
             }
             List<Player> sortedList = Client.playerList;
-           
+
             sortedList.Sort((u, v) =>
             {
                 if (u.iskilled == v.iskilled)
@@ -171,8 +184,9 @@ namespace Project_Socket.Client
 
                 return u.iskilled.CompareTo(v.iskilled);
             });
-            lstUsersView.ItemsSource = sortedList;          
+            lstUsersView.ItemsSource = sortedList;
         }
+
         private void UpdateQuizQuestion()
         {
             // Update Count UI
@@ -188,20 +202,19 @@ namespace Project_Socket.Client
             Choice_3.Content = Client.question.choices[2];
             Choice_4.Content = Client.question.choices[3];
         }
+
         private void UpdateTurnDisplay()
         {
             if (isTurn)
             {
                 turnAnnounce.Visibility = Visibility.Visible;
-
             }
             else
             {
                 turnAnnounce.Visibility = Visibility.Hidden;
-
             }
         }
-        
+
         private void timerCountdown(int time)
         {
             int timeleft = time - 1;
@@ -210,8 +223,8 @@ namespace Project_Socket.Client
 
         private void Choice_Click(object sender, RoutedEventArgs e)
         {
-
-            if (!isTurn || clientAnswer !=4) return;
+            if (!isTurn || clientAnswer != 4) return;
+            if (_Timer < 1) return;
 
             Button clickedButton = (Button)sender;
 
@@ -241,13 +254,14 @@ namespace Project_Socket.Client
             }
             Client.SendAnswer(clientAnswer);
 
-            // Change button color 
+            // Change button color
             UpdateChoicesColor();
         }
 
         private void Skip_Click(object sender, RoutedEventArgs e)
         {
             if (isSkip || !isTurn) return;
+            if (_Timer < 1) return;
             clientAnswer = 5;
             isSkip = true;
             isTurn = false;
@@ -255,7 +269,6 @@ namespace Project_Socket.Client
 
             // Change to 'not your turn'
             UpdateTurnDisplay();
-
         }
 
         private void UpdateTimer()

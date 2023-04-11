@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
-using System.Security.Cryptography.Xml;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace Project_Socket.Client
 {
@@ -25,12 +22,11 @@ namespace Project_Socket.Client
 
         public static QuizQuestion question;
         public static int _round = -1;
+
         public static void HandlePacket(int id, Packet packet) => packetHandlers[id](packet);
 
         public static int currentNumberOfQuestion = 0;
         public static int NumberOfQuestion = 0;
-
-
 
         public static void Start()
         {
@@ -65,7 +61,6 @@ namespace Project_Socket.Client
                 {(int)ServerPackets.YOUWIN, Client.YOUWIN },
             };
         }
-
 
         public static void Connect(string server, int port)
         {
@@ -184,7 +179,7 @@ namespace Project_Socket.Client
             }
             catch (Exception e)
             {
-                // Die 
+                // Die
             }
         }
 
@@ -228,8 +223,10 @@ namespace Project_Socket.Client
             }
         }
 
-        #endregion
+        #endregion SendThings
+
         #region ReceiveThings
+
         public static void UpdatePlayerOrder(Packet packet)
         {
             List<Player> nw = new List<Player>();
@@ -244,7 +241,7 @@ namespace Project_Socket.Client
             }
             playerList = nw;
             int bestID = -1, bestOrder = -1;
-            foreach(Player player in playerList)
+            foreach (Player player in playerList)
             {
                 if (player.iskilled) continue;
                 if (player.Order > bestOrder)
@@ -253,7 +250,7 @@ namespace Project_Socket.Client
                     bestID = player.Id;
                 }
             }
-            
+
             if (bestID == ID)
                 ClientGame.isTurn = true;
             else
@@ -263,16 +260,19 @@ namespace Project_Socket.Client
         public static void RecieveID(Packet packet)
         {
             ID = packet.ReadInt();
-        }        
+        }
+
         public static void RegistrationFailed(Packet packet)
         {
             nickname = "";
-        }       
+        }
+
         public static void RegistrationSuccessful(Packet packet)
         {
             isRegSuccess = true;
             ClientWindow.isAnnounce = true;
         }
+
         public static void ReceiveSendQuestion(Packet packet)
         {
             question = new QuizQuestion();
@@ -281,17 +281,19 @@ namespace Project_Socket.Client
             string c1 = packet.ReadString();
             string c2 = packet.ReadString();
             string c3 = packet.ReadString();
-            question.choices = new string[]{ c0, c1, c2, c3};
+            question.choices = new string[] { c0, c1, c2, c3 };
             question.answer = -1;
             ClientGame._Timer = Constants.TIME_PER_ROUND;
 
             currentNumberOfQuestion += 1;
-        }        
+        }
+
         public static void ReceiveSendAnswer(Packet packet)
         {
             question.answer = packet.ReadInt();
             ClientGame._Timer = 0;
-        }  
+        }
+
         public static void StartRound(Packet packet)
         {
             ClientGame._Timer = 0;
@@ -301,14 +303,15 @@ namespace Project_Socket.Client
                 _round = tmp;
             }
         }
+
         public static void CountdownStartGame(Packet packet)
         {
             ClientGame._Timer = Constants.TIME_PER_ROUND;
             ClientGame.isSkip = false;
         }
+
         public static void ReceiveSkipQuiz(Packet packet)
         {
-
         }
 
         public static void EndRound(Packet packet)
@@ -320,27 +323,50 @@ namespace Project_Socket.Client
                 _round = tmp;
             }
         }
+
         public static void ReceiveNumberOfQuestion(Packet packet)
         {
+            ClientGame.gameEnd = false;
             currentNumberOfQuestion = 0;
             NumberOfQuestion = packet.ReadInt();
         }
 
-        public static void YOUWIN(Packet packet) 
+        public static void YOUWIN(Packet packet)
         {
-
+            ClientGame.isWin = true;
+            ClientGame.gameEnd = true;
         }
-        public static void ReceivePlayerLeave(Packet packet) { }
-        public static void ReceiveSendPlayerIntoGame(Packet packet) { }
-        public static void ReceiveRemovePlayerFromGame(Packet packet) { }
-        public static void SetupGame(Packet packet) { }
-        public static void ReceiveWaitForNextPlayer(Packet packet) { }
-        public static void ReceivePickNextPlayer(Packet packet) { }
-        public static void ReceiveVerifyAnswer(Packet packet) { }
-        public static void ReceiveShowResult(Packet packet) { }
-        public static void ReceiveEndGame(Packet packet) { }
-        public static void ReceiveUpdateRoundInfo(Packet packet) { }
 
-        #endregion
+        public static void ReceivePlayerLeave(Packet packet)
+        { }
+
+        public static void ReceiveSendPlayerIntoGame(Packet packet)
+        { }
+
+        public static void ReceiveRemovePlayerFromGame(Packet packet)
+        { }
+
+        public static void SetupGame(Packet packet)
+        { }
+
+        public static void ReceiveWaitForNextPlayer(Packet packet)
+        { }
+
+        public static void ReceivePickNextPlayer(Packet packet)
+        { }
+
+        public static void ReceiveVerifyAnswer(Packet packet)
+        { }
+
+        public static void ReceiveShowResult(Packet packet)
+        { }
+
+        public static void ReceiveEndGame(Packet packet)
+        { }
+
+        public static void ReceiveUpdateRoundInfo(Packet packet)
+        { }
+
+        #endregion ReceiveThings
     }
 }

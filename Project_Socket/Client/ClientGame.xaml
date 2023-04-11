@@ -42,7 +42,7 @@
                     Time left:
                 </TextBlock>
                 <TextBlock FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="59,-18,0,0" Name="leftTimer">
-                    1000
+                    0
                 </TextBlock>
                 <materialDesign:Card Padding="5" Background="CornflowerBlue">
                     <TextBlock Margin="10" FontSize="25" TextAlignment="Center" TextWrapping="Wrap" Style="{DynamicResource MaterialDesignTitleTextBlock}" HorizontalAlignment="Center" VerticalAlignment="Center" Name="QuestionBlock">
