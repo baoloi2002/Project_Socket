@@ -116,13 +116,7 @@ public class Packet : IDisposable
 
     public void PutBytes(Byte[] value) => _buffer.AddRange(value);
 
-    public void PutShort(short value) => _buffer.AddRange(BitConverter.GetBytes(value));
-
     public void PutInt(int value) => _buffer.AddRange(BitConverter.GetBytes(value));
-
-    public void PutLong(long value) => _buffer.AddRange(BitConverter.GetBytes(value));
-
-    public void PutFloat(float value) => _buffer.AddRange(BitConverter.GetBytes(value));
 
     public void PutBool(bool value) => _buffer.AddRange(BitConverter.GetBytes(value));
 
@@ -157,17 +151,6 @@ public class Packet : IDisposable
         else throw new Exception("Read byte array error!");
     }
 
-    public short ReadShort(bool moveNext = true)
-    {
-        if (_buffer.Count > _readPointer)
-        {
-            short value = BitConverter.ToInt16(_readableBuffer, _readPointer);
-            if (moveNext) _readPointer += sizeof(short);
-            return value;
-        }
-        else throw new Exception("Failed to read short");
-    }
-
     public int ReadInt(bool moveNext = true)
     {
         if (_buffer.Count > _readPointer)
@@ -177,33 +160,7 @@ public class Packet : IDisposable
             return _value;
         }
         else throw new Exception("Failed to read int");
-    }
-
-    public long ReadLong(bool moveNext = true)
-    {
-        if (_buffer.Count > _readPointer)
-        {
-            long _value = BitConverter.ToInt64(_readableBuffer, _readPointer);
-            if (moveNext) _readPointer += sizeof(long);
-            return _value;
-        }
-        else throw new Exception("Failed to read long");
-    }
-
-    public float ReadFloat(bool moveNext = true)
-    {
-        if (_buffer.Count > _readPointer)
-        {
-            float _value = BitConverter.ToSingle(_readableBuffer, _readPointer);
-            if (moveNext) _readPointer += sizeof(float);
-            return _value;
-        }
-        else
-        {
-            throw new Exception("Failed to read float");
-        }
-    }
-
+    } 
     public bool ReadBool(bool moveNext = true)
     {
         if (_buffer.Count > _readPointer)
