@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System.Windows.Navigation;
 
 // TODO
 // 1. Add Game Menu: Play, Quit
@@ -84,10 +87,12 @@ namespace Project_Socket.Client
             if (isWin)
             {
                 YouWin();
+                resetButtonColor();
             }
             else
             {
                 YouLose();
+                resetButtonColor();
             }
         }
 
@@ -95,6 +100,7 @@ namespace Project_Socket.Client
         private void YouWin()
         {
             QuestionBlock.Text = "You WIN!";
+            QuestionBlock.Foreground = System.Windows.Media.Brushes.LawnGreen;
 
             Choice_1.Content = "";
             Choice_2.Content = "";
@@ -106,6 +112,8 @@ namespace Project_Socket.Client
         private void YouLose()
         {
             QuestionBlock.Text = "You LOSE!";
+            QuestionBlock.Foreground = System.Windows.Media.Brushes.Crimson;
+
 
             Choice_1.Content = "";
             Choice_2.Content = "";
@@ -287,11 +295,18 @@ namespace Project_Socket.Client
             if (_Timer > Constants.TIME_PER_ROUND - 0.5f)
             {
                 clientAnswer = 4;
-                Choice_1.Background = System.Windows.Media.Brushes.RosyBrown;
-                Choice_2.Background = System.Windows.Media.Brushes.RosyBrown;
-                Choice_3.Background = System.Windows.Media.Brushes.RosyBrown;
-                Choice_4.Background = System.Windows.Media.Brushes.RosyBrown;
+                resetButtonColor();
             }
+        }
+
+        public void resetButtonColor()
+        {
+            QuestionBlock.Foreground = System.Windows.Media.Brushes.Black;
+
+            Choice_1.Background = System.Windows.Media.Brushes.DodgerBlue;
+            Choice_2.Background = System.Windows.Media.Brushes.DodgerBlue;
+            Choice_3.Background = System.Windows.Media.Brushes.DodgerBlue;
+            Choice_4.Background = System.Windows.Media.Brushes.DodgerBlue;
         }
     }
 }

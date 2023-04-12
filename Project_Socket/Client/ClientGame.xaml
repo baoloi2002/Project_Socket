@@ -30,7 +30,7 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.Background>
-                <ImageBrush ImageSource="Gura.jpg" Stretch="UniformToFill" />
+                <ImageBrush ImageSource="Gura.jpg" Stretch="UniformToFill" x:Name="background"/>
             </Grid.Background>
 
             <Grid.RowDefinitions>
@@ -46,28 +46,29 @@
                 </TextBlock>
                 <materialDesign:Card Padding="5" Background="CornflowerBlue">
                     <TextBlock Margin="10" FontSize="25" TextAlignment="Center" TextWrapping="Wrap" Style="{DynamicResource MaterialDesignTitleTextBlock}" HorizontalAlignment="Center" VerticalAlignment="Center" Name="QuestionBlock">
-                        Hello world, this is where question should be
+                        Waiting for other players....
+                        
                     </TextBlock>
                 </materialDesign:Card>
             </Grid>
 
             <UniformGrid Grid.Row="1" Margin="5">
 
-                <Button Name="Choice_1" Margin="5" Background="RosyBrown" Tag="1" Button.Click="Choice_Click">
+                <Button Name="Choice_1" Margin="5" Background="DodgerBlue"  Tag="1" Button.Click="Choice_Click">
                     Choice A
                 </Button>
-                <Button Name="Choice_2" Margin="5" Background="RosyBrown" Tag="2" Button.Click="Choice_Click">
+                <Button Name="Choice_2" Margin="5" Background="DodgerBlue" Tag="2" Button.Click="Choice_Click">
                     Choice B
                 </Button>
-                <Button Name="Choice_3" Margin="5" Background="RosyBrown" Tag="3" Button.Click="Choice_Click">
+                <Button Name="Choice_3" Margin="5" Background="DodgerBlue" Tag="3" Button.Click="Choice_Click">
                     Choice C
                 </Button>
-                <Button Name="Choice_4" Margin="5" Background="RosyBrown" Tag="4" Button.Click="Choice_Click">
+                <Button Name="Choice_4" Margin="5" Background="DodgerBlue" Tag="4" Button.Click="Choice_Click">
                     Choice D
                 </Button>
             </UniformGrid>
         </Grid>
-        <Grid Grid.Column="1" Background="AliceBlue">
+        <Grid Grid.Column="1" Background="#daeefd">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -115,7 +116,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </Grid>
-            <Button Grid.Row="1" Margin="10" Tag="Skip" Button.Click="Skip_Click">
+            <Button Grid.Row="1" Margin="10" Tag="Skip" Button.Click="Skip_Click" Background="#FF196596">
                 SKIP BUTTON
             </Button>
             <Label Grid.Row="2"

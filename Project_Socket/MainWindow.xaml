@@ -14,7 +14,9 @@
      TextOptions.TextRenderingMode="Auto"
      Background="{DynamicResource MaterialDesignPaper}"
      FontFamily="{DynamicResource MaterialDesignFont}">
-    <Grid>
+    <Grid Background="AliceBlue">
+        
+        
         
         <!-- Split the screen into two grids -->
         <Grid.ColumnDefinitions>
@@ -24,30 +26,26 @@
 
         <!-- First grid (top) -->
         <StackPanel Grid.Column="0" VerticalAlignment="Center">
-            <TextBlock HorizontalAlignment="Center" FontSize="40" FontWeight="Bold" Foreground="CadetBlue">
-                Run a Client
-            </TextBlock>
+            <TextBlock HorizontalAlignment="Center" FontSize="40" FontWeight="Bold" Foreground="CadetBlue" Text="Play Game"/>
             <!-- Put your content here -->
-            <Button Margin="20" Grid.Row="1"
+            <Button Margin="20" Grid.Row="1" Background="CadetBlue"
                 Name="btnClient"
   Content="Client"
   IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
   Style="{StaticResource MaterialDesignFlatMidBgButton}"
-  ToolTip="MaterialDesignFlatMidButton" Click="btnClient_Click" />
+  ToolTip="MaterialDesignFlatMidButton" Click="btnClient_Click" Width="200" />
         </StackPanel>
 
         <!-- Second grid (bottom) -->
         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-            <TextBlock HorizontalAlignment="Center" FontSize="40" FontWeight="Bold" Foreground="DarkGoldenrod">
-                Run a Server
-            </TextBlock>
+            <TextBlock HorizontalAlignment="Center" FontSize="40" FontWeight="Bold" Foreground="DarkGoldenrod" Text="Host Game"/>
             <!-- Put your content here -->
-            <Button Margin="20"
+            <Button Margin="20" Background="DarkGoldenrod"
                 Name="btnServer"
   Content="Server"
   IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
   Style="{StaticResource MaterialDesignFlatMidBgButton}"
-  ToolTip="MaterialDesignFlatMidButton" Click="btnServer_Click" />
+  ToolTip="MaterialDesignFlatMidButton" Click="btnServer_Click" Width="200" />
         </StackPanel>
     </Grid>
 </Window>

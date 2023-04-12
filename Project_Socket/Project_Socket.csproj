@@ -12,15 +12,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Client\eGura.jpg" />
     <None Remove="Client\Gura.jpg" />
-    <None Remove="Client\Millionaire_1.jpg" />
+    <None Remove="Client\Millionaire.jpg" />
     <None Remove="QuizList.json" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="AssemblyInfo.cs" />
+    <Resource Include="Client\eGura.jpg" />
     <Resource Include="Client\Gura.jpg" />
-    <Resource Include="Client\Millionaire_1.jpg" />
+    <Resource Include="Client\Millionaire.jpg" />
     <Resource Include="QuizList.json" />
   </ItemGroup>
 
