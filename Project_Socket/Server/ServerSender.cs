@@ -202,5 +202,12 @@ namespace Project_Socket.Server
                 }
             }
         }
+        public static void EndGame()
+        {
+            using (Packet packet = new Packet((int)(ServerPackets.EndGame)))
+            {
+                SendTCPToAllInMatch(packet);
+            }
+        }
     }
 }

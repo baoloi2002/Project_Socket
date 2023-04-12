@@ -246,9 +246,10 @@ namespace Project_Socket.Server
                     break;
 
                 case MatchState.END:
-                    ServerSender.SendYOUWIN();
                     SetTimer(5, () =>
                     {
+                        ServerSender.SendYOUWIN();
+                        ServerSender.EndGame();
                         GameManager.EndGame();
                     }, true);                    
                     break;

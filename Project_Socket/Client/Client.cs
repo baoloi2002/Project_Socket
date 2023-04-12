@@ -356,6 +356,14 @@ namespace Project_Socket.Client
             ClientGame.gameEnd = false;
             ClientGame.isTurn = false;
         }
+        public static void ReceiveEndGame(Packet packet)
+        {
+            if (isLose)
+            {
+                ClientGame.gameEnd = true;
+                isLose = false;
+            }
+        }
 
         public static void ReceivePlayerLeave(Packet packet)
         { }
@@ -377,9 +385,6 @@ namespace Project_Socket.Client
         { }
 
         public static void ReceiveShowResult(Packet packet)
-        { }
-
-        public static void ReceiveEndGame(Packet packet)
         { }
 
         public static void ReceiveUpdateRoundInfo(Packet packet)
