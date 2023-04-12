@@ -52,10 +52,10 @@ namespace Project_Socket.Server
             }
 
             packetHandlers = new Dictionary<int, PacketHandler>()
-        {
-            { (int)ClientPackets.ResendUsername, ServerHandler.ResendUsername },
-            { (int)ClientPackets.GiveAnswer, ServerHandler.GiveAnswer }
-        };
+            {
+                { (int)ClientPackets.ResendUsername, ServerHandler.ResendUsername },
+                { (int)ClientPackets.GiveAnswer, ServerHandler.GiveAnswer }
+            };
 
         }
         public static void AcceptPlayerIntoGame(int clientId, string username)
