@@ -48,7 +48,7 @@
                     Username already existed!
                 </TextBlock>
 
-                <TextBlock Margin="5" HorizontalAlignment="Center" FontSize="20" FontWeight="DemiBold" Name="serverAddress">
+                <TextBlock Margin="5" HorizontalAlignment="Center" FontSize="20" FontWeight="DemiBold">
                     Enter Server IP Address and Port
                 </TextBlock>
 

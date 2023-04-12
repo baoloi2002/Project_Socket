@@ -113,7 +113,7 @@ namespace Project_Socket.Server
             else
             if (GameManager.IsGameStarted)
             {
-                if (MatchManager.curQuiz != -1 && MatchManager.quizList != null && MatchManager.curQuiz < MatchManager.quizList.Length)
+                if (MatchManager.curQuiz != -1 && MatchManager.curQuiz < MatchManager.quizList.Length && MatchManager.quizList != null)
                 {
                     ShowQuiz(MatchManager.quizList[MatchManager.curQuiz]);
                 }

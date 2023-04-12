@@ -1,12 +1,4 @@
-﻿using Project_Socket.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-
-namespace Project_Socket.Server
+﻿namespace Project_Socket.Server
 {
     internal class ServerSender
     {
@@ -48,6 +40,7 @@ namespace Project_Socket.Server
                 SendTCPData(toClient, packet);
             }
         }
+
         public static void RegistrationSuccessful(int toClient, Player player)
         {
             using (Packet packet = new Packet((int)ServerPackets.RegistrationSuccessful))
@@ -56,7 +49,7 @@ namespace Project_Socket.Server
                 SendTCPData(toClient, packet);
             }
         }
-        
+
         public static void UpdatePlayerOrder()
         {
             using (Packet packet = new Packet((int)ServerPackets.UpdatePlayerOrder))
@@ -74,7 +67,7 @@ namespace Project_Socket.Server
                     {
                         packet.PutInt(client.player.Id);
                         packet.PutString(client.player.Name);
-                        packet.PutInt(client.player.Order);                        
+                        packet.PutInt(client.player.Order);
                         packet.PutBool(client.player.iskilled);
                     }
                 }
@@ -126,7 +119,7 @@ namespace Project_Socket.Server
                 packet.PutString(question.choices[1]);
                 packet.PutString(question.choices[2]);
                 packet.PutString(question.choices[3]);
-                SendTCPToAllInMatch(packet);                
+                SendTCPToAllInMatch(packet);
             }
         }
 
@@ -138,6 +131,7 @@ namespace Project_Socket.Server
                 SendTCPToAllInMatch(packet);
             }
         }
+
         public static void SkipQuiz()
         {
             using (Packet packet = new Packet((int)ServerPackets.SkipQuiz))
@@ -154,19 +148,21 @@ namespace Project_Socket.Server
                 SendTCPToAllInMatch(packet);
             }
         }
+
         public static void SendYOUWIN()
         {
-            using (Packet packet = new Packet((int)(ServerPackets.YOUWIN)))
-            {                
-                foreach(ClientItem client in Server.clients.Values)
+            foreach (ClientItem client in Server.clients.Values)
+            {
+                if (client != null && client.player != null && !client.player.iskilled)
                 {
-                    if (client != null &&  client.player != null && !client.player.iskilled)
+                    using (Packet packet = new Packet((int)(ServerPackets.YOUWIN)))
                     {
                         SendTCPData(client.player.Id, packet);
                     }
                 }
             }
         }
+
         public static void EndGame()
         {
             using (Packet packet = new Packet((int)(ServerPackets.EndGame)))
