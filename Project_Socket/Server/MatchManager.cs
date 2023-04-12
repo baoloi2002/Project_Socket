@@ -172,7 +172,7 @@ namespace Project_Socket.Server
                     // Choose a random question
                     curQuiz += 1;
                     _isAnswered = false;
-                    if (curQuiz == quizList.Length)
+                    if (curQuiz >= quizList.Length)
                     {                       
                         ChangeState(MatchState.END);
                         break;
