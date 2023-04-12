@@ -5,13 +5,10 @@ using System.Text;
 public enum ServerPackets
 {
     WelcomePlayer = 1,
-    PlayerLeave,
 
     RegistrationFailed,
     RegistrationSuccessful,
 
-    SendPlayerIntoGame,
-    RemovePlayerFromGame,
     UpdatePlayerOrder,
     CountdownStartGame,
 
@@ -20,13 +17,8 @@ public enum ServerPackets
     SendQuestion,
     SendAnswer,
     SkipQuiz,
-    WaitForNextPlayer,
-    PickNextPlayer,
-    VerifyAnswer,
-    ShowResult,
     EndRound,
     EndGame,
-    UpdateRoundInfo,
 
     NumberOfQuestion,
     YOUWIN,
@@ -34,12 +26,8 @@ public enum ServerPackets
 
 public enum ClientPackets
 {
-    HandshakeServer = 1,
-    ResendUsername,
+    ResendUsername = 1,
     GiveAnswer,
-    Ready,
-    GiveQuestionToOther,
-    Skip,
 }
 
 public class Packet : IDisposable

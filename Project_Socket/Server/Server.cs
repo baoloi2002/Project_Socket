@@ -79,7 +79,6 @@ namespace Project_Socket.Server
                     if (client.player != null)
                     {
                         client.player = null;
-                        ServerSender.RemovePlayerFromGame(clientId);
                     }
                 }
             }

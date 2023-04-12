@@ -34,13 +34,10 @@ namespace Project_Socket.Client
             packetHandlers = new Dictionary<int, PacketHandler>()
             {
                 {(int)ServerPackets.WelcomePlayer, Client.RecieveID },
-                {(int)ServerPackets.PlayerLeave, Client.ReceivePlayerLeave },
 
                 {(int)ServerPackets.RegistrationFailed, Client.RegistrationFailed },
                 {(int)ServerPackets.RegistrationSuccessful, Client.RegistrationSuccessful },
 
-                {(int)ServerPackets.SendPlayerIntoGame, Client.ReceiveSendPlayerIntoGame },
-                {(int)ServerPackets.RemovePlayerFromGame, Client.ReceiveRemovePlayerFromGame },
                 {(int)ServerPackets.UpdatePlayerOrder, Client.UpdatePlayerOrder },
                 {(int)ServerPackets.CountdownStartGame, Client.CountdownStartGame },
 
@@ -49,13 +46,8 @@ namespace Project_Socket.Client
                 {(int)ServerPackets.SendQuestion, Client.ReceiveSendQuestion },
                 {(int)ServerPackets.SendAnswer, Client.ReceiveSendAnswer },
                 {(int)ServerPackets.SkipQuiz, Client.ReceiveSkipQuiz },
-                {(int)ServerPackets.WaitForNextPlayer, Client.ReceiveWaitForNextPlayer },
-                {(int)ServerPackets.PickNextPlayer, Client.ReceivePickNextPlayer },
-                {(int)ServerPackets.VerifyAnswer, Client.ReceiveVerifyAnswer },
-                {(int)ServerPackets.ShowResult, Client.ReceiveShowResult },
                 {(int)ServerPackets.EndRound, Client.EndRound },
                 {(int)ServerPackets.EndGame, Client.ReceiveEndGame },
-                {(int)ServerPackets.UpdateRoundInfo, Client.ReceiveUpdateRoundInfo },
 
                 {(int)ServerPackets.NumberOfQuestion, Client.ReceiveNumberOfQuestion },
                 {(int)ServerPackets.YOUWIN, Client.YOUWIN },
@@ -362,31 +354,6 @@ namespace Project_Socket.Client
                 isLose = false;
             }
         }
-
-        public static void ReceivePlayerLeave(Packet packet)
-        { }
-
-        public static void ReceiveSendPlayerIntoGame(Packet packet)
-        { }
-
-        public static void ReceiveRemovePlayerFromGame(Packet packet)
-        { }
-
-
-        public static void ReceiveWaitForNextPlayer(Packet packet)
-        { }
-
-        public static void ReceivePickNextPlayer(Packet packet)
-        { }
-
-        public static void ReceiveVerifyAnswer(Packet packet)
-        { }
-
-        public static void ReceiveShowResult(Packet packet)
-        { }
-
-        public static void ReceiveUpdateRoundInfo(Packet packet)
-        { }
 
         #endregion ReceiveThings
     }

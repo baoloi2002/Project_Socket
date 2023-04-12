@@ -10,13 +10,6 @@ namespace Project_Socket.Server
 {
     internal class ServerHandler
     {
-        public static void HandshakeServer(int fromClient, Packet packet)
-        {
-            int clientId = packet.ReadInt();
-            string username = packet.ReadString();
-            var endpoint = Server.clients[fromClient].TCP.socket.Client.RemoteEndPoint;
-        }
-
         public static void ResendUsername(int fromClient, Packet packet)
         {
             int clientId = packet.ReadInt();

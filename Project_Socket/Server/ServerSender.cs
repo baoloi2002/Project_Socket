@@ -16,15 +16,6 @@ namespace Project_Socket.Server
             Server.clients[toClient].TCP.SendData(packet);
         }
 
-        private static void SendTCPDataToAll(Packet packet)
-        {
-            packet.InsertLength();
-            for (int i = 1; i <= Constants.MAX_PLAYER; i++)
-            {
-                Server.clients[i].TCP.SendData(packet);
-            }
-        }
-
         private static void SendTCPToAllInMatch(Packet packet)
         {
             packet.InsertLength();
@@ -126,15 +117,6 @@ namespace Project_Socket.Server
             using (Packet packet = new Packet((int)ServerPackets.EndRound))
             {
                 packet.PutInt(roundNumber);
-                SendTCPToAllInMatch(packet);
-            }
-        }
-
-        public static void RemovePlayerFromGame(int clientId)
-        {
-            using (Packet packet = new Packet((int)ServerPackets.RemovePlayerFromGame))
-            {
-                packet.PutInt(clientId);
                 SendTCPToAllInMatch(packet);
             }
         }
