@@ -9,7 +9,7 @@
              TextOptions.TextRenderingMode="Auto"
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{DynamicResource MaterialDesignFont}"
-             Height="450" Width="800" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+             Height="600" Width="800" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -90,7 +90,7 @@
                                         </Setter.Value>
                                     </Setter>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding Path=SortOrder}" Value="Descending">
+                                <DataTrigger Binding="{Binding Path=SortOrder}" Value="Ascending">
                                     <Setter Property="RenderTransform">
                                         <Setter.Value>
                                             <TranslateTransform Y="10" />
