@@ -126,6 +126,7 @@ namespace Project_Socket.Server
                 _startTime = Constants.START_TIMER;
                 _lastTick = DateTime.Now;
                 IsTimerStarted = true;
+                MatchManager.Start();
 
                 ServerSender.CountdownStartGame();
             }
