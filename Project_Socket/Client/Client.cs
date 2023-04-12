@@ -81,7 +81,6 @@ namespace Project_Socket.Client
                 int byteLength = stream.EndRead(result);
                 if (byteLength <= 0)
                 {
-                    // Connection closed by server
                     Disconnect();
                     return;
                 }
@@ -89,11 +88,9 @@ namespace Project_Socket.Client
                 byte[] data = new byte[byteLength];
                 Array.Copy(buffer, data, byteLength);
 
-                // Handle the incoming data using the same packet format as the server
                 if (HandleData(data)) _data.Reset();
                 else _data.Revert();
 
-                // Read the next packet
                 stream.BeginRead(buffer, 0, Constants.DATA_BUFFER_SIZE, OnReceivedData, null);
             }
             catch (Exception e)
@@ -104,14 +101,13 @@ namespace Project_Socket.Client
 
         private static bool HandleData(byte[] data)
         {
-            // Parse the incoming data using the same packet format as the server
             int packetLength = 0;
             _data.AssignBytes(data);
 
             if (_data.UnreadLength >= 4)
             {
                 packetLength = _data.ReadInt();
-                if (packetLength <= 0) return true; // The packet is empty
+                if (packetLength <= 0) return true;
             }
 
             while (packetLength > 0 && packetLength <= _data.UnreadLength)
@@ -121,21 +117,20 @@ namespace Project_Socket.Client
                 {
                     using (Packet pt = new Packet(packetBytes))
                     {
-                        int packetId = pt.ReadInt(); // The first integer of the packet indicates the enum of the method to call
-                        Client.HandlePacket(packetId, pt); // Call appropriate method to handle the packet
+                        int packetId = pt.ReadInt(); 
+                        Client.HandlePacket(packetId, pt); 
                     }
                 });
 
-                // Read the next packet
                 packetLength = 0;
                 if (_data.UnreadLength >= 4)
                 {
                     packetLength = _data.ReadInt();
-                    if (packetLength <= 0) return true; // The packet is empty
+                    if (packetLength <= 0) return true; 
                 }
             }
 
-            if (packetLength <= 0) return true; // Recycle packets
+            if (packetLength <= 0) return true; 
             return false;
         }
 

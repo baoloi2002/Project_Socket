@@ -51,7 +51,6 @@ namespace Project_Socket.Server
             }
         }
 
-        // Read data from the stream
         private void OnReceivedData(IAsyncResult result)
         {
             try
@@ -69,27 +68,22 @@ namespace Project_Socket.Server
                 if (HandleData(streamedData)) _data.Reset();
                 else _data.Revert();
 
-                // Continue reading the next arriving packets
                 _stream.BeginRead(_buffer, 0, Constants.DATA_BUFFER_SIZE, OnReceivedData, null);
             }
             catch (Exception e)
             {
-                // If any error occurs while reading the data from the stream, then disconnect the client
                 Disconnect();
             }
         }
-
-        // Extract the data in order, and call the matching handler methods
         public bool HandleData(byte[] data)
         {
             int packetLength = 0;
             _data.AssignBytes(data);
 
-            // The beginning of the packet is always the length of that packet
             if (_data.UnreadLength >= 4)
             {
                 packetLength = _data.ReadInt();
-                if (packetLength <= 0) return true; // The packet is empty
+                if (packetLength <= 0) return true;
             }
 
             while (packetLength > 0 && packetLength <= _data.UnreadLength)
@@ -100,22 +94,21 @@ namespace Project_Socket.Server
                 {
                     using (Packet packet = new Packet(packetBytes))
                     {
-                        int packetId = packet.ReadInt(); // The first integer of the packet indicates the enum of the method to call
-                        Server.HandlePacket(packetId, _id, packet); // Call appropriate method to handle the packet
+                        int packetId = packet.ReadInt(); 
+                        Server.HandlePacket(packetId, _id, packet);
                     }
                 });
 
                 packetLength = 0;
                 if (_data.UnreadLength >= 4)
-                {
-                    // The length of the packet exceeds the length written at the beginning, meaning there is another packet arriving in order
+                {                 
                     packetLength = _data.ReadInt();
                     if (packetLength <= 0) return true;
                 }
             }
 
-            if (packetLength <= 0) return true; // Recycle packets
-            return false; // The next packet hasn't arrived fully, so we delay by temporarily unread the length bytes
+            if (packetLength <= 0) return true; 
+            return false; 
         }
 
         public void Disconnect()

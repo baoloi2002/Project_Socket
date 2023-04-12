@@ -28,7 +28,6 @@ namespace Project_Socket.Server
             }
         }
 
-        // A client booted up the game and connected to the server
         public static void WelcomePlayer(int toClient, string msg)
         {
             using (Packet packet = new Packet((int)ServerPackets.WelcomePlayer))
@@ -39,7 +38,6 @@ namespace Project_Socket.Server
             }
         }
 
-        // The client inputs invalid username
         public static void RegistrationFailed(int toClient, string msg)
         {
             using (Packet packet = new Packet((int)ServerPackets.RegistrationFailed))
@@ -50,8 +48,6 @@ namespace Project_Socket.Server
                 SendTCPData(toClient, packet);
             }
         }
-
-        // Everything is okay, the player is sent directly into the game
         public static void RegistrationSuccessful(int toClient, Player player)
         {
             using (Packet packet = new Packet((int)ServerPackets.RegistrationSuccessful))
