@@ -230,7 +230,7 @@ namespace Project_Socket.Client
         private void Choice_Click(object sender, RoutedEventArgs e)
         {
             if (!isTurn || clientAnswer != 4) return;
-            if (_Timer < 0.2) return;
+            if (_Timer < 0.2 || _Timer > Constants.TIME_PER_ROUND) return;
 
             Button clickedButton = (Button)sender;
 
@@ -267,7 +267,7 @@ namespace Project_Socket.Client
         private void Skip_Click(object sender, RoutedEventArgs e)
         {
             if (isSkip || !isTurn) return;
-            if (_Timer < 0.2) return;
+            if (_Timer < 0.2 || _Timer > Constants.TIME_PER_ROUND) return;
             clientAnswer = 5;
             isSkip = true;
             isTurn = false;
@@ -284,7 +284,7 @@ namespace Project_Socket.Client
             _lastTick = DateTime.Now;
             int tmp = (int)_Timer;
             leftTimer.Text = tmp.ToString();
-            if (_Timer > Constants.TIME_PER_ROUND - 1)
+            if (_Timer > Constants.TIME_PER_ROUND - 0.5f)
             {
                 clientAnswer = 4;
                 Choice_1.Background = System.Windows.Media.Brushes.RosyBrown;

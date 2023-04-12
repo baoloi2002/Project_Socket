@@ -283,7 +283,7 @@ namespace Project_Socket.Client
             string c3 = packet.ReadString();
             question.choices = new string[] { c0, c1, c2, c3 };
             question.answer = -1;
-            ClientGame._Timer = Constants.TIME_PER_ROUND;
+            ClientGame._Timer = Constants.TIME_PER_ROUND + 2;
 
             currentNumberOfQuestion += 1;
         }
@@ -320,7 +320,9 @@ namespace Project_Socket.Client
 
         public static void ReceiveSkipQuiz(Packet packet)
         {
-            ClientGame._Timer = Constants.TIME_PER_ROUND;
+            ClientGame._Timer = Constants.TIME_PER_ROUND + 2;
+            isLose = false;
+            currentNumberOfQuestion -= 1;
         }
 
         public static void EndRound(Packet packet)

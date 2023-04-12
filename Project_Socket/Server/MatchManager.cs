@@ -215,10 +215,11 @@ namespace Project_Socket.Server
 
                 case MatchState.SKIP_QUIZ:
                     ServerSender.SkipQuiz();
+                    _isAnswered = false;
                     currentRound += 1;
                     ServerSender.StartRound(currentRound);
                     _currentPlayer = GameManager.DetermineNextPlayer();
-                    // Send order to all player
+                    ServerSender.SendQuestion(quizList[curQuiz]);
                     ServerSender.UpdatePlayerOrder();
 
                     SetTimer(2, () =>
