@@ -43,7 +43,6 @@ namespace Project_Socket.Server
         // GAME LOOP IS HERE
         private void MainThread()
         {
-            Console.WriteLine($"Main thread started. Running at {Constants.TICKS_PER_SEC} ticks per second.");
             DateTime nextLoop = DateTime.Now;
 
             while (_isServerRunning)

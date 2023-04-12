@@ -47,7 +47,7 @@ namespace Project_Socket.Server
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Failed to send data to player {_id} via TCP: {e}");
+                //Failed to send data to player {_id} via TCP: {e}
             }
         }
 
@@ -75,7 +75,6 @@ namespace Project_Socket.Server
             catch (Exception e)
             {
                 // If any error occurs while reading the data from the stream, then disconnect the client
-                Console.WriteLine($"Error receiving TCP data: {e}");
                 Disconnect();
             }
         }

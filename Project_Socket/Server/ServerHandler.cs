@@ -15,14 +15,10 @@ namespace Project_Socket.Server
             int clientId = packet.ReadInt();
             string username = packet.ReadString();
             var endpoint = Server.clients[fromClient].TCP.socket.Client.RemoteEndPoint;
-
-            Console.WriteLine($"Receive client {clientId}: handshake server");
         }
 
         public static void ResendUsername(int fromClient, Packet packet)
         {
-            Console.WriteLine($"Receive client {fromClient}: resend username");
-
             int clientId = packet.ReadInt();
             string username = packet.ReadString();
             var endpoint = Server.clients[fromClient].TCP.socket.Client.RemoteEndPoint;

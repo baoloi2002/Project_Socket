@@ -24,7 +24,6 @@ namespace Project_Socket.Server
                 if (_startTime <= 0)
                 {
                     // start the game
-                    Console.WriteLine("The game is now started.");
                     IsTimerStarted = false;
                     StartGame();
                 }

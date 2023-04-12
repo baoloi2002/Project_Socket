@@ -78,7 +78,6 @@ namespace Project_Socket.Client
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error connecting to server: " + e.Message);
                 ID = -1;
             }
         }
@@ -107,7 +106,6 @@ namespace Project_Socket.Client
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error receiving data from server: " + e.Message);
                 Disconnect();
             }
         }

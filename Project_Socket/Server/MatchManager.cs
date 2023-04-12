@@ -65,7 +65,6 @@ namespace Project_Socket.Server
 
             if (GameManager.GetPlayerCount() <= 1)
             {
-                Console.WriteLine("Too few players to continue the game!");
                 GameManager.EndGame();
             }
 
@@ -128,7 +127,6 @@ namespace Project_Socket.Server
         }
         private static void ChangeState(MatchState matchState)
         {
-            Console.WriteLine($"Changing the match state from {_matchState.ToString()} to {matchState.ToString()}");
             if (_matchState == matchState) return;
 
             // Exit out of old stage

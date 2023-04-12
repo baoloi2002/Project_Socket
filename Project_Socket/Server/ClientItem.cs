@@ -27,7 +27,6 @@ namespace Project_Socket.Server
         public Player ConstructPlayer(int clientId, string username)
         {
             player = new Player(clientId, username);
-            Console.WriteLine($"Constructed player with id {clientId}");
             return player;
         }
 
@@ -39,8 +38,6 @@ namespace Project_Socket.Server
 
         public void Disconnect()
         {
-            Console.WriteLine($"{TCP.socket.Client.RemoteEndPoint} has disconnected.");
-
             DestroyPlayer();
 
             TCP.Disconnect();

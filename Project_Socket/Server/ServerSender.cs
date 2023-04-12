@@ -45,7 +45,6 @@ namespace Project_Socket.Server
                 packet.PutInt(toClient);
 
                 SendTCPData(toClient, packet);
-                Console.WriteLine($"Server sends to {toClient}: Welcome player");
             }
         }
 
@@ -58,7 +57,6 @@ namespace Project_Socket.Server
                 packet.PutInt(toClient);
 
                 SendTCPData(toClient, packet);
-                Console.WriteLine($"Server sends to {toClient}: Registration failed");
             }
         }
 
@@ -69,8 +67,6 @@ namespace Project_Socket.Server
             {
                 packet.PutInt(toClient);
                 SendTCPData(toClient, packet);
-
-                Console.WriteLine($"Server sends to {toClient}: registration successful");
             }
         }
         
@@ -97,7 +93,6 @@ namespace Project_Socket.Server
                 }
 
                 SendTCPToAllInMatch(packet);
-                Console.WriteLine($"Server sends to all: Update player order");
             }
         }
 
@@ -106,8 +101,6 @@ namespace Project_Socket.Server
             using (Packet packet = new Packet((int)ServerPackets.CountdownStartGame))
             {
                 SendTCPToAllInMatch(packet);
-
-                Console.WriteLine($"Server sends to all: Start countdown");
             }
         }
 
@@ -117,8 +110,6 @@ namespace Project_Socket.Server
             {
                 packet.PutInt(roundNumber);
                 SendTCPToAllInMatch(packet);
-
-                Console.WriteLine($"Server sends to all: Start round {roundNumber}");
             }
         }
 
@@ -127,7 +118,6 @@ namespace Project_Socket.Server
             using (Packet packet = new Packet((int)ServerPackets.SetupGame))
             {
                 SendTCPToAllInMatch(packet);
-                Console.WriteLine($"Server sends to all: Setup game");
             }
         }
 
@@ -137,7 +127,6 @@ namespace Project_Socket.Server
             {
                 packet.PutInt(roundNumber);
                 SendTCPToAllInMatch(packet);
-                Console.WriteLine($"Server sends to all: end round {roundNumber}");
             }
         }
 
@@ -147,8 +136,6 @@ namespace Project_Socket.Server
             {
                 packet.PutInt(clientId);
                 SendTCPToAllInMatch(packet);
-
-                Console.WriteLine($"Server sends to all: remove player {clientId} from game");
             }
         }
 

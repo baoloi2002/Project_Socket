@@ -25,14 +25,12 @@ namespace Project_Socket.Server
             _tcpListener = new TcpListener(IPAddress.Parse(Constants.SERVER_IP), Constants.PORT);
             _tcpListener.Start();
             _tcpListener.BeginAcceptTcpClient(OnTCPConnected, null);
-            Console.WriteLine($"Server started on port {Constants.PORT}.");
         }
 
         private static void OnTCPConnected(IAsyncResult result)
         {
             TcpClient client = _tcpListener.EndAcceptTcpClient(result);
             _tcpListener.BeginAcceptTcpClient(OnTCPConnected, null);
-            Console.WriteLine($"Incoming connection from {client.Client.RemoteEndPoint}...");
             for (int i = 1; i <= Constants.MAX_PLAYER; i++)
             {
                 if (clients[i].TCP.socket == null)
@@ -42,8 +40,6 @@ namespace Project_Socket.Server
                     return;
                 }
             }
-
-            Console.WriteLine($"{client.Client.RemoteEndPoint} failed to connect: Server full!");
         }
 
         public static void HandlePacket(int id, int clientId, Packet packet) => packetHandlers[id](clientId, packet);
@@ -61,12 +57,10 @@ namespace Project_Socket.Server
             { (int)ClientPackets.GiveAnswer, ServerHandler.GiveAnswer }
         };
 
-            Console.WriteLine("Initialized packets.");
         }
         public static void AcceptPlayerIntoGame(int clientId, string username)
         {
             Player player = clients[clientId].ConstructPlayer(clientId, username);
-            Console.WriteLine($"Player {username} joined the game successfully with id {clientId}.");
 
             ServerSender.RegistrationSuccessful(clientId, clients[clientId].player);
 
@@ -77,7 +71,6 @@ namespace Project_Socket.Server
 
         public static void RemovePlayerFromGame(int clientId)
         {
-            Console.WriteLine($"Player with id {clientId} has left the game.");
 
             foreach (ClientItem client in clients.Values)
             {
